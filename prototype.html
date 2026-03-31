@@ -1,0 +1,2262 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Deel Travel — Interactive Prototype</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+:root {
+  --bg-default: #f4f3f6;
+  --bg-paper: #fff;
+  --text-primary: #01090f;
+  --text-disabled: #7c8286;
+  --primary-main: #1b1b1b;
+  --primary-light: #e9e9e9;
+  --primary-lighter: #f2f2f2;
+  --secondary-main: #1f74b3;
+  --secondary-lighter: #f2f8ff;
+  --success-main: #29811e;
+  --success-light: #c2eeb5;
+  --success-lighter: #f1fbed;
+  --error-main: #d42d35;
+  --error-light: #ffe2de;
+  --error-lighter: #fff5f3;
+  --warning-main: #ed5e2a;
+  --warning-light: #ffe27c;
+  --warning-lighter: #fff7e5;
+  --neutral-light: #f3f3f3;
+  --neutral-main: #d1d3d5;
+  --divider: #e8ebf2;
+  --purple-vivid: #a041ff;
+  --purple-super-light: #f4f3f6;
+  --blue-link: #1f74b3;
+  --lavender-bg: #e1d7fb;
+  --lavender-light: #f4f3f6;
+}
+body { font-family: 'Inter', Arial, Helvetica, sans-serif; background: var(--bg-default); color: var(--text-primary); min-height: 100vh; -webkit-font-smoothing: antialiased; }
+a { color: var(--blue-link); text-decoration: none; font-weight: 500; }
+a:hover { text-decoration: underline; }
+
+/* ===== DEEL TOP NAV ===== */
+.deel-topnav {
+  position: sticky; top: 0; z-index: 100;
+  background: #fff; border-bottom: 1px solid var(--divider);
+  height: 56px; display: flex; align-items: center; padding: 0 24px; gap: 0;
+  transition: background 0.3s;
+}
+.deel-topnav.nav-gradient {
+  background: #e1d7fb; border-bottom-color: transparent;
+}
+.deel-topnav::before {
+  content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
+  background: linear-gradient(90deg, #c9b8f0 0%, #e0d4f7 30%, #f0ecfa 60%, #e8ddf5 100%);
+}
+.deel-logo { font-size: 22px; font-weight: 800; color: #1a1a1a; margin-right: 8px; letter-spacing: -0.04em; }
+.deel-org {
+  display: flex; align-items: center; gap: 6px; margin-right: 32px; cursor: pointer;
+  padding: 4px 8px; border-radius: 6px;
+}
+.deel-org:hover { background: var(--neutral-light); }
+.deel-org-avatar { width: 28px; height: 28px; border-radius: 50%; background: linear-gradient(135deg, #7c6bc4, #a78bfa); display: flex; align-items: center; justify-content: center; }
+.deel-org-avatar img { width: 28px; height: 28px; border-radius: 50%; }
+.deel-org-name { font-size: 13px; font-weight: 600; }
+.deel-org-sub { font-size: 11px; color: #999; }
+.deel-org-chevron { font-size: 10px; color: #999; }
+
+.deel-nav-items { display: flex; align-items: center; gap: 2px; flex: 1; justify-content: center; }
+.deel-nav-item {
+  display: flex; align-items: center; gap: 6px; padding: 8px 14px; border-radius: 8px;
+  font-size: 13px; font-weight: 500; color: #666; cursor: pointer;
+  background: none; border: none; font-family: inherit; transition: all 0.15s;
+}
+.deel-nav-item:hover { background: var(--neutral-light); color: #1a1a1a; }
+.deel-nav-item.active { background: var(--primary-light); color: var(--text-primary); font-weight: 600; }
+.deel-nav-item svg { width: 16px; height: 16px; }
+
+.deel-nav-right { display: flex; align-items: center; gap: 8px; margin-left: auto; }
+.deel-nav-icon {
+  width: 36px; height: 36px; border-radius: 8px; display: flex; align-items: center; justify-content: center;
+  cursor: pointer; background: none; border: none; color: #666; position: relative;
+  transition: background 0.15s;
+}
+.deel-nav-icon:hover { background: var(--neutral-light); }
+.deel-nav-icon svg { width: 18px; height: 18px; }
+.deel-nav-icon .notif-badge {
+  position: absolute; top: 4px; right: 4px; width: 16px; height: 16px; border-radius: 50%;
+  background: #e53e3e; color: #fff; font-size: 9px; font-weight: 700;
+  display: flex; align-items: center; justify-content: center;
+}
+.deel-search-btn {
+  display: flex; align-items: center; gap: 6px; padding: 6px 12px; border-radius: 8px;
+  background: var(--neutral-light); border: 1px solid var(--divider); cursor: pointer; font-family: inherit;
+  font-size: 13px; color: #999;
+}
+.deel-search-btn:hover { border-color: #ccc; }
+.deel-search-btn kbd { font-size: 11px; background: #fff; border: 1px solid #ddd; border-radius: 4px; padding: 1px 5px; font-family: inherit; }
+.deel-user-avatar {
+  width: 32px; height: 32px; border-radius: 50%; background: #a041ff;
+  display: flex; align-items: center; justify-content: center;
+  color: #fff; font-size: 11px; font-weight: 700; cursor: pointer;
+}
+
+/* Sub-nav (like Payroll > Expenses) */
+.deel-subnav {
+  background: #fff; border-bottom: 1px solid var(--divider); padding: 0 24px;
+  display: flex; align-items: center; gap: 4px; height: 44px;
+}
+.deel-subnav-item {
+  padding: 6px 14px; border-radius: 8px; font-size: 13px; font-weight: 500;
+  color: #666; cursor: pointer; background: none; border: none; font-family: inherit;
+  display: flex; align-items: center; gap: 6px;
+}
+.deel-subnav-item:hover { background: var(--neutral-light); }
+.deel-subnav-item.active { background: #1a1a1a; color: #fff; border-radius: 20px; }
+.deel-subnav-item svg { width: 14px; height: 14px; }
+
+/* ===== PAGE LAYOUT ===== */
+.page { padding: 32px 40px; max-width: 1200px; margin: 0 auto; }
+.page-header { text-align: center; margin-bottom: 28px; }
+.page-greeting { font-size: 28px; font-weight: 700; letter-spacing: -0.02em; }
+
+/* Search bar (home) */
+.home-search {
+  display: flex; align-items: center; gap: 10px; max-width: 540px; margin: 16px auto 24px;
+  background: #fff; border: 1px solid var(--divider); border-radius: 12px; padding: 12px 18px;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.04);
+}
+.home-search svg { width: 18px; height: 18px; color: #999; flex-shrink: 0; }
+.home-search span { font-size: 14px; color: #999; flex: 1; }
+.home-search kbd { font-size: 12px; background: var(--neutral-light); border: 1px solid var(--divider); border-radius: 4px; padding: 2px 8px; color: #999; }
+
+/* Filter tabs (All / People / Finance) */
+.home-tabs { display: flex; justify-content: center; gap: 6px; margin-bottom: 28px; }
+.home-tab {
+  display: flex; align-items: center; gap: 6px; padding: 8px 16px; border-radius: 20px;
+  font-size: 13px; font-weight: 500; color: #666; cursor: pointer;
+  background: none; border: 1px solid var(--divider); font-family: inherit;
+}
+.home-tab:hover { border-color: #ccc; }
+.home-tab.active { background: #fff; border-color: #ccc; color: #1a1a1a; font-weight: 600; box-shadow: 0 1px 3px rgba(0,0,0,0.06); }
+.home-tab svg { width: 14px; height: 14px; }
+
+/* Two column layout */
+.two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; align-items: start; }
+
+/* ===== DEEL CARDS ===== */
+.deel-card {
+  background: #fff; border: 1px solid var(--divider); border-radius: 14px;
+  padding: 20px; margin-bottom: 16px;
+}
+.deel-card-header {
+  display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px;
+}
+.deel-card-title {
+  display: flex; align-items: center; gap: 8px; font-size: 15px; font-weight: 600;
+}
+.deel-card-title svg { width: 18px; height: 18px; color: #666; }
+.deel-card-action {
+  font-size: 13px; font-weight: 500; color: #666; cursor: pointer;
+  background: none; border: 1px solid var(--divider); border-radius: 8px; padding: 5px 14px;
+  font-family: inherit;
+}
+.deel-card-action:hover { border-color: #ccc; }
+
+/* Promo banner (like "Simplify your payroll") */
+.promo-banner {
+  background: var(--lavender-bg); border-radius: 14px; padding: 24px; margin-bottom: 16px;
+  position: relative; overflow: hidden;
+}
+.promo-banner-travel {
+  background: linear-gradient(135deg, #e1d7fb 0%, #d8cef5 50%, #d4e8d4 100%);
+}
+.promo-title { font-size: 17px; font-weight: 700; margin-bottom: 6px; color: #1a1a1a; }
+.promo-desc { font-size: 13px; color: #555; line-height: 1.5; max-width: 320px; margin-bottom: 14px; }
+.promo-btn {
+  display: inline-flex; align-items: center; gap: 6px; padding: 8px 18px;
+  background: #1a1a1a; color: #fff; border-radius: 8px; border: none;
+  font-family: inherit; font-size: 13px; font-weight: 600; cursor: pointer;
+}
+.promo-btn:hover { background: #333; }
+.promo-close {
+  position: absolute; top: 12px; right: 12px; width: 28px; height: 28px;
+  border-radius: 50%; background: rgba(0,0,0,0.06); border: none; cursor: pointer;
+  display: flex; align-items: center; justify-content: center; font-size: 14px; color: #666;
+}
+.promo-illustration {
+  position: absolute; right: 16px; bottom: 0; width: 160px; height: 120px;
+  display: flex; align-items: flex-end; justify-content: center; font-size: 64px; opacity: 0.8;
+}
+
+/* To-do row (For you today) */
+.todo-row {
+  display: flex; align-items: center; gap: 12px; padding: 10px 0;
+  border-bottom: 1px solid #f3f2f0;
+}
+.todo-row:last-child { border-bottom: none; }
+.todo-icon {
+  width: 36px; height: 36px; border-radius: 10px; background: var(--neutral-light);
+  display: flex; align-items: center; justify-content: center; position: relative;
+}
+.todo-icon svg { width: 18px; height: 18px; color: #666; }
+.todo-badge {
+  position: absolute; top: -4px; right: -4px; min-width: 18px; height: 18px;
+  border-radius: 10px; background: #a041ff; color: #fff; font-size: 10px;
+  font-weight: 700; display: flex; align-items: center; justify-content: center; padding: 0 4px;
+}
+.todo-text { flex: 1; font-size: 14px; font-weight: 500; }
+.todo-review-btn {
+  padding: 5px 14px; border-radius: 8px; border: 1px solid var(--divider);
+  font-size: 12px; font-weight: 500; cursor: pointer; background: #fff;
+  font-family: inherit;
+}
+.todo-review-btn:hover { border-color: #ccc; }
+
+/* ===== BADGES ===== */
+.badge { display: inline-block; padding: 3px 10px; border-radius: 20px; font-size: 11px; font-weight: 600; }
+.badge-green { background: var(--success-lighter); color: var(--success-main); }
+.badge-amber { background: var(--warning-lighter); color: var(--warning-main); }
+.badge-red { background: var(--error-lighter); color: var(--error-main); }
+.badge-purple { background: var(--lavender-bg); color: var(--purple-vivid); }
+.badge-blue { background: var(--secondary-lighter); color: var(--blue-link); }
+.badge-gray { background: var(--neutral-light); color: var(--text-disabled); }
+.badge-dark { background: var(--primary-main); color: #fff; }
+
+/* ===== BUTTONS ===== */
+.btn {
+  padding: 10px 20px; border-radius: 10px; border: none;
+  font-family: 'Inter', sans-serif; font-size: 14px; font-weight: 600;
+  cursor: pointer; transition: all 0.15s; display: inline-flex; align-items: center; gap: 8px;
+}
+.btn:active { transform: scale(0.98); }
+.btn-dark { background: var(--primary-main); color: #fff; }
+.btn-dark:hover { background: #333; }
+.btn-primary { background: var(--blue-link); color: #fff; }
+.btn-primary:hover { background: #00499d; }
+.btn-amber { background: #ed5e2a; color: #fff; }
+.btn-amber:hover { background: #c84d1f; }
+.btn-green { background: var(--success-main); color: #fff; }
+.btn-outline { background: transparent; border: 1.5px solid #e8e5e1; color: #1a1a1a; }
+.btn-outline:hover { border-color: #ccc; }
+.btn-full { width: 100%; justify-content: center; }
+.btn-lg { padding: 13px 24px; font-size: 15px; }
+
+/* ===== UTILITY ===== */
+.small { font-size: 13px; line-height: 1.5; }
+.muted { color: var(--text-disabled); }
+.bold { font-weight: 600; }
+.accent { color: var(--blue-link); }
+.green { color: var(--success-main); }
+.amber { color: #ed5e2a; }
+.red { color: var(--error-main); }
+.divider { height: 1px; background: #f0eeec; margin: 12px 0; }
+.label { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; color: #999; margin-bottom: 8px; }
+.mt-4 { margin-top: 4px; }
+.mt-8 { margin-top: 8px; }
+.mt-12 { margin-top: 12px; }
+.mt-16 { margin-top: 16px; }
+.mt-24 { margin-top: 24px; }
+.mb-4 { margin-bottom: 4px; }
+.mb-8 { margin-bottom: 8px; }
+.mb-12 { margin-bottom: 12px; }
+.mb-16 { margin-bottom: 16px; }
+.mb-24 { margin-bottom: 24px; }
+
+/* ===== CHECK ROWS ===== */
+.check-row { display: flex; align-items: center; gap: 10px; padding: 8px 0; }
+.check-icon {
+  width: 22px; height: 22px; border-radius: 50%; display: flex;
+  align-items: center; justify-content: center; font-size: 11px; font-weight: 700; flex-shrink: 0;
+}
+.check-green { background: var(--success-light); color: var(--success-main); }
+.check-amber { background: var(--warning-light); color: var(--warning-main); }
+.check-blue { background: var(--secondary-lighter); color: var(--blue-link); }
+
+/* PE progress bar */
+.pe-track { height: 10px; background: #EDE8E3; border-radius: 5px; overflow: hidden; }
+.pe-fill { height: 100%; border-radius: 5px; transition: width 1s ease; }
+
+/* ===== FLIGHT RESULTS ===== */
+.flight-option {
+  display: flex; align-items: center; padding: 18px 20px; border-bottom: 1px solid #f3f2f0;
+  cursor: pointer; transition: background 0.15s; gap: 16px;
+}
+.flight-option:hover { background: #fafaff; }
+.flight-option:last-child { border-bottom: none; }
+.flight-airline {
+  width: 40px; height: 40px; border-radius: 10px; display: flex;
+  align-items: center; justify-content: center; color: #fff;
+  font-size: 13px; font-weight: 700; flex-shrink: 0;
+}
+.flight-details { flex: 1; }
+.flight-times-row { display: flex; align-items: center; gap: 16px; margin-top: 6px; }
+.flight-time { font-size: 20px; font-weight: 700; letter-spacing: -0.01em; }
+.flight-code { font-size: 11px; color: #999; }
+.flight-connector { flex: 1; text-align: center; }
+.flight-connector-line { height: 1px; background: #ddd; margin: 0 8px; position: relative; }
+.flight-connector-line::before, .flight-connector-line::after {
+  content: ''; position: absolute; top: -3px; width: 7px; height: 7px;
+  border-radius: 50%; background: #a041ff;
+}
+.flight-connector-line::before { left: -3px; }
+.flight-connector-line::after { right: -3px; }
+.flight-connector-text { font-size: 11px; color: #999; margin-bottom: 4px; }
+.flight-price { font-size: 22px; font-weight: 800; flex-shrink: 0; }
+.flight-tags { display: flex; gap: 6px; margin-top: 8px; }
+
+/* ===== STEPS ===== */
+.steps { display: flex; align-items: center; gap: 0; margin-bottom: 28px; flex-wrap: wrap; }
+.step { display: flex; align-items: center; gap: 8px; font-size: 13px; font-weight: 500; color: #ccc; }
+.step.done { color: #16a34a; }
+.step.current { color: #1f74b3; font-weight: 600; }
+.step-dot {
+  width: 26px; height: 26px; border-radius: 50%; display: flex;
+  align-items: center; justify-content: center; font-size: 12px; font-weight: 700;
+  background: #EDE8E3; color: #ccc; flex-shrink: 0;
+}
+.step.done .step-dot { background: #dcfce7; color: #16a34a; }
+.step.current .step-dot { background: #a041ff; color: #fff; }
+.step-line { width: 32px; height: 2px; background: #f0eeec; margin: 0 6px; }
+.step.done + .step-line, .step-line.done { background: #16a34a; }
+
+/* Profile grid (auto-detected fields — no border, no input styling) */
+.profile-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.profile-item { padding: 0; }
+.profile-item label { font-size: 10px; text-transform: uppercase; letter-spacing: 0.06em; color: var(--text-disabled); display: block; }
+.profile-item p { font-size: 13px; font-weight: 600; margin-top: 1px; color: var(--text-primary); }
+
+/* ===== SCREEN MANAGEMENT ===== */
+.screen { display: none; }
+.screen.active { display: block; }
+
+/* ===== ANIMATIONS ===== */
+@keyframes slideUp { from { transform: translateY(14px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+
+/* Shimmer scanning effect */
+@keyframes shimmer {
+  0% { background-position: -468px 0; }
+  100% { background-position: 468px 0; }
+}
+.scan-placeholder {
+  background: #f6f7f8;
+  background-image: linear-gradient(to right, #f6f7f8 0%, #edeef1 20%, #f6f7f8 40%, #f6f7f8 100%);
+  background-repeat: no-repeat; background-size: 800px 80px;
+  animation: shimmer 1.2s linear infinite;
+  border-radius: 10px; height: 72px; margin-bottom: 12px;
+  border: 1px solid var(--divider);
+}
+.animate { animation: slideUp 0.35s ease forwards; }
+.delay-1 { animation-delay: 0.08s; opacity: 0; }
+.delay-2 { animation-delay: 0.16s; opacity: 0; }
+.delay-3 { animation-delay: 0.24s; opacity: 0; }
+.delay-4 { animation-delay: 0.32s; opacity: 0; }
+
+@keyframes scaleIn { from { transform: scale(0.5); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+.scale-in { animation: scaleIn 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) forwards; }
+
+@keyframes pulse { 0% { box-shadow: 0 0 0 0 rgba(237,94,42,0.25); } 70% { box-shadow: 0 0 0 10px rgba(237,94,42,0); } 100% { box-shadow: 0 0 0 0 rgba(237,94,42,0); } }
+.pulse { animation: pulse 2s infinite; }
+
+/* Demo hotspot — guides the viewer to the next click */
+@keyframes hotspot-pulse {
+  0% { box-shadow: 0 0 0 0 rgba(27,27,27,0.3); }
+  70% { box-shadow: 0 0 0 8px rgba(27,27,27,0); }
+  100% { box-shadow: 0 0 0 0 rgba(27,27,27,0); }
+}
+.demo-hotspot { animation: hotspot-pulse 2s infinite; }
+
+/* Employee home — lavender gradient header (flows from nav) */
+.employee-header-bg {
+  background: linear-gradient(180deg, #e1d7fb 0%, #d8cef5 20%, var(--bg-default) 100%);
+  padding: 32px 40px 0;
+}
+.employee-greeting {
+  font-size: 28px; font-weight: 700; letter-spacing: -0.02em;
+  padding-bottom: 24px;
+}
+.employee-greeting-row {
+  display: flex; justify-content: space-between; align-items: flex-start;
+}
+.customize-btn {
+  display: flex; align-items: center; gap: 6px; padding: 7px 14px; border-radius: 8px;
+  background: #fff; border: 1px solid var(--divider); font-size: 12px; font-weight: 500;
+  color: #666; cursor: pointer; font-family: inherit;
+}
+.customize-btn:hover { border-color: #ccc; }
+.customize-btn svg { width: 14px; height: 14px; }
+
+/* Quick action tiles */
+.quick-actions { display: flex; gap: 0; }
+.quick-action-tile {
+  display: flex; flex-direction: column; align-items: center; gap: 8px;
+  padding: 14px 20px; cursor: pointer;
+  background: none; border: none;
+  font-family: inherit; text-align: center; transition: background 0.15s;
+  flex: 1;
+}
+.quick-action-tile:hover { background: var(--neutral-light); border-radius: 8px; }
+.quick-action-icon {
+  width: 36px; height: 36px; border-radius: 10px; display: flex;
+  align-items: center; justify-content: center; font-size: 16px;
+  background: var(--neutral-light); border: 1px solid var(--divider);
+}
+.quick-action-tile.travel-tile .quick-action-icon {
+  background: var(--lavender-bg); border-color: #d4c8ed; color: #1f74b3;
+}
+.quick-action-label { font-size: 12px; font-weight: 500; color: #666; }
+
+/* For you today — illustration area */
+.for-you-illustration {
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  padding: 24px 20px; text-align: center;
+}
+.for-you-illustration svg { margin-bottom: 12px; }
+
+/* Contract card */
+.contract-row {
+  display: flex; align-items: center; gap: 12px; padding: 14px 0;
+}
+.contract-avatar {
+  width: 36px; height: 36px; border-radius: 50%; display: flex;
+  align-items: center; justify-content: center; font-size: 12px;
+  font-weight: 700; color: #fff; flex-shrink: 0;
+}
+.contract-active { color: #16a34a; font-size: 12px; font-weight: 500; display: flex; align-items: center; gap: 4px; }
+.contract-active::before { content: ''; width: 6px; height: 6px; border-radius: 50%; background: #16a34a; }
+
+/* PE exposure card (employee view) */
+.pe-card-employee {
+  border: 1.5px solid var(--error-main); border-radius: 12px; padding: 14px 16px;
+  background: var(--bg-paper); margin-bottom: 16px; position: relative;
+}
+.pe-tooltip-trigger { cursor: help; position: relative; }
+.pe-tooltip {
+  display: none; position: absolute; bottom: calc(100% + 8px); left: 0; right: 0;
+  background: #1a1a1a; color: #fff; padding: 12px 14px; border-radius: 10px;
+  font-size: 12px; line-height: 1.5; z-index: 50;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+}
+.pe-tooltip::after {
+  content: ''; position: absolute; bottom: -6px; left: 20px;
+  width: 12px; height: 12px; background: #1a1a1a;
+  transform: rotate(45deg);
+}
+.pe-card-employee:hover .pe-tooltip { display: block; }
+
+/* Referral card */
+.referral-step { display: flex; align-items: flex-start; gap: 12px; padding: 10px 0; }
+.referral-step-icon {
+  width: 28px; height: 28px; border-radius: 50%; display: flex;
+  align-items: center; justify-content: center; font-size: 12px; font-weight: 600;
+  flex-shrink: 0;
+}
+
+/* View switcher */
+.view-switcher {
+  position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%); z-index: 300;
+  display: flex; background: #1a1a1a; border-radius: 14px; padding: 4px;
+  box-shadow: 0 8px 30px rgba(0,0,0,0.25);
+}
+.view-switcher-btn {
+  padding: 10px 24px; border-radius: 11px; border: none; font-family: inherit;
+  font-size: 13px; font-weight: 600; cursor: pointer; color: rgba(255,255,255,0.5);
+  background: none; transition: all 0.2s; display: flex; align-items: center; gap: 6px;
+}
+.view-switcher-btn:hover { color: rgba(255,255,255,0.8); }
+.view-switcher-btn.active { background: #a041ff; color: #fff; }
+.view-switcher-label {
+  font-size: 11px; color: rgba(255,255,255,0.3); padding: 0 12px; display: flex; align-items: center;
+  font-weight: 500; letter-spacing: 0.03em;
+}
+
+/* Toast */
+.toast {
+  position: fixed; top: 72px; right: 24px; padding: 14px 20px;
+  border-radius: 12px; font-size: 13px; font-weight: 500; z-index: 200;
+  background: #166534; color: #fff; box-shadow: 0 8px 30px rgba(0,0,0,0.15);
+  transform: translateY(-20px); opacity: 0; transition: all 0.3s ease;
+  display: flex; align-items: center; gap: 8px;
+}
+.toast.show { transform: translateY(0); opacity: 1; }
+
+/* ===== EXPENSES TABLE (manager view) ===== */
+.expenses-sidebar {
+  width: 240px; flex-shrink: 0; padding: 20px 0;
+}
+.expenses-sidebar-item {
+  display: flex; align-items: center; gap: 8px; padding: 8px 16px; border-radius: 8px;
+  font-size: 13px; font-weight: 500; color: #666; cursor: pointer; width: 100%;
+  background: none; border: none; font-family: inherit; text-align: left;
+}
+.expenses-sidebar-item:hover { background: var(--neutral-light); }
+.expenses-sidebar-item.active { background: var(--lavender-bg); color: #1a1a1a; font-weight: 600; }
+.expenses-sidebar-item svg { width: 16px; height: 16px; }
+.expenses-sidebar-badge {
+  margin-left: auto; background: #a041ff; color: #fff; font-size: 10px;
+  font-weight: 700; padding: 2px 8px; border-radius: 10px;
+}
+.expenses-layout { display: flex; gap: 0; }
+.expenses-main { flex: 1; }
+.expenses-filters {
+  display: flex; align-items: center; gap: 8px; margin-bottom: 16px; flex-wrap: wrap;
+}
+.filter-chip {
+  display: flex; align-items: center; gap: 4px; padding: 6px 12px; border-radius: 8px;
+  font-size: 12px; font-weight: 500; color: #666; background: #fff;
+  border: 1px solid var(--divider); cursor: pointer; font-family: inherit;
+}
+.filter-chip:hover { border-color: #ccc; }
+.filter-chip.active { background: var(--lavender-bg); border-color: #c9b8f0; color: #5b21b6; }
+.expenses-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+.expenses-table th {
+  text-align: left; padding: 10px 14px; font-size: 11px; font-weight: 600;
+  color: #999; text-transform: uppercase; letter-spacing: 0.04em;
+  border-bottom: 1px solid var(--divider);
+}
+.expenses-table td { padding: 12px 14px; border-bottom: 1px solid #f3f2f0; vertical-align: middle; }
+.expenses-table tr:hover td { background: #fafaff; }
+.expense-category a { color: #1f74b3; font-weight: 500; }
+.expense-worker { display: flex; align-items: center; gap: 8px; }
+.expense-worker-avatar {
+  width: 28px; height: 28px; border-radius: 50%; display: flex;
+  align-items: center; justify-content: center; font-size: 10px; font-weight: 700; color: #fff;
+}
+.expense-actions { display: flex; align-items: center; gap: 6px; }
+.expense-action-btn {
+  width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center;
+  justify-content: center; border: none; cursor: pointer; font-size: 14px;
+}
+.expense-reject { background: #fee2e2; color: #dc2626; }
+.expense-approve { background: #dcfce7; color: #16a34a; }
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 768px) {
+  .deel-topnav { padding: 0 12px; gap: 0; }
+  .deel-org { margin-right: 12px; }
+  .deel-nav-items { display: none; }
+  .deel-search-btn { display: none; }
+  .page { padding: 16px; }
+  .two-col { grid-template-columns: 1fr; }
+  .profile-grid { grid-template-columns: 1fr 1fr; }
+  .expenses-sidebar { display: none; }
+  .steps { gap: 2px; }
+  .step-line { width: 16px; }
+  .step span { display: none; }
+  .flight-option { flex-wrap: wrap; }
+  .flight-price { width: 100%; text-align: right; }
+  .home-search { margin: 12px 16px 20px; }
+}
+@media (max-width: 480px) {
+  .deel-org-name, .deel-org-sub, .deel-org-chevron { display: none; }
+}
+</style>
+</head>
+<body>
+
+<!-- ===== DEEL TOP NAVIGATION ===== -->
+<nav class="deel-topnav">
+  <div class="deel-logo">d.</div>
+  <div class="deel-org">
+    <div class="deel-org-avatar" style="background: linear-gradient(135deg, #f59e0b, #ef4444); font-size: 14px; color: #fff;">W</div>
+    <div>
+      <div class="deel-org-name">Wayne Enterprise</div>
+      <div class="deel-org-sub">All groups</div>
+    </div>
+  </div>
+  <div class="deel-nav-items">
+    <button class="deel-nav-item" id="nav-home" onclick="goTo(0)">
+      <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 6.5l6-5 6 5V14a1 1 0 01-1 1H3a1 1 0 01-1-1z"/></svg>
+      Home
+    </button>
+    <button class="deel-nav-item">
+      <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="6" cy="6" r="4"/><circle cx="11" cy="10" r="4"/></svg>
+      People
+    </button>
+    <button class="deel-nav-item">
+      <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="3" width="12" height="10" rx="1.5"/><path d="M2 7h12"/></svg>
+      Payroll
+    </button>
+    <button class="deel-nav-item">
+      <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="8" cy="8" r="6"/><path d="M8 5v3l2 1.5"/></svg>
+      Finance
+    </button>
+    <button class="deel-nav-item">
+      <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M8 2l2 3h3l-2.5 2.5 1 3.5L8 9l-3.5 2 1-3.5L3 5h3z"/></svg>
+      Engage
+    </button>
+    <button class="deel-nav-item" id="nav-travel" onclick="goTo(1)">
+      <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M14 3L7 10M14 3l-4 11-2-5-5-2z"/></svg>
+      Travel
+      <span style="background: #a041ff; color: #fff; font-size: 9px; font-weight: 700; padding: 1px 6px; border-radius: 8px;">New</span>
+    </button>
+    <button class="deel-nav-item">
+      <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="2" width="5" height="5" rx="1"/><rect x="9" y="2" width="5" height="5" rx="1"/><rect x="2" y="9" width="5" height="5" rx="1"/><rect x="9" y="9" width="5" height="5" rx="1"/></svg>
+      More <span style="font-size: 10px;">&#9662;</span>
+    </button>
+  </div>
+  <div class="deel-nav-right">
+    <button class="deel-search-btn">
+      <svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="7" cy="7" r="5"/><path d="M11 11l3.5 3.5"/></svg>
+      <kbd>&#8984;K</kbd>
+    </button>
+    <button class="deel-nav-icon">
+      <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="8" cy="8" r="3"/><path d="M13 8a1 1 0 01.9.5 1 1 0 010 1L13 10a1 1 0 01-.5.9 1 1 0 01-1 0l-1-.6a1 1 0 00-1 0 1 1 0 00-.5.9v.8a1 1 0 01-2 0v-.8a1 1 0 00-.5-.9 1 1 0 00-1 0l-1 .6a1 1 0 01-1 0 1 1 0 010-1L4 9.5A1 1 0 013.4 8.5 1 1 0 013 7.5V7a1 1 0 012 0v.8a1 1 0 00.5.9 1 1 0 001 0l1-.6a1 1 0 010-1l.6-1A1 1 0 018 5"/></svg>
+    </button>
+    <button class="deel-nav-icon">
+      <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="8" cy="8" r="6"/><path d="M8 5v0M8 7.5v3.5"/></svg>
+    </button>
+    <button class="deel-nav-icon">
+      <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 6a4 4 0 018 0c0 4 2 5 2 5H2s2-1 2-5M6 13a2 2 0 004 0"/></svg>
+      <span class="notif-badge">9</span>
+    </button>
+    <div class="deel-user-avatar">MK</div>
+  </div>
+</nav>
+
+<!-- ===== SCREEN CONTAINER ===== -->
+<div id="screens">
+
+  <!-- ============================================================ -->
+  <!-- SCREEN 0: Manager Home (matches Deel's actual layout) -->
+  <!-- ============================================================ -->
+  <div class="screen active" id="screen-0">
+    <div class="page">
+      <div class="page-header">
+        <p class="page-greeting">Hey, Mattie &#128075;</p>
+      </div>
+
+      <div class="home-search">
+        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="7" cy="7" r="5"/><path d="M11 11l3.5 3.5"/></svg>
+        <span>Search for people, pages, apps or ask Deel AI</span>
+        <kbd>&#8984;K</kbd>
+      </div>
+
+      <div class="home-tabs">
+        <button class="home-tab active">
+          <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="1" y="1" width="5" height="5" rx="1"/><rect x="8" y="1" width="5" height="5" rx="1"/><rect x="1" y="8" width="5" height="5" rx="1"/><rect x="8" y="8" width="5" height="5" rx="1"/></svg>
+          All &#9662;
+        </button>
+        <button class="home-tab">
+          <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="5" cy="5" r="3.5"/><circle cx="10" cy="9" r="3.5"/></svg>
+          People
+        </button>
+        <button class="home-tab">
+          <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="1" y="2.5" width="12" height="9" rx="1.5"/><path d="M1 6h12"/></svg>
+          Finance
+        </button>
+      </div>
+
+      <div class="two-col">
+        <!-- LEFT COLUMN -->
+        <div>
+          <!-- Payments tracker -->
+          <div class="deel-card">
+            <div class="deel-card-header">
+              <div class="deel-card-title">
+                <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="8" cy="8" r="6"/><path d="M8 5v6m-2-4h4"/></svg>
+                Payments tracker
+              </div>
+            </div>
+            <div style="display: flex; gap: 16px;">
+              <div class="deel-card" style="flex: 1; margin: 0; background: var(--primary-lighter);">
+                <p class="small muted">Unpaid invoices</p>
+                <p style="font-size: 22px; font-weight: 700;">$0</p>
+                <p style="font-size: 11px; color: #999;">USD &bull; 0 invoices</p>
+              </div>
+              <div style="flex: 1; padding: 12px;">
+                <p class="small muted">Processing payments</p>
+                <p style="font-size: 22px; font-weight: 700; color: #ccc;">$0</p>
+                <p style="font-size: 11px; color: #999;">USD &bull; 0 payments</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- TRAVEL PROMO BANNER (new — like "Simplify your payroll") -->
+          <div class="promo-banner promo-banner-travel">
+            <button class="promo-close">&times;</button>
+            <div class="promo-title">Manage travel with compliance built in</div>
+            <div class="promo-desc">Book flights and hotels for your team. Visa checks, PE tracking, and expense automation &mdash; all in one flow.</div>
+            <button class="promo-btn" onclick="goTo(1)">
+              Book travel
+              <svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 8h10m-4-4l4 4-4 4"/></svg>
+            </button>
+            <div class="promo-illustration">&#9992;&#65039;</div>
+          </div>
+
+          <!-- Payroll requests -->
+          <div class="deel-card">
+            <div class="deel-card-header">
+              <div class="deel-card-title">
+                <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="8" cy="8" r="6"/><path d="M8 5v0m0 2v4"/></svg>
+                Payroll requests
+              </div>
+              <span class="small muted">Wayne Enterpris... &#9662;</span>
+            </div>
+            <p class="small muted">Showing requests for payroll cycle Mar 1st &ndash; 31st, 2026</p>
+            <div class="divider"></div>
+            <p class="small muted" style="text-align: center; padding: 8px 0;">No requests submitted yet.</p>
+          </div>
+        </div>
+
+        <!-- RIGHT COLUMN -->
+        <div>
+          <!-- For you today -->
+          <div class="deel-card">
+            <div class="deel-card-header">
+              <div class="deel-card-title">
+                <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="2" width="12" height="12" rx="1.5"/><path d="M2 6h12"/><path d="M6 2v4m4-4v4"/></svg>
+                For you today
+              </div>
+              <button class="deel-card-action">Manage &#9662;</button>
+            </div>
+            <p class="small muted mb-12">To-dos that need your attention</p>
+
+            <div class="todo-row">
+              <div class="todo-icon">
+                <svg viewBox="0 0 16 16" fill="none" stroke="#666" stroke-width="1.5"><path d="M4 4h8M4 8h8M4 12h5"/></svg>
+                <span class="todo-badge">8</span>
+              </div>
+              <span class="todo-text">Data update</span>
+              <button class="todo-review-btn">Review</button>
+            </div>
+
+            <div class="todo-row" style="cursor: pointer;" onclick="goTo(6)">
+              <div class="todo-icon">
+                <svg viewBox="0 0 16 16" fill="none" stroke="#666" stroke-width="1.5"><rect x="2" y="3" width="12" height="10" rx="1.5"/><path d="M5 7h6m-6 3h3"/></svg>
+                <span class="todo-badge">80</span>
+              </div>
+              <span class="todo-text">Expenses</span>
+              <button class="todo-review-btn" onclick="event.stopPropagation(); goTo(6)">Review</button>
+            </div>
+
+            <!-- NEW: Travel Requests -->
+            <div class="todo-row" style="cursor: pointer;" onclick="goTo(7)">
+              <div class="todo-icon">
+                <svg viewBox="0 0 16 16" fill="none" stroke="#666" stroke-width="1.5"><path d="M14 3L7 10M14 3l-4 11-2-5-5-2z"/></svg>
+                <span class="todo-badge" style="background: #d97706;">1</span>
+              </div>
+              <span class="todo-text">Travel requests <span class="badge badge-amber" style="margin-left: 6px; font-size: 9px;">PE alert</span></span>
+              <button class="todo-review-btn" onclick="event.stopPropagation(); goTo(7)">Review</button>
+            </div>
+
+            <div class="todo-row">
+              <div class="todo-icon">
+                <svg viewBox="0 0 16 16" fill="none" stroke="#666" stroke-width="1.5"><rect x="2" y="2" width="12" height="12" rx="1.5"/><path d="M5 8l2 2 4-4"/></svg>
+                <span class="todo-badge">13</span>
+              </div>
+              <span class="todo-text">Contractors' submissions</span>
+              <button class="todo-review-btn">Review</button>
+            </div>
+          </div>
+
+          <!-- Complete your onboarding -->
+          <div class="deel-card">
+            <div class="deel-card-title mb-12">Complete your onboarding</div>
+            <div style="display: flex; align-items: center; gap: 12px;">
+              <div style="width: 36px; height: 36px; border-radius: 10px; background: #f0ecfa; display: flex; align-items: center; justify-content: center;">
+                <svg width="18" height="18" viewBox="0 0 16 16" fill="none" stroke="#1f74b3" stroke-width="1.5"><path d="M4 4h8M4 8h8M4 12h5"/></svg>
+              </div>
+              <div style="flex: 1;">
+                <p class="small bold">Set up basics</p>
+                <div style="display: flex; align-items: center; gap: 8px; margin-top: 4px;">
+                  <div style="flex: 1; height: 4px; background: #f0eeec; border-radius: 2px;">
+                    <div style="width: 60%; height: 100%; background: #a041ff; border-radius: 2px;"></div>
+                  </div>
+                  <span style="font-size: 11px; color: #999;">60%</span>
+                </div>
+                <p style="font-size: 11px; color: #999; margin-top: 2px;">Next up: Tell us about your organization</p>
+              </div>
+              <button class="btn btn-dark" style="padding: 6px 14px; font-size: 12px;">Continue</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- SCREEN 1: Employee — Book a Trip (search) -->
+  <!-- ============================================================ -->
+  <div class="screen" id="screen-1">
+    <div class="deel-subnav">
+      <button class="deel-subnav-item" onclick="goTo(currentView === 'employee' ? 8 : 0)">
+        <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M8 2L3 7l5 5"/></svg>
+        Home
+      </button>
+      <button class="deel-subnav-item active">
+        <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 2L6 8M12 2l-3 10-2-4-4-2z"/></svg>
+        Book Travel
+      </button>
+      <button class="deel-subnav-item">My Trips</button>
+      <button class="deel-subnav-item">PE Dashboard</button>
+    </div>
+    <div class="page">
+      <div style="max-width: 960px; margin: 0 auto;">
+        <h1 style="font-size: 26px; font-weight: 700; margin-bottom: 4px;">Book a Trip</h1>
+        <p class="small muted mb-24">Search flights with real-time compliance checks.</p>
+
+        <div class="steps">
+          <div class="step current"><div class="step-dot">1</div> <span>Search</span></div>
+          <div class="step-line"></div>
+          <div class="step"><div class="step-dot">2</div> <span>Compliance</span></div>
+          <div class="step-line"></div>
+          <div class="step"><div class="step-dot">3</div> <span>Flight</span></div>
+          <div class="step-line"></div>
+          <div class="step"><div class="step-dot">4</div> <span>Hotel</span></div>
+          <div class="step-line"></div>
+          <div class="step"><div class="step-dot">5</div> <span>Transport</span></div>
+          <div class="step-line"></div>
+          <div class="step"><div class="step-dot">6</div> <span>Confirm</span></div>
+        </div>
+
+        <div class="two-col">
+          <div>
+            <p class="label mb-12">You fill in 3 fields. Deel handles everything else.</p>
+
+            <!-- Field 1: Destination -->
+            <div class="deel-card" style="cursor: text;" onclick="fillSearch()">
+              <label style="font-size: 10px; text-transform: uppercase; letter-spacing: 0.06em; color: var(--text-disabled);">Where are you going?</label>
+              <p style="font-size: 18px; margin-top: 6px;" id="field-to"><span style="color: var(--neutral-main);">Search country or city...</span></p>
+            </div>
+
+            <!-- Field 2: Dates -->
+            <div style="display: flex; gap: 12px; margin-top: 12px;">
+              <div class="deel-card" style="flex: 1; cursor: pointer;" onclick="fillSearch()">
+                <label style="font-size: 10px; text-transform: uppercase; letter-spacing: 0.06em; color: var(--text-disabled);">Depart</label>
+                <p style="font-size: 15px; margin-top: 6px;" id="field-depart"><span style="color: var(--neutral-main);">Select date</span></p>
+              </div>
+              <div class="deel-card" style="flex: 1; cursor: pointer;" onclick="fillSearch()">
+                <label style="font-size: 10px; text-transform: uppercase; letter-spacing: 0.06em; color: var(--text-disabled);">Return</label>
+                <p style="font-size: 15px; margin-top: 6px;" id="field-return"><span style="color: var(--neutral-main);">Select date</span></p>
+              </div>
+            </div>
+
+            <!-- Field 3: Purpose -->
+            <div class="deel-card" style="margin-top: 12px;">
+              <label style="font-size: 10px; text-transform: uppercase; letter-spacing: 0.06em; color: var(--text-disabled);">Purpose of trip</label>
+              <p style="font-size: 15px; margin-top: 6px;" id="field-purpose"><span style="color: var(--neutral-main);">Select purpose...</span></p>
+            </div>
+
+            <div class="mt-24">
+              <button class="btn btn-dark btn-lg btn-full demo-hotspot" onclick="if(!searchFilled){fillSearch();setTimeout(()=>goTo(2),1600)}else{goTo(2)}">Search Flights</button>
+            </div>
+          </div>
+
+          <div>
+            <!-- Auto-detected from profile -->
+            <div class="deel-card" style="border-left: 4px solid var(--blue-link); background: var(--secondary-lighter);">
+              <p style="font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; color: var(--blue-link); margin-bottom: 8px;">Auto-detected from your Deel profile</p>
+              <p class="small muted mb-12">These fields are filled automatically. You don't enter any of this.</p>
+              <div class="divider"></div>
+              <div class="profile-grid mt-12">
+                <div class="profile-item"><label>Traveller</label><p>Teena Bramley</p></div>
+                <div class="profile-item"><label>Passport</label><p>British (GB)</p></div>
+                <div class="profile-item"><label>Contract Type</label><p>EOR (UK)</p></div>
+                <div class="profile-item"><label>Policy Tier</label><p>Executive (Eco+)</p></div>
+                <div class="profile-item"><label>Cost Center</label><p>Logistics</p></div>
+                <div class="profile-item"><label>Legal Entity</label><p>Deel UK Ltd</p></div>
+                <div class="profile-item"><label>Payment</label><p>Deel Card *4821</p></div>
+                <div class="profile-item"><label>Pay Currency</label><p>GBP</p></div>
+              </div>
+            </div>
+
+            <div class="deel-card mt-16" style="background: var(--primary-main); color: #fff; border: none;">
+              <p style="font-size: 11px; font-weight: 600; color: #a78bfa; text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 10px;">What Deel checks automatically</p>
+              <p class="small" style="color: rgba(255,255,255,0.6); margin-bottom: 6px;">&#10148; Visa eligibility (passport vs destination)</p>
+              <p class="small" style="color: rgba(255,255,255,0.6); margin-bottom: 6px;">&#10148; PE exposure (cumulative days this tax year)</p>
+              <p class="small" style="color: rgba(255,255,255,0.6); margin-bottom: 6px;">&#10148; Travel policy (cabin class + spend limits)</p>
+              <p class="small" style="color: rgba(255,255,255,0.6); margin-bottom: 6px;">&#10148; Budget remaining (cost center balance)</p>
+              <p class="small" style="color: rgba(255,255,255,0.6);">&#10148; Cost center + GL code (auto-assigned)</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- SCREEN 2: Compliance Checks -->
+  <!-- ============================================================ -->
+  <div class="screen" id="screen-2">
+    <div class="deel-subnav">
+      <button class="deel-subnav-item" onclick="goTo(1)">
+        <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M8 2L3 7l5 5"/></svg>
+        Back
+      </button>
+      <button class="deel-subnav-item active">Compliance Check</button>
+    </div>
+    <div class="page">
+      <div style="max-width: 720px; margin: 0 auto;">
+        <!-- Trip summary header -->
+        <div style="display: flex; align-items: center; gap: 16px; margin-bottom: 24px;">
+          <div style="font-size: 32px;">&#127471;&#127477;</div>
+          <div>
+            <h1 style="font-size: 24px; font-weight: 700; margin-bottom: 2px;">Tokyo, Japan</h1>
+            <p class="small muted">Mar 30 &ndash; Apr 5, 2026 &bull; 6 days &bull; Client visit</p>
+          </div>
+        </div>
+
+        <div class="steps mb-24">
+          <div class="step done"><div class="step-dot">&#10003;</div> <span>Search</span></div>
+          <div class="step-line done"></div>
+          <div class="step current"><div class="step-dot">2</div> <span>Compliance</span></div>
+          <div class="step-line"></div>
+          <div class="step"><div class="step-dot">3</div> <span>Flight</span></div>
+          <div class="step-line"></div>
+          <div class="step"><div class="step-dot">4</div> <span>Hotel</span></div>
+          <div class="step-line"></div>
+          <div class="step"><div class="step-dot">5</div> <span>Transport</span></div>
+          <div class="step-line"></div>
+          <div class="step"><div class="step-dot">6</div> <span>Confirm</span></div>
+        </div>
+
+        <!-- Checking... label -->
+        <p class="label mb-16" id="checking-label">Checking...</p>
+
+        <!-- Shimmer placeholders (visible initially, hidden as checks reveal) -->
+        <div id="shimmer-1" class="scan-placeholder"></div>
+        <div id="shimmer-2" class="scan-placeholder"></div>
+        <div id="shimmer-3" class="scan-placeholder"></div>
+        <div id="shimmer-4" class="scan-placeholder"></div>
+
+        <!-- Check 1: Visa -->
+        <div class="deel-card" id="check-1" style="border-left: 3px solid var(--success-main); opacity: 0; transform: translateY(8px); transition: all 0.4s ease;">
+          <div style="display: flex; gap: 14px; align-items: flex-start;">
+            <div class="check-icon check-green" style="margin-top: 1px;">&#10003;</div>
+            <div>
+              <p class="small bold" style="margin-bottom: 2px;">Visa: GB passport &rarr; Japan visa-exempt for 90 days</p>
+              <p style="font-size: 12px; color: var(--text-disabled);">Trip duration: 6 days &mdash; well within limit</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Check 2: PE Warning -->
+        <div class="deel-card" id="check-2" style="border-left: 3px solid var(--warning-main); opacity: 0; transform: translateY(8px); transition: all 0.4s ease;">
+          <div style="display: flex; gap: 14px; align-items: flex-start;">
+            <div class="check-icon check-amber" style="margin-top: 1px; font-size: 14px;">!</div>
+            <div style="flex: 1;">
+              <p class="small bold amber" style="margin-bottom: 2px;">PE Risk: 147 of 183 days in Japan this year</p>
+              <p style="font-size: 12px; color: var(--text-disabled);">This trip adds 6 days &rarr; <strong class="amber">153 / 183 day threshold</strong></p>
+              <div style="margin-top: 12px;">
+                <div class="pe-track">
+                  <div class="pe-fill" style="width: 83.6%; background: linear-gradient(90deg, var(--success-main) 0%, var(--success-main) 50%, #fbbf24 75%, var(--warning-main) 100%);"></div>
+                </div>
+                <div style="display: flex; justify-content: space-between; font-size: 11px; margin-top: 4px;">
+                  <span class="bold amber">153 days after trip</span>
+                  <span style="color: var(--text-disabled);">30 days remaining</span>
+                </div>
+              </div>
+              <p style="font-size: 12px; color: var(--text-disabled); margin-top: 12px; line-height: 1.5;">You're approaching the PE threshold for Japan. <strong style="color: var(--text-primary);">Your manager has been notified.</strong></p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Check 3: Policy -->
+        <div class="deel-card" id="check-3" style="border-left: 3px solid var(--success-main); opacity: 0; transform: translateY(8px); transition: all 0.4s ease;">
+          <div style="display: flex; gap: 14px; align-items: flex-start;">
+            <div class="check-icon check-green" style="margin-top: 1px;">&#10003;</div>
+            <div>
+              <p class="small bold" style="margin-bottom: 2px;">Policy: CTO &mdash; Economy+ for flights &gt;6hrs, up to &pound;800</p>
+              <p style="font-size: 12px; color: var(--text-disabled);">Auto-approved within policy limits</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Check 4: Budget -->
+        <div class="deel-card" id="check-4" style="border-left: 3px solid var(--success-main); opacity: 0; transform: translateY(8px); transition: all 0.4s ease;">
+          <div style="display: flex; gap: 14px; align-items: flex-start;">
+            <div class="check-icon check-green" style="margin-top: 1px;">&#10003;</div>
+            <div>
+              <p class="small bold" style="margin-bottom: 2px;">Budget: Cost center Logistics has &pound;12,400 remaining</p>
+              <p style="font-size: 12px; color: var(--text-disabled);">Sufficient budget for this trip</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Action button (appears after all checks) -->
+        <div id="compliance-action" style="margin-top: 24px; opacity: 0; transition: opacity 0.4s ease;">
+          <button class="btn btn-amber btn-lg btn-full demo-hotspot" onclick="goTo(3)">Acknowledge PE Risk &amp; View Flights</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- SCREEN 3: Flight Results -->
+  <!-- ============================================================ -->
+  <div class="screen" id="screen-3">
+    <div class="deel-subnav">
+      <button class="deel-subnav-item" onclick="goTo(2)">
+        <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M8 2L3 7l5 5"/></svg>
+        Back
+      </button>
+      <button class="deel-subnav-item active">Select Flight</button>
+    </div>
+    <div class="page">
+      <div style="max-width: 960px; margin: 0 auto;">
+        <h1 style="font-size: 26px; font-weight: 700; margin-bottom: 4px;">London &rarr; Tokyo &#127471;&#127477;</h1>
+        <p class="small muted mb-24">Mar 30 &ndash; Apr 5 &bull; Economy Plus &bull; 6 days &bull; 3 flights within policy</p>
+
+        <div class="steps">
+          <div class="step done"><div class="step-dot">&#10003;</div> <span>Search</span></div>
+          <div class="step-line done"></div>
+          <div class="step done"><div class="step-dot">&#10003;</div> <span>Compliance</span></div>
+          <div class="step-line done"></div>
+          <div class="step current"><div class="step-dot">3</div> <span>Flight</span></div>
+          <div class="step-line"></div>
+          <div class="step"><div class="step-dot">4</div> <span>Hotel</span></div>
+          <div class="step-line"></div>
+          <div class="step"><div class="step-dot">5</div> <span>Transport</span></div>
+          <div class="step-line"></div>
+          <div class="step"><div class="step-dot">6</div> <span>Confirm</span></div>
+        </div>
+
+        <div class="deel-card" style="padding: 0; overflow: hidden;">
+          <div class="flight-option" onclick="goTo(9)">
+            <div class="flight-airline" style="background: #1a1a2e;">BA</div>
+            <div class="flight-details">
+              <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 4px;">
+                <p class="small bold">British Airways &bull; BA5</p>
+                <span class="badge badge-green">Within policy</span>
+              </div>
+              <div class="flight-times-row">
+                <div><div class="flight-time">09:15</div><div class="flight-code">LHR</div></div>
+                <div class="flight-connector">
+                  <div class="flight-connector-text">11h 45m &bull; Direct</div>
+                  <div class="flight-connector-line"></div>
+                </div>
+                <div style="text-align: right;"><div class="flight-time">06:00</div><div class="flight-code">NRT +1</div></div>
+              </div>
+              <div class="flight-tags mt-8">
+                <span class="badge badge-purple">Eco Plus</span>
+                <span class="badge badge-blue">23kg bag</span>
+              </div>
+            </div>
+            <div class="flight-price">&pound;742</div>
+          </div>
+
+          <div class="flight-option" onclick="goTo(9)">
+            <div class="flight-airline" style="background: #c4002b;">JL</div>
+            <div class="flight-details">
+              <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 4px;">
+                <p class="small bold">Japan Airlines &bull; JL401</p>
+                <span class="badge badge-green">Within policy</span>
+              </div>
+              <div class="flight-times-row">
+                <div><div class="flight-time">12:30</div><div class="flight-code">LHR</div></div>
+                <div class="flight-connector">
+                  <div class="flight-connector-text">11h 30m &bull; Direct</div>
+                  <div class="flight-connector-line"></div>
+                </div>
+                <div style="text-align: right;"><div class="flight-time">08:00</div><div class="flight-code">NRT +1</div></div>
+              </div>
+              <div class="flight-tags mt-8">
+                <span class="badge badge-purple">Eco Plus</span>
+                <span class="badge badge-blue">23kg bag</span>
+              </div>
+            </div>
+            <div class="flight-price">&pound;789</div>
+          </div>
+
+          <div class="flight-option" style="opacity: 0.55;" onclick="goTo(9)">
+            <div class="flight-airline" style="background: #003d7a;">NH</div>
+            <div class="flight-details">
+              <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 4px;">
+                <p class="small bold">ANA &bull; NH211</p>
+                <span class="badge badge-amber">Near limit (&pound;798)</span>
+              </div>
+              <div class="flight-times-row">
+                <div><div class="flight-time">19:00</div><div class="flight-code">LHR</div></div>
+                <div class="flight-connector">
+                  <div class="flight-connector-text">12h 10m &bull; Direct</div>
+                  <div class="flight-connector-line"></div>
+                </div>
+                <div style="text-align: right;"><div class="flight-time">15:10</div><div class="flight-code">NRT +1</div></div>
+              </div>
+              <div class="flight-tags mt-8">
+                <span class="badge badge-purple">Eco Plus</span>
+              </div>
+            </div>
+            <div class="flight-price">&pound;798</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- SCREEN 4: Unified Trip Confirmation -->
+  <!-- ============================================================ -->
+  <div class="screen" id="screen-4">
+    <div class="deel-subnav">
+      <button class="deel-subnav-item" onclick="goTo(10)">
+        <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M8 2L3 7l5 5"/></svg>
+        Back
+      </button>
+      <button class="deel-subnav-item active">Confirm Trip</button>
+    </div>
+    <div class="page">
+      <div style="max-width: 960px; margin: 0 auto;">
+        <h1 style="font-size: 26px; font-weight: 700; margin-bottom: 4px;">Review Your Trip Bundle</h1>
+        <p class="small muted mb-24">One confirmation. Three expense records auto-created.</p>
+
+        <div class="steps">
+          <div class="step done"><div class="step-dot">&#10003;</div> <span>Search</span></div>
+          <div class="step-line done"></div>
+          <div class="step done"><div class="step-dot">&#10003;</div> <span>Compliance</span></div>
+          <div class="step-line done"></div>
+          <div class="step done"><div class="step-dot">&#10003;</div> <span>Flight</span></div>
+          <div class="step-line done"></div>
+          <div class="step done"><div class="step-dot">&#10003;</div> <span>Hotel</span></div>
+          <div class="step-line done"></div>
+          <div class="step done"><div class="step-dot">&#10003;</div> <span>Transport</span></div>
+          <div class="step-line done"></div>
+          <div class="step current"><div class="step-dot">6</div> <span>Confirm</span></div>
+        </div>
+
+        <div class="two-col">
+          <div>
+            <!-- Unified itinerary with connection line -->
+            <div class="deel-card" style="padding: 24px; position: relative;">
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                <p style="font-size: 11px; font-weight: 700; color: var(--text-disabled); text-transform: uppercase; letter-spacing: 0.06em;">Your Tokyo Itinerary</p>
+                <span class="badge badge-green">All within policy</span>
+              </div>
+
+              <!-- Connection line -->
+              <div style="position: absolute; left: 35px; top: 90px; bottom: 140px; width: 2px; background: var(--divider); z-index: 1;"></div>
+
+              <!-- Flight -->
+              <div style="display: flex; gap: 16px; margin-bottom: 24px; position: relative; z-index: 2;">
+                <div style="background: var(--bg-paper); border: 2px solid var(--divider); border-radius: 50%; width: 24px; height: 24px; display: flex; align-items: center; justify-content: center; font-size: 12px; flex-shrink: 0;">&#9992;&#65039;</div>
+                <div style="flex: 1;">
+                  <div style="display: flex; justify-content: space-between;">
+                    <p class="small bold">British Airways &bull; BA5</p>
+                    <span style="font-weight: 700;">&pound;742</span>
+                  </div>
+                  <p style="font-size: 12px; color: var(--text-disabled);">LHR &rarr; NRT &bull; Economy Plus &bull; Mar 30 &ndash; Apr 5</p>
+                </div>
+              </div>
+
+              <!-- Hotel -->
+              <div style="display: flex; gap: 16px; margin-bottom: 24px; position: relative; z-index: 2;">
+                <div style="background: var(--bg-paper); border: 2px solid var(--divider); border-radius: 50%; width: 24px; height: 24px; display: flex; align-items: center; justify-content: center; font-size: 12px; flex-shrink: 0;">&#127976;</div>
+                <div style="flex: 1;">
+                  <div style="display: flex; justify-content: space-between;">
+                    <p class="small bold">Park Hyatt Tokyo</p>
+                    <span style="font-weight: 700;">&pound;1,440</span>
+                  </div>
+                  <p style="font-size: 12px; color: var(--text-disabled);">6 nights &bull; Shinjuku-ku &bull; &pound;240/night</p>
+                </div>
+              </div>
+
+              <!-- Car -->
+              <div style="display: flex; gap: 16px; position: relative; z-index: 2;">
+                <div style="background: var(--bg-paper); border: 2px solid var(--divider); border-radius: 50%; width: 24px; height: 24px; display: flex; align-items: center; justify-content: center; font-size: 12px; flex-shrink: 0;">&#128664;</div>
+                <div style="flex: 1;">
+                  <div style="display: flex; justify-content: space-between;">
+                    <p class="small bold">Tesla Model 3 (Electric)</p>
+                    <span style="font-weight: 700;">&pound;390</span>
+                  </div>
+                  <p style="font-size: 12px; color: var(--text-disabled);">Hertz &bull; 6 days &bull; Pickup NRT</p>
+                </div>
+              </div>
+            </div>
+
+            <!-- Total -->
+            <div class="deel-card" style="background: var(--primary-main); color: #fff; border: none; padding: 20px 24px;">
+              <div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 12px;">
+                <span style="font-size: 14px; opacity: 0.7;">Total Trip Cost</span>
+                <span style="font-size: 28px; font-weight: 800;">&pound;2,572</span>
+              </div>
+              <div style="border-top: 1px solid rgba(255,255,255,0.1); padding-top: 12px; display: flex; align-items: center; gap: 14px;">
+                <div style="width: 40px; height: 28px; border-radius: 4px; background: rgba(255,255,255,0.15); display: flex; align-items: center; justify-content: center;"><span style="font-size: 9px; font-weight: 700;">DEEL</span></div>
+                <div>
+                  <p style="font-size: 12px; opacity: 0.7;">Deel Card **** 4821 &bull; One charge, three receipts auto-generated</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="mt-24">
+              <button class="btn btn-dark btn-lg btn-full demo-hotspot" onclick="goTo(5)" style="background: var(--primary-main);">Confirm Trip Bundle</button>
+              <button class="btn btn-outline btn-lg btn-full mt-8" onclick="goTo(10)">Edit Selections</button>
+            </div>
+          </div>
+
+          <div>
+            <!-- Compliance Summary -->
+            <div class="label">Compliance Summary</div>
+            <div class="deel-card">
+              <div class="check-row"><div class="check-icon check-green">&#10003;</div><p class="small">Visa: GB &rarr; Japan exempt (90d)</p></div>
+              <div class="check-row"><div class="check-icon check-amber">!</div><p class="small"><span class="amber">PE: 153/183 days</span> &mdash; manager notified</p></div>
+              <div class="check-row"><div class="check-icon check-green">&#10003;</div><p class="small">Policy: All items within CTO limits</p></div>
+              <div class="check-row"><div class="check-icon check-green">&#10003;</div><p class="small">Cost center: Logistics (GL 6200)</p></div>
+              <div class="check-row"><div class="check-icon check-green">&#10003;</div><p class="small">Tax &amp; VAT: Calculated for all items</p></div>
+            </div>
+
+            <!-- Automation summary -->
+            <div class="deel-card mt-16" style="border-left: 4px solid var(--blue-link); background: var(--secondary-lighter);">
+              <p style="font-size: 11px; font-weight: 700; color: var(--blue-link); text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 12px;">Automation Summary</p>
+              <p class="small mb-8"><span style="color: var(--blue-link);">&#9889;</span> <strong>3 expenses</strong> auto-created (flight, hotel, car)</p>
+              <p class="small mb-8"><span style="color: var(--blue-link);">&#9889;</span> <strong>3 receipts</strong> auto-generated from booking data</p>
+              <p class="small mb-8"><span style="color: var(--blue-link);">&#9889;</span> GL 6200 updated &mdash; cost center Logistics</p>
+              <p class="small mb-8"><span style="color: var(--blue-link);">&#9889;</span> Manager auto-approves (all within policy)</p>
+              <p class="small"><span style="color: var(--blue-link);">&#9889;</span> &pound;2,572 queued for April payroll reimbursement</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- SCREEN 5: Success -->
+  <!-- ============================================================ -->
+  <div class="screen" id="screen-5">
+    <div class="deel-subnav">
+      <button class="deel-subnav-item active">Booking Confirmed</button>
+    </div>
+    <div class="page">
+      <div style="max-width: 640px; margin: 0 auto; text-align: center; padding-top: 24px;">
+        <div class="scale-in" style="width: 80px; height: 80px; border-radius: 50%; background: #dcfce7; display: flex; align-items: center; justify-content: center; margin: 0 auto 20px; font-size: 36px; color: #16a34a;">&#10003;</div>
+        <h1 style="font-size: 26px; font-weight: 700; margin-bottom: 4px;">Booked!</h1>
+        <p class="small muted mb-24">Confirmation sent to teena@deel.com</p>
+
+        <div class="deel-card" style="text-align: left;">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+            <p class="label" style="margin: 0;">Booking Reference</p>
+            <p class="bold" style="font-size: 15px; color: #1f74b3;">DT-2026-0330-TB</p>
+          </div>
+          <div class="divider"></div>
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px; padding-top: 12px;">
+            <div><p style="font-size: 11px; color: #999;">Flight</p><p class="small bold">BA5 &bull; LHR &rarr; NRT</p></div>
+            <div><p style="font-size: 11px; color: #999;">Hotel</p><p class="small bold">Park Hyatt Tokyo &bull; 6 nights</p></div>
+            <div><p style="font-size: 11px; color: #999;">Car</p><p class="small bold">Tesla Model 3 &bull; 6 days</p></div>
+            <div><p style="font-size: 11px; color: #999;">Total</p><p class="small bold">&pound;2,572 <span style="font-weight: 400; color: #999;">(~$3,264 USD)</span></p></div>
+          </div>
+          <div class="divider"></div>
+          <div style="display: flex; justify-content: space-between; align-items: center; padding-top: 4px;">
+            <div>
+              <p style="font-size: 11px; color: #999;">Processed with contract currency</p>
+              <p class="small bold">USD &rarr; GBP (auto-converted)</p>
+            </div>
+            <div style="text-align: right;">
+              <p style="font-size: 11px; color: #999;">Estimated pay date</p>
+              <p class="small bold" style="color: #1f74b3;">Apr 30th, 2026</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="deel-card" style="text-align: left; border-left: 4px solid #16a34a;">
+          <p class="label" style="color: #16a34a; margin-bottom: 10px;">Automated Actions Complete</p>
+          <div class="check-row"><div class="check-icon check-green">&#10003;</div><p class="small"><strong>3 expense records</strong> created (flight, hotel, car)</p></div>
+          <div class="check-row"><div class="check-icon check-green">&#10003;</div><p class="small"><strong>3 receipts</strong> auto-attached (no PDF uploads)</p></div>
+          <div class="check-row"><div class="check-icon check-green">&#10003;</div><p class="small">Cost center: Logistics (GL 6200) &mdash; all items</p></div>
+          <div class="check-row"><div class="check-icon check-green">&#10003;</div><p class="small">Manager auto-approved (all within CTO policy)</p></div>
+          <div class="check-row"><div class="check-icon check-green">&#10003;</div><p class="small">&pound;2,572 reimbursement queued (April payroll, GBP)</p></div>
+          <div class="check-row"><div class="check-icon check-amber">!</div><p class="small"><span class="amber">PE alert sent to tax team &mdash; 153/183 days in Japan</span></p></div>
+        </div>
+
+        <div class="deel-card" style="text-align: left; background: #0f0f1a; color: #fff; border: none;">
+          <p style="font-size: 11px; font-weight: 600; color: #a78bfa; text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 12px;">What Deel Travel eliminated</p>
+          <div style="display: grid; grid-template-columns: 1fr auto 1fr; gap: 12px; font-size: 12px;">
+            <div style="color: rgba(255,255,255,0.35);">
+              <p style="margin-bottom: 6px; text-decoration: line-through;">3 separate websites (airline, hotel, car)</p>
+              <p style="margin-bottom: 6px; text-decoration: line-through;">3 credit card transactions</p>
+              <p style="margin-bottom: 6px; text-decoration: line-through;">3 PDF receipts to download</p>
+              <p style="margin-bottom: 6px; text-decoration: line-through;">3 expense uploads</p>
+              <p style="margin-bottom: 6px; text-decoration: line-through;">Manual visa &amp; PE check</p>
+              <p style="margin-bottom: 6px; text-decoration: line-through;">Type category &amp; amount x3</p>
+              <p style="text-decoration: line-through;">Wait for manual approval</p>
+            </div>
+            <div style="display: flex; align-items: center; color: rgba(255,255,255,0.2); font-size: 20px;">&rarr;</div>
+            <div style="color: #a78bfa;">
+              <p style="margin-bottom: 6px;">One booking flow</p>
+              <p style="margin-bottom: 6px;">One Deel Card charge</p>
+              <p style="margin-bottom: 6px;">3 receipts auto-generated</p>
+              <p style="margin-bottom: 6px;">3 expenses auto-created</p>
+              <p style="margin-bottom: 6px;">Visa + PE auto-checked</p>
+              <p style="margin-bottom: 6px;">All fields pre-populated</p>
+              <p>Auto-approved instantly</p>
+            </div>
+          </div>
+        </div>
+
+        <div style="display: flex; gap: 12px; margin-top: 24px;">
+          <button class="btn btn-dark btn-lg" style="flex: 1;" onclick="goTo(currentView === 'employee' ? 8 : 0)">Back to Home</button>
+          <button class="btn btn-outline btn-lg" style="flex: 1;" onclick="goTo(currentView === 'employee' ? 8 : 0)">View Trip Details</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- SCREEN 9: Hotel Selection -->
+  <!-- ============================================================ -->
+  <div class="screen" id="screen-9">
+    <div class="deel-subnav">
+      <button class="deel-subnav-item" onclick="goTo(3)">
+        <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M8 2L3 7l5 5"/></svg>
+        Back
+      </button>
+      <button class="deel-subnav-item active">Select Hotel</button>
+    </div>
+    <div class="page">
+      <div style="max-width: 960px; margin: 0 auto;">
+        <h1 style="font-size: 26px; font-weight: 700; margin-bottom: 4px;">Accommodation in Tokyo &#127471;&#127477;</h1>
+        <p class="small muted mb-24">Mar 30 &ndash; Apr 5 &bull; 6 nights &bull; CTO budget: up to &pound;250/night</p>
+
+        <div class="steps">
+          <div class="step done"><div class="step-dot">&#10003;</div> <span>Search</span></div>
+          <div class="step-line done"></div>
+          <div class="step done"><div class="step-dot">&#10003;</div> <span>Compliance</span></div>
+          <div class="step-line done"></div>
+          <div class="step done"><div class="step-dot">&#10003;</div> <span>Flight</span></div>
+          <div class="step-line done"></div>
+          <div class="step current"><div class="step-dot">4</div> <span>Hotel</span></div>
+          <div class="step-line"></div>
+          <div class="step"><div class="step-dot">5</div> <span>Transport</span></div>
+          <div class="step-line"></div>
+          <div class="step"><div class="step-dot">6</div> <span>Confirm</span></div>
+        </div>
+
+        <!-- Hotel options -->
+        <div class="deel-card" style="padding: 0; overflow: hidden;">
+          <!-- Hotel 1 -->
+          <div class="flight-option" onclick="goTo(10)">
+            <div style="width: 40px; height: 40px; border-radius: 10px; background: var(--neutral-light); display: flex; align-items: center; justify-content: center; font-size: 20px; flex-shrink: 0;">&#127976;</div>
+            <div class="flight-details">
+              <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 4px;">
+                <p class="small bold">Park Hyatt Tokyo</p>
+                <span class="badge badge-green">Within policy</span>
+              </div>
+              <p style="font-size: 12px; color: var(--text-disabled);">Shinjuku-ku &bull; 0.4 miles from Tokyo office &bull; 4.8 &#9733;</p>
+              <div style="display: flex; align-items: center; justify-content: space-between; margin-top: 10px;">
+                <div style="display: flex; gap: 6px;">
+                  <span class="badge badge-blue">Executive Suite</span>
+                  <span class="badge badge-green">VAT recoverable</span>
+                </div>
+                <p style="font-size: 20px; font-weight: 800;">&pound;240<span style="font-size: 12px; font-weight: 400; color: var(--text-disabled);">/night</span></p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Hotel 2 -->
+          <div class="flight-option" onclick="goTo(10)">
+            <div style="width: 40px; height: 40px; border-radius: 10px; background: var(--neutral-light); display: flex; align-items: center; justify-content: center; font-size: 20px; flex-shrink: 0;">&#127976;</div>
+            <div class="flight-details">
+              <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 4px;">
+                <p class="small bold">Hotel Gracery Shinjuku</p>
+                <span class="badge badge-green">Within policy</span>
+              </div>
+              <p style="font-size: 12px; color: var(--text-disabled);">Kabukicho &bull; 0.8 miles from Tokyo office &bull; 4.5 &#9733;</p>
+              <div style="display: flex; align-items: center; justify-content: space-between; margin-top: 10px;">
+                <div style="display: flex; gap: 6px;">
+                  <span class="badge badge-blue">Superior Room</span>
+                </div>
+                <p style="font-size: 20px; font-weight: 800;">&pound;145<span style="font-size: 12px; font-weight: 400; color: var(--text-disabled);">/night</span></p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Hotel 3 -->
+          <div class="flight-option" style="opacity: 0.55;">
+            <div style="width: 40px; height: 40px; border-radius: 10px; background: var(--neutral-light); display: flex; align-items: center; justify-content: center; font-size: 20px; flex-shrink: 0;">&#127976;</div>
+            <div class="flight-details">
+              <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 4px;">
+                <p class="small bold">Aman Tokyo</p>
+                <span class="badge badge-red">Above policy (&pound;580/nt)</span>
+              </div>
+              <p style="font-size: 12px; color: var(--text-disabled);">Otemachi &bull; 2.1 miles from Tokyo office &bull; 4.9 &#9733;</p>
+              <div style="display: flex; align-items: center; justify-content: space-between; margin-top: 10px;">
+                <div style="display: flex; gap: 6px;">
+                  <span class="badge badge-gray">Requires approval</span>
+                </div>
+                <p style="font-size: 20px; font-weight: 800; color: var(--text-disabled);">&pound;580<span style="font-size: 12px; font-weight: 400;">/night</span></p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="mt-16">
+          <button class="btn btn-outline btn-lg btn-full" onclick="goTo(10)">Skip &mdash; no hotel needed</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- SCREEN 10: Ground Transport / Car Rental -->
+  <!-- ============================================================ -->
+  <div class="screen" id="screen-10">
+    <div class="deel-subnav">
+      <button class="deel-subnav-item" onclick="goTo(9)">
+        <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M8 2L3 7l5 5"/></svg>
+        Back
+      </button>
+      <button class="deel-subnav-item active">Ground Transport</button>
+    </div>
+    <div class="page">
+      <div style="max-width: 960px; margin: 0 auto;">
+        <h1 style="font-size: 26px; font-weight: 700; margin-bottom: 4px;">Ground Transport in Tokyo &#127471;&#127477;</h1>
+        <p class="small muted mb-24">Mar 30 &ndash; Apr 5 &bull; 6 days &bull; Pickup: Tokyo Narita (NRT)</p>
+
+        <div class="steps">
+          <div class="step done"><div class="step-dot">&#10003;</div> <span>Search</span></div>
+          <div class="step-line done"></div>
+          <div class="step done"><div class="step-dot">&#10003;</div> <span>Compliance</span></div>
+          <div class="step-line done"></div>
+          <div class="step done"><div class="step-dot">&#10003;</div> <span>Flight</span></div>
+          <div class="step-line done"></div>
+          <div class="step done"><div class="step-dot">&#10003;</div> <span>Hotel</span></div>
+          <div class="step-line done"></div>
+          <div class="step current"><div class="step-dot">5</div> <span>Transport</span></div>
+          <div class="step-line"></div>
+          <div class="step"><div class="step-dot">6</div> <span>Confirm</span></div>
+        </div>
+
+        <!-- Car options -->
+        <div class="deel-card" style="padding: 0; overflow: hidden;">
+          <!-- Car 1: EV -->
+          <div class="flight-option" onclick="goTo(4)">
+            <div style="width: 40px; height: 40px; border-radius: 10px; background: var(--secondary-lighter); display: flex; align-items: center; justify-content: center; font-size: 20px; flex-shrink: 0;">&#128664;</div>
+            <div class="flight-details">
+              <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 4px;">
+                <p class="small bold">Tesla Model 3 (Electric)</p>
+                <span class="badge badge-blue">EV option</span>
+              </div>
+              <p style="font-size: 12px; color: var(--text-disabled);">Hertz &bull; Pickup: Tokyo Narita (NRT) &bull; Automatic</p>
+              <div style="display: flex; align-items: center; justify-content: space-between; margin-top: 10px;">
+                <div style="display: flex; gap: 6px;">
+                  <span class="badge badge-green">Within policy</span>
+                </div>
+                <p style="font-size: 20px; font-weight: 800;">&pound;65<span style="font-size: 12px; font-weight: 400; color: var(--text-disabled);">/day</span></p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Car 2 -->
+          <div class="flight-option" onclick="goTo(4)">
+            <div style="width: 40px; height: 40px; border-radius: 10px; background: var(--neutral-light); display: flex; align-items: center; justify-content: center; font-size: 20px; flex-shrink: 0;">&#128663;</div>
+            <div class="flight-details">
+              <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 4px;">
+                <p class="small bold">Toyota Camry</p>
+                <span class="badge badge-green">Within policy</span>
+              </div>
+              <p style="font-size: 12px; color: var(--text-disabled);">Budget &bull; Pickup: Tokyo Narita (NRT) &bull; Automatic</p>
+              <div style="display: flex; align-items: center; justify-content: space-between; margin-top: 10px;">
+                <p style="font-size: 20px; font-weight: 800;">&pound;45<span style="font-size: 12px; font-weight: 400; color: var(--text-disabled);">/day</span></p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Executive Transfer -->
+          <div class="flight-option" onclick="goTo(4)">
+            <div style="width: 40px; height: 40px; border-radius: 10px; background: var(--neutral-light); display: flex; align-items: center; justify-content: center; font-size: 20px; flex-shrink: 0;">&#128661;</div>
+            <div class="flight-details">
+              <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 4px;">
+                <p class="small bold">Executive Airport Transfer</p>
+                <span class="badge badge-green">Within policy</span>
+              </div>
+              <p style="font-size: 12px; color: var(--text-disabled);">Private driver &bull; NRT &rarr; Park Hyatt Shinjuku &bull; 1hr 15min</p>
+              <div style="display: flex; align-items: center; justify-content: space-between; margin-top: 10px;">
+                <div style="display: flex; gap: 6px;">
+                  <span class="badge badge-purple">One-way</span>
+                </div>
+                <p style="font-size: 20px; font-weight: 800;">&pound;95<span style="font-size: 12px; font-weight: 400; color: var(--text-disabled);">&nbsp;flat</span></p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="mt-16">
+          <button class="btn btn-outline btn-lg btn-full" onclick="goTo(4)">Skip &mdash; no transport needed</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- SCREEN 6: Manager — Expenses (80 items, current pain point) -->
+  <!-- ============================================================ -->
+  <div class="screen" id="screen-6">
+    <div class="deel-subnav">
+      <button class="deel-subnav-item" onclick="goTo(0)">Payroll</button>
+      <button class="deel-subnav-item active">
+        <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="1" y="2.5" width="12" height="9" rx="1.5"/><path d="M4 6h6m-6 2.5h3"/></svg>
+        Expenses
+      </button>
+      <button class="deel-subnav-item">Tax documents</button>
+    </div>
+    <div class="page" style="max-width: 1100px; margin: 0 auto;">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
+        <h1 style="font-size: 26px; font-weight: 700;">Action required</h1>
+        <div style="display: flex; gap: 8px;">
+          <button class="btn btn-outline" style="padding: 8px 16px; font-size: 13px;">Actions &#9662;</button>
+          <button class="btn btn-dark" style="padding: 8px 16px; font-size: 13px;">Add new &#9662;</button>
+        </div>
+      </div>
+      <p class="small muted mb-16">Any action you need to take for all workers in your organization</p>
+
+      <div class="expenses-layout">
+        <div class="expenses-sidebar">
+          <button class="expenses-sidebar-item">
+            <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="2" width="12" height="12" rx="1.5"/><path d="M5 5h6m-6 3h6m-6 3h3"/></svg>
+            Overview
+          </button>
+          <button class="expenses-sidebar-item" style="padding-left: 32px;">EOR</button>
+          <button class="expenses-sidebar-item" style="padding-left: 32px;">Other worker types</button>
+          <button class="expenses-sidebar-item active">
+            <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="8" cy="8" r="6"/><path d="M8 5v3m0 2.5v0"/></svg>
+            Action required
+            <span class="expenses-sidebar-badge">80</span>
+          </button>
+          <button class="expenses-sidebar-item">
+            <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="2" width="12" height="12" rx="1.5"/><path d="M5 8l2 2 4-4"/></svg>
+            Contractors adjustments
+          </button>
+        </div>
+
+        <div class="expenses-main">
+          <div class="expenses-filters">
+            <button class="filter-chip active">Status <span style="background: #a041ff; color: #fff; border-radius: 50%; width: 16px; height: 16px; display: inline-flex; align-items: center; justify-content: center; font-size: 9px; margin-left: 4px;">1</span></button>
+            <button class="filter-chip">Categories &#9662;</button>
+            <button class="filter-chip">Submitted date &#9662;</button>
+            <button class="filter-chip">Transaction date &#9662;</button>
+            <button class="filter-chip">Transaction type &#9662;</button>
+            <button class="filter-chip" style="margin-left: auto;">Your approval &#9662;</button>
+          </div>
+
+          <p class="small muted mb-8">Total 80 items</p>
+
+          <div class="deel-card" style="padding: 0; overflow-x: auto;">
+            <table class="expenses-table">
+              <thead>
+                <tr>
+                  <th style="width: 30px;"><input type="checkbox" disabled></th>
+                  <th>Category</th>
+                  <th>Amount/date</th>
+                  <th>Vendor</th>
+                  <th>Worker</th>
+                  <th>Status</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr style="background: #fffbeb;">
+                  <td><input type="checkbox" disabled></td>
+                  <td class="expense-category"><a>Flight</a><br><span style="font-size: 11px; color: #999;">Travel &amp; Transportation</span></td>
+                  <td><strong>$750.00</strong><br><span style="font-size: 11px; color: #999;">Mar 30th 2026</span></td>
+                  <td>Air China</td>
+                  <td><div class="expense-worker"><div class="expense-worker-avatar" style="background: #e879a8;">TB</div><div><p class="small bold">Teena Bramley</p><p style="font-size: 11px; color: #999;">Global Payroll</p></div></div></td>
+                  <td><span class="badge badge-amber">Pending your approval</span></td>
+                  <td><div class="expense-actions"><button class="expense-action-btn expense-reject">&#10005;</button><button class="expense-action-btn expense-approve">&#10003;</button><span class="muted">&#8942;</span></div></td>
+                </tr>
+                <tr>
+                  <td><input type="checkbox" disabled></td>
+                  <td class="expense-category"><a>Other - Allowance</a><br><span style="font-size: 11px; color: #999;">Other</span></td>
+                  <td><strong>$542.00</strong></td>
+                  <td>Wayne Enterprises</td>
+                  <td><div class="expense-worker"><div class="expense-worker-avatar" style="background: #7c6bc4;">FA</div><div><p class="small bold">Freddie Adams</p><p style="font-size: 11px; color: #999;">EOR</p></div></div></td>
+                  <td><span class="badge badge-amber">Pending your approval</span></td>
+                  <td><div class="expense-actions"><button class="expense-action-btn expense-reject">&#10005;</button><button class="expense-action-btn expense-approve">&#10003;</button><span class="muted">&#8942;</span></div></td>
+                </tr>
+                <tr>
+                  <td><input type="checkbox" disabled></td>
+                  <td class="expense-category"><a>Other - Allowance</a><br><span style="font-size: 11px; color: #999;">Other</span></td>
+                  <td><strong>$924.00</strong></td>
+                  <td>Wayne Enterprises</td>
+                  <td><div class="expense-worker"><div class="expense-worker-avatar" style="background: #7c6bc4;">FA</div><div><p class="small bold">Freddie Adams</p><p style="font-size: 11px; color: #999;">EOR</p></div></div></td>
+                  <td><span class="badge badge-amber">Pending your approval</span></td>
+                  <td><div class="expense-actions"><button class="expense-action-btn expense-reject">&#10005;</button><button class="expense-action-btn expense-approve">&#10003;</button><span class="muted">&#8942;</span></div></td>
+                </tr>
+                <tr>
+                  <td><input type="checkbox" disabled></td>
+                  <td class="expense-category"><a>Meal Allowance</a><br><span style="font-size: 11px; color: #999;">Meal Allowance</span></td>
+                  <td><strong>$811.00</strong></td>
+                  <td>Wayne Enterprises</td>
+                  <td><div class="expense-worker"><div class="expense-worker-avatar" style="background: #f59e0b;">MW</div><div><p class="small bold">Meaghan Wolf</p><p style="font-size: 11px; color: #999;">EOR</p></div></div></td>
+                  <td><span class="badge badge-amber">Pending your approval</span></td>
+                  <td><div class="expense-actions"><button class="expense-action-btn expense-reject">&#10005;</button><button class="expense-action-btn expense-approve">&#10003;</button><span class="muted">&#8942;</span></div></td>
+                </tr>
+                <tr>
+                  <td><input type="checkbox" disabled></td>
+                  <td class="expense-category"><a>Other - Allowance</a><br><span style="font-size: 11px; color: #999;">Other</span></td>
+                  <td><strong>&pound;393.00</strong></td>
+                  <td>Wayne Enterprises</td>
+                  <td><div class="expense-worker"><div class="expense-worker-avatar" style="background: #6366f1;">TN</div><div><p class="small bold">Tillman Nienow</p><p style="font-size: 11px; color: #999;">EOR</p></div></div></td>
+                  <td><span class="badge badge-amber">Pending your approval</span></td>
+                  <td><div class="expense-actions"><button class="expense-action-btn expense-reject">&#10005;</button><button class="expense-action-btn expense-approve">&#10003;</button><span class="muted">&#8942;</span></div></td>
+                </tr>
+              </tbody>
+            </table>
+            <div style="padding: 12px 20px; text-align: center; border-top: 1px solid #f3f2f0;">
+              <p class="small muted">Showing 5 of 80 items &mdash; <a href="#" onclick="event.preventDefault()">View all</a></p>
+            </div>
+          </div>
+
+          <!-- Callout: what travel changes -->
+          <div class="promo-banner promo-banner-travel mt-16">
+            <button class="promo-close">&times;</button>
+            <div class="promo-title">With Deel Travel, travel expenses auto-approve</div>
+            <div class="promo-desc">Bookings within policy are pre-approved. No manual review needed. Receipts attach automatically. Reduce your 80-item queue to only exceptions.</div>
+            <button class="promo-btn" onclick="goTo(0)">
+              Learn more
+              <svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 8h10m-4-4l4 4-4 4"/></svg>
+            </button>
+            <div class="promo-illustration">&#128640;</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- SCREEN 7: Manager — Travel Request Review (PE alert) -->
+  <!-- ============================================================ -->
+  <div class="screen" id="screen-7">
+    <div class="deel-subnav">
+      <button class="deel-subnav-item" onclick="goTo(0)">
+        <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M8 2L3 7l5 5"/></svg>
+        Home
+      </button>
+      <button class="deel-subnav-item active">
+        <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 2L6 8M12 2l-3 10-2-4-4-2z"/></svg>
+        Travel Requests
+      </button>
+    </div>
+    <div class="page">
+      <div style="max-width: 800px; margin: 0 auto;">
+        <h1 style="font-size: 26px; font-weight: 700; margin-bottom: 4px;">Travel Request</h1>
+        <p class="small muted mb-24">Review and approve Teena's trip &mdash; PE alert requires your attention.</p>
+
+        <!-- Employee info -->
+        <div class="deel-card">
+          <div style="display: flex; align-items: center; gap: 14px; margin-bottom: 16px;">
+            <div style="width: 48px; height: 48px; border-radius: 50%; background: #e879a8; display: flex; align-items: center; justify-content: center; color: #fff; font-weight: 700;">TB</div>
+            <div>
+              <p class="bold" style="font-size: 16px;">Teena Bramley</p>
+              <p class="small muted">CTO &bull; EOR (UK) &bull; Deel UK Ltd &bull; Logistics</p>
+            </div>
+            <span class="badge badge-amber" style="margin-left: auto;">PE Warning</span>
+          </div>
+          <div class="divider"></div>
+          <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; margin-top: 12px;">
+            <div><p style="font-size: 11px; color: #999;">Route</p><p class="small bold">LHR &rarr; NRT (Round trip)</p></div>
+            <div><p style="font-size: 11px; color: #999;">Dates</p><p class="small bold">Mar 30 &ndash; Apr 5, 2026</p></div>
+            <div><p style="font-size: 11px; color: #999;">Cost</p><p class="small bold">&pound;742 (BA5, Eco Plus)</p></div>
+          </div>
+        </div>
+
+        <!-- PE Alert -->
+        <div class="deel-card pulse" style="border-left: 4px solid #d97706; background: #fffbeb;">
+          <div style="display: flex; gap: 14px;">
+            <div class="check-icon check-amber" style="font-size: 14px; margin-top: 2px;">!</div>
+            <div style="flex: 1;">
+              <p class="bold amber" style="font-size: 16px; margin-bottom: 6px;">Permanent Establishment Risk</p>
+              <p class="small">Teena has spent <strong>147 days</strong> in Japan this tax year. This trip adds 4 more &rarr; <strong class="amber">151 / 183 day OECD threshold.</strong></p>
+              <div class="mt-12">
+                <div style="display: flex; justify-content: space-between; font-size: 11px; color: #999; margin-bottom: 4px;">
+                  <span>0 days</span><span style="color: #d97706; font-weight: 600;">183 day limit</span>
+                </div>
+                <div class="pe-track">
+                  <div class="pe-fill" style="width: 82.5%; background: linear-gradient(90deg, #fbbf24, #d97706);"></div>
+                </div>
+                <div style="display: flex; justify-content: space-between; font-size: 11px; margin-top: 4px;">
+                  <span class="bold amber">151 days after trip</span><span class="muted">32 remaining</span>
+                </div>
+              </div>
+              <div class="divider" style="margin: 14px 0;"></div>
+              <p style="font-size: 12px; color: #666; line-height: 1.6;">Under the <strong>OECD November 2025 PE update</strong>, exceeding 183 days may create a Permanent Establishment in Japan, triggering corporate tax obligations for Deel UK Ltd. Tax team has been notified.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Compliance checks -->
+        <div class="deel-card">
+          <p class="label mb-12">Compliance Checks</p>
+          <div class="check-row"><div class="check-icon check-green">&#10003;</div><p class="small">Visa: GB &rarr; Japan exempt (90d)</p></div>
+          <div class="check-row"><div class="check-icon check-amber">!</div><p class="small"><span class="amber">PE: 151/183 days</span> &mdash; within threshold but nearing limit</p></div>
+          <div class="check-row"><div class="check-icon check-green">&#10003;</div><p class="small">Policy: Economy+ &lt; &pound;800 (CTO tier)</p></div>
+          <div class="check-row"><div class="check-icon check-green">&#10003;</div><p class="small">Cost center: Logistics (GL 6200) &mdash; auto-assigned</p></div>
+          <div class="check-row"><div class="check-icon check-green">&#10003;</div><p class="small">Expense will auto-create on confirmation</p></div>
+        </div>
+
+        <!-- Manager actions -->
+        <div style="display: flex; gap: 12px; margin-top: 24px;">
+          <button class="btn btn-green btn-lg" style="flex: 1;" onclick="goTo(0)">
+            <span>&#10003;</span> Approve Trip
+          </button>
+          <button class="btn btn-outline btn-lg" style="flex: 1;" onclick="goTo(0)">
+            Request Changes
+          </button>
+          <button class="btn btn-outline btn-lg" style="color: #dc2626; border-color: #fecaca;" onclick="goTo(0)">
+            <span>&#10005;</span> Deny
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- SCREEN 11: Employee Expenses (Teena's own expenses) -->
+  <!-- ============================================================ -->
+  <div class="screen" id="screen-11">
+    <div class="deel-subnav">
+      <button class="deel-subnav-item" onclick="goTo(8)">
+        <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M8 2L3 7l5 5"/></svg>
+        Home
+      </button>
+      <button class="deel-subnav-item active">
+        <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="1" y="2.5" width="12" height="9" rx="1.5"/><path d="M4 6h6m-6 2.5h3"/></svg>
+        My Expenses
+      </button>
+    </div>
+    <div class="page">
+      <div style="max-width: 800px; margin: 0 auto;">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
+          <h1 style="font-size: 26px; font-weight: 700;">My Expenses</h1>
+          <button class="btn btn-dark" style="padding: 8px 16px; font-size: 13px;">Add new &#9662;</button>
+        </div>
+        <p class="small muted mb-24">Your submitted expenses and reimbursements</p>
+
+        <div class="deel-card" style="padding: 0; overflow-x: auto;">
+          <table class="expenses-table">
+            <thead>
+              <tr>
+                <th>Category</th>
+                <th>Amount/date</th>
+                <th>Vendor</th>
+                <th>Status</th>
+                <th>Attachment</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr style="background: var(--warning-lighter);">
+                <td class="expense-category"><a>Flight</a><br><span style="font-size: 11px; color: var(--text-disabled);">Travel &amp; Transportation</span></td>
+                <td><strong>$750.00</strong><br><span style="font-size: 11px; color: var(--text-disabled);">Mar 30th 2026</span></td>
+                <td>Air China</td>
+                <td><span class="badge badge-amber">Pending approval</span></td>
+                <td><a style="font-size: 12px;">1 file</a></td>
+              </tr>
+              <tr>
+                <td class="expense-category"><a>Meal Allowance</a><br><span style="font-size: 11px; color: var(--text-disabled);">Meal Allowance</span></td>
+                <td><strong>&pound;45.00</strong><br><span style="font-size: 11px; color: var(--text-disabled);">Mar 14th 2026</span></td>
+                <td>Pret A Manger</td>
+                <td><span class="badge badge-green">Approved</span></td>
+                <td><a style="font-size: 12px;">1 file</a></td>
+              </tr>
+              <tr>
+                <td class="expense-category"><a>Flight</a><br><span style="font-size: 11px; color: var(--text-disabled);">Travel &amp; Transportation</span></td>
+                <td><strong>&pound;340.00</strong><br><span style="font-size: 11px; color: var(--text-disabled);">Mar 12th 2026</span></td>
+                <td>British Airways</td>
+                <td><span class="badge badge-green">Approved</span></td>
+                <td><a style="font-size: 12px;">1 file</a></td>
+              </tr>
+              <tr>
+                <td class="expense-category"><a>Flight</a><br><span style="font-size: 11px; color: var(--text-disabled);">Travel &amp; Transportation</span></td>
+                <td><strong>&pound;780.00</strong><br><span style="font-size: 11px; color: var(--text-disabled);">Feb 22nd 2026</span></td>
+                <td>Air China</td>
+                <td><span class="badge badge-green">Approved</span></td>
+                <td><a style="font-size: 12px;">1 file</a></td>
+              </tr>
+              <tr>
+                <td class="expense-category"><a>Other - Allowance</a><br><span style="font-size: 11px; color: var(--text-disabled);">Other</span></td>
+                <td><strong>&pound;120.00</strong><br><span style="font-size: 11px; color: var(--text-disabled);">Feb 10th 2026</span></td>
+                <td>Wayne Enterprises</td>
+                <td><span class="badge badge-green">Approved</span></td>
+                <td><span style="font-size: 12px; color: var(--text-disabled);">None</span></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Upcoming reimbursement -->
+        <div class="deel-card mt-16" style="border-left: 4px solid var(--success-main); background: var(--success-lighter);">
+          <div style="display: flex; justify-content: space-between; align-items: center;">
+            <div>
+              <p class="small bold green">Next reimbursement</p>
+              <p style="font-size: 12px; color: var(--text-disabled);">April payroll cycle &bull; Estimated Apr 30, 2026</p>
+            </div>
+            <p style="font-size: 20px; font-weight: 700;">&pound;750.00</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- SCREEN 8: Employee Home (Teena's view) -->
+  <!-- ============================================================ -->
+  <div class="screen" id="screen-8">
+    <!-- Lavender gradient header area -->
+    <div class="employee-header-bg">
+      <div style="max-width: 1100px; margin: 0 auto;">
+        <div class="employee-greeting-row">
+          <p class="employee-greeting">Hey, Teena &#128075;</p>
+          <button class="customize-btn">
+            <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="1" y="1" width="5" height="5" rx="1"/><rect x="8" y="1" width="5" height="5" rx="1"/><rect x="1" y="8" width="5" height="5" rx="1"/><rect x="8" y="8" width="5" height="5" rx="1"/></svg>
+            Customize
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div class="page" style="padding-top: 0;">
+      <div style="max-width: 1100px; margin: 0 auto;">
+        <div class="two-col" style="align-items: start;">
+
+          <!-- ===== LEFT COLUMN ===== -->
+          <div>
+            <!-- Quick actions -->
+            <div class="deel-card">
+              <div style="font-size: 14px; font-weight: 600; display: flex; align-items: center; gap: 8px; margin-bottom: 12px;">
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="#666" stroke-width="1.5"><path d="M3 3l4 5-4 5M9 11h5"/></svg>
+                Quick actions
+              </div>
+              <div class="quick-actions">
+                <button class="quick-action-tile" onclick="goTo(11)">
+                  <div class="quick-action-icon">
+                    <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="#666" stroke-width="1.5"><rect x="2" y="3" width="12" height="10" rx="1.5"/><path d="M5 7h6M5 10h3"/></svg>
+                  </div>
+                  <span class="quick-action-label">Add expense</span>
+                </button>
+                <button class="quick-action-tile">
+                  <div class="quick-action-icon">
+                    <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="#666" stroke-width="1.5"><path d="M4 4h3v3H4zM9 4h3v3H9zM9 9h3v3H9zM4 11l1.5-2L7 11"/></svg>
+                  </div>
+                  <span class="quick-action-label">Tax documents</span>
+                </button>
+                <button class="quick-action-tile">
+                  <div class="quick-action-icon">
+                    <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="#666" stroke-width="1.5"><circle cx="8" cy="5.5" r="3"/><path d="M2.5 14c0-3 2.5-5 5.5-5s5.5 2 5.5 5"/></svg>
+                  </div>
+                  <span class="quick-action-label">Update profile</span>
+                </button>
+                <button class="quick-action-tile travel-tile demo-hotspot" onclick="goTo(1)" style="border-radius: 8px;">
+                  <div class="quick-action-icon">
+                    <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="#1f74b3" stroke-width="1.5"><path d="M14 3L7 10M14 3l-4 11-2-5-5-2z"/></svg>
+                  </div>
+                  <span class="quick-action-label" style="color: #1f74b3; font-weight: 600;">Book travel</span>
+                </button>
+              </div>
+            </div>
+
+            <!-- Book your next trip promo (pre-booking state) -->
+            <div id="promo-book" class="promo-banner promo-banner-travel mt-16" style="cursor: pointer; position: relative;" onclick="goTo(1)">
+              <button class="promo-close" onclick="event.stopPropagation();">&times;</button>
+              <div class="promo-title">Book your next trip</div>
+              <div class="promo-desc">Flights and hotels with visa checks, PE tracking, and expense automation built in. No manual receipts. No PDF uploads.</div>
+              <button class="promo-btn" onclick="event.stopPropagation(); goTo(1)">
+                Book travel &rarr;
+              </button>
+              <div class="promo-illustration">&#9992;&#65039;</div>
+            </div>
+
+            <!-- Traveler Dashboard Hero (post-booking state — hidden initially) -->
+            <div id="traveler-hero" class="deel-card mt-16" style="display: none;">
+              <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+                <div>
+                  <p style="color: var(--text-disabled); font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 8px;">Upcoming Trip</p>
+                  <h2 style="font-size: 22px; font-weight: 700; margin: 0 0 4px;">You're heading to Tokyo in 12 days! &#127471;&#127477;</h2>
+                  <p style="color: var(--text-disabled); font-size: 13px;">Flight BA5 &bull; Mar 30 &bull; Economy Plus &bull; Terminal 5</p>
+                </div>
+                <div style="display: flex; gap: 8px; text-align: center;">
+                  <div><div style="font-size: 20px; font-weight: 700;">12</div><div style="font-size: 9px; color: var(--text-disabled); text-transform: uppercase;">Days</div></div>
+                  <div style="font-size: 20px; color: var(--divider);">:</div>
+                  <div><div style="font-size: 20px; font-weight: 700;">08</div><div style="font-size: 9px; color: var(--text-disabled); text-transform: uppercase;">Hrs</div></div>
+                </div>
+              </div>
+              <div style="margin-top: 16px; display: flex; gap: 8px;">
+                <button class="btn btn-dark" style="padding: 8px 16px; font-size: 12px;">View Flight Details</button>
+                <button class="btn btn-outline" style="padding: 8px 16px; font-size: 12px;">Add Hotel</button>
+              </div>
+              <div style="margin-top: 12px; padding: 10px 14px; background: var(--success-lighter); border-radius: 8px; display: flex; align-items: center; gap: 8px;">
+                <span style="color: var(--success-main);">&#10003;</span>
+                <p style="color: var(--success-main); font-size: 12px; margin: 0;"><strong>Expense automated:</strong> Your flight (&pound;742) is added to April payroll. No receipt needed.</p>
+              </div>
+            </div>
+
+            <!-- For you today (pre-booking) -->
+            <div id="foryou-empty" class="deel-card mt-16">
+              <div style="padding: 0 0 4px; font-size: 14px; font-weight: 600; display: flex; align-items: center; gap: 8px;">
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="#666" stroke-width="1.5"><rect x="2" y="2" width="12" height="12" rx="1.5"/><path d="M2 6h12"/></svg>
+                For you today
+              </div>
+              <div class="for-you-illustration">
+                <svg width="120" height="90" viewBox="0 0 120 90" fill="none">
+                  <rect x="25" y="15" width="70" height="50" rx="6" fill="#EDE8F5" stroke="#c9b8f0" stroke-width="1.5"/>
+                  <path d="M40 40l10-10 8 6 12-12 10 8" stroke="#1f74b3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                  <circle cx="45" cy="30" r="3" fill="#a78bfa"/>
+                  <circle cx="80" cy="52" r="8" fill="#dcfce7" stroke="#16a34a" stroke-width="1.5"/>
+                  <path d="M76 52l3 3 5-5" stroke="#16a34a" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+                <p class="bold" style="font-size: 14px; margin-bottom: 2px;">That's all for today!</p>
+                <p style="font-size: 12px; color: var(--text-disabled);">You've earned a coffee break.</p>
+              </div>
+            </div>
+
+            <!-- For you today (post-booking — flight checklist) -->
+            <div id="foryou-booked" class="deel-card mt-16" style="display: none;">
+              <div style="padding: 0 0 12px; font-size: 14px; font-weight: 600; display: flex; align-items: center; gap: 8px;">
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="#666" stroke-width="1.5"><rect x="2" y="2" width="12" height="12" rx="1.5"/><path d="M2 6h12"/></svg>
+                For you today
+              </div>
+              <div style="display: flex; align-items: flex-start; gap: 12px; padding: 10px 0; border-bottom: 1px solid #e8ebf2;">
+                <div style="width: 28px; height: 28px; border-radius: 50%; background: var(--success-lighter); display: flex; align-items: center; justify-content: center; flex-shrink: 0; font-size: 14px;">&#128706;</div>
+                <div>
+                  <p class="small bold">Check passport validity</p>
+                  <p style="font-size: 11px; color: var(--text-disabled);">British (GB) — ensure 6 months validity for Japan entry</p>
+                </div>
+              </div>
+              <div style="display: flex; align-items: flex-start; gap: 12px; padding: 10px 0; border-bottom: 1px solid #e8ebf2;">
+                <div style="width: 28px; height: 28px; border-radius: 50%; background: var(--secondary-lighter); display: flex; align-items: center; justify-content: center; flex-shrink: 0; font-size: 14px;">&#127471;&#127477;</div>
+                <div>
+                  <p class="small bold">Review Japan's 90-day visa-free rules</p>
+                  <p style="font-size: 11px; color: var(--text-disabled);">Visa-exempt for business stays under 90 days</p>
+                </div>
+              </div>
+              <div style="display: flex; align-items: flex-start; gap: 12px; padding: 10px 0;">
+                <div style="width: 28px; height: 28px; border-radius: 50%; background: var(--warning-lighter); display: flex; align-items: center; justify-content: center; flex-shrink: 0; font-size: 14px;">&#9888;&#65039;</div>
+                <div>
+                  <p class="small bold amber">PE exposure: 153/183 days after this trip</p>
+                  <p style="font-size: 11px; color: var(--text-disabled);">Manager notified. Limit future Japan travel this tax year.</p>
+                </div>
+              </div>
+            </div>
+
+            <!-- Referrals -->
+            <div class="deel-card mt-16">
+              <div style="padding: 0 0 4px; font-size: 14px; font-weight: 600; display: flex; align-items: center; gap: 8px;">
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="#666" stroke-width="1.5"><circle cx="6" cy="6" r="3.5"/><circle cx="11" cy="10" r="3.5"/></svg>
+                Referrals
+              </div>
+              <p style="font-size: 13px; color: #999; margin: 4px 0 12px;">Refer Deel. Get $1,500 and give $500!</p>
+              <p class="small muted mb-12">Looks like you don't have any referrals yet. Learn how to get started:</p>
+              <div class="referral-step">
+                <div class="referral-step-icon" style="background: var(--lavender-bg); color: #1f74b3;">1</div>
+                <p class="small">Invite a business to explore Deel</p>
+              </div>
+              <div class="referral-step">
+                <div class="referral-step-icon" style="background: #dcfce7; color: #16a34a;">2</div>
+                <p class="small">Your referral signs up and connects with Deel</p>
+              </div>
+              <div class="referral-step">
+                <div class="referral-step-icon" style="background: #FEF3C7; color: #d97706;">3</div>
+                <p class="small">Earn $1,500 USD for every qualifying referral</p>
+              </div>
+              <div style="display: flex; gap: 8px; margin-top: 14px;">
+                <button style="flex: 1; padding: 10px 0; font-size: 12px; font-weight: 500; font-family: inherit; display: flex; align-items: center; justify-content: center; gap: 6px; background: #fff; border: 1px solid var(--divider); border-radius: 10px; cursor: pointer; color: #1a1a1a;">
+                  Copy referral link
+                  <svg width="12" height="12" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="5" y="5" width="8" height="8" rx="1.5"/><path d="M3 11V4a1.5 1.5 0 011.5-1.5H11"/></svg>
+                </button>
+                <button style="flex: 1; padding: 10px 0; font-size: 12px; font-weight: 500; font-family: inherit; display: flex; align-items: center; justify-content: center; gap: 6px; background: #fff; border: 1px solid var(--divider); border-radius: 10px; cursor: pointer; color: #1a1a1a;">
+                  Share via email
+                  <svg width="12" height="12" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="3.5" width="12" height="9" rx="1.5"/><path d="M2 4l6 4.5L14 4"/></svg>
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- ===== RIGHT COLUMN ===== -->
+          <div>
+            <!-- Contracts -->
+            <div class="deel-card">
+              <div style="font-size: 14px; font-weight: 600; display: flex; align-items: center; gap: 8px; margin-bottom: 12px;">
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="#666" stroke-width="1.5"><rect x="3" y="2" width="10" height="12" rx="1.5"/><path d="M6 5h4M6 8h4M6 11h2"/></svg>
+                Contracts
+              </div>
+              <div class="contract-row" style="border-bottom: 1px solid #e8ebf2; padding-bottom: 12px;">
+                <div class="contract-avatar" style="background: #e879a8;">TB</div>
+                <div style="flex: 1;">
+                  <p class="small"><a style="color: #1f74b3; font-weight: 600;">Teena Bramley</a> &middot; CTO &middot; GB</p>
+                  <span class="contract-active">Active</span>
+                </div>
+                <div style="text-align: right;">
+                  <p class="small bold">&pound;130,326.00</p>
+                  <p style="font-size: 11px; color: #999;">Per year</p>
+                </div>
+              </div>
+            </div>
+
+            <!-- Recent Trips -->
+            <div class="deel-card mt-16">
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+                <div style="font-size: 14px; font-weight: 600; display: flex; align-items: center; gap: 8px;">
+                  <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="#666" stroke-width="1.5"><path d="M14 3L7 10M14 3l-4 11-2-5-5-2z"/></svg>
+                  Recent Trips
+                </div>
+                <button class="deel-card-action">View all</button>
+              </div>
+              <div style="border-top: 1px solid #e8ebf2;">
+                <div style="display: flex; align-items: center; gap: 12px; padding: 11px 0; border-bottom: 1px solid #e8ebf2;">
+                  <span style="font-size: 16px;">&#9992;&#65039;</span>
+                  <div style="flex: 1;"><p class="small bold">London &rarr; Berlin</p><p style="font-size: 11px; color: #999;">Mar 12&ndash;14 &bull; &pound;340</p></div>
+                  <span class="badge badge-green">Complete</span>
+                </div>
+                <div style="display: flex; align-items: center; gap: 12px; padding: 11px 0; border-bottom: 1px solid #e8ebf2;">
+                  <span style="font-size: 16px;">&#9992;&#65039;</span>
+                  <div style="flex: 1;"><p class="small bold">London &rarr; Tokyo</p><p style="font-size: 11px; color: #999;">Feb 22&ndash;28 &bull; &pound;780</p></div>
+                  <span class="badge badge-green">Complete</span>
+                </div>
+                <div style="display: flex; align-items: center; gap: 12px; padding: 11px 0;">
+                  <span style="font-size: 16px;">&#9992;&#65039;</span>
+                  <div style="flex: 1;"><p class="small bold">London &rarr; New York</p><p style="font-size: 11px; color: #999;">Jan 8&ndash;12 &bull; &pound;520</p></div>
+                  <span class="badge badge-green">Complete</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- View Switcher (floating bottom bar) -->
+<div class="view-switcher">
+  <button class="view-switcher-btn active" id="sw-manager" onclick="switchView('manager')">
+    <svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="8" cy="5" r="3"/><path d="M2 14c0-3 2.5-5 6-5s6 2 6 5"/></svg>
+    Manager (Mattie)
+  </button>
+  <span class="view-switcher-label">&#8644; Switch view</span>
+  <button class="view-switcher-btn" id="sw-employee" onclick="switchView('employee')">
+    <svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="8" cy="5" r="3"/><path d="M2 14c0-3 2.5-5 6-5s6 2 6 5"/></svg>
+    Employee (Teena)
+  </button>
+</div>
+
+<!-- Toast -->
+<div class="toast" id="toast">&#10003;&nbsp; Booking confirmed &mdash; expense auto-created, payroll queued</div>
+
+<script>
+const screens = document.querySelectorAll('.screen');
+const navMap = {0:'nav-home', 1:'nav-travel', 2:'nav-travel', 3:'nav-travel', 4:'nav-travel', 5:'nav-travel', 6:'nav-home', 7:'nav-travel', 8:'nav-home', 9:'nav-travel', 10:'nav-travel', 11:'nav-home'};
+const history = [0];
+let current = 0;
+let tripBooked = false;
+
+function goTo(i) {
+  // View guard — prevent cross-view screen access (runs first!)
+  const mgrOnly = [0, 6, 7];
+  const empOnly = [8, 11];
+  if (currentView === 'employee' && mgrOnly.includes(i)) { i = 8; }
+  if (currentView === 'manager' && empOnly.includes(i)) { i = 0; }
+
+  // Use getElementById — screens array indices don't match IDs after DOM insertions
+  const prevScreen = document.getElementById('screen-' + current);
+  const nextScreen = document.getElementById('screen-' + i);
+  if (prevScreen) prevScreen.classList.remove('active');
+  if (nextScreen) nextScreen.classList.add('active');
+  if (i !== current) history.push(i);
+  current = i;
+
+  // Update nav highlight
+  document.querySelectorAll('.deel-nav-item').forEach(n => n.classList.remove('active'));
+  const navId = navMap[i];
+  if (navId) document.getElementById(navId)?.classList.add('active');
+
+  // Reset search form when navigating to search screen
+  if (i === 1 && typeof searchFilled !== 'undefined') {
+    searchFilled = false;
+    const ft = document.getElementById('field-to');
+    const fd = document.getElementById('field-depart');
+    const fr = document.getElementById('field-return');
+    const fp = document.getElementById('field-purpose');
+    if (ft) ft.innerHTML = '<span style="color: #d1d3d5;">Search country or city...</span>';
+    if (fd) fd.innerHTML = '<span style="color: #d1d3d5;">Select date</span>';
+    if (fr) fr.innerHTML = '<span style="color: #d1d3d5;">Select date</span>';
+    if (fp) fp.innerHTML = '<span style="color: #d1d3d5;">Select purpose...</span>';
+  }
+
+  // Toggle nav gradient for employee home
+  const tn = document.querySelector('.deel-topnav');
+  if ((i === 8 || i === 11) && currentView === 'employee') { tn.classList.add('nav-gradient'); }
+  else if (currentView === 'employee') { tn.classList.remove('nav-gradient'); }
+  else if (currentView === 'manager') { tn.classList.remove('nav-gradient'); }
+
+  // Scroll to top
+  window.scrollTo(0, 0);
+
+  // Sequential compliance check animation with shimmer
+  if (i === 2) {
+    const checks = ['check-1','check-2','check-3','check-4'];
+    const shimmers = ['shimmer-1','shimmer-2','shimmer-3','shimmer-4'];
+    const label = document.getElementById('checking-label');
+    const action = document.getElementById('compliance-action');
+    // Reset: show shimmers, hide checks
+    shimmers.forEach(id => { const el = document.getElementById(id); if(el) el.style.display = 'block'; });
+    checks.forEach(id => { const el = document.getElementById(id); if(el){el.style.opacity='0'; el.style.transform='translateY(8px)';} });
+    if(action) action.style.opacity = '0';
+    if(label) label.textContent = 'Checking...';
+    // Animate: hide shimmer, reveal check one by one
+    const delays = [600, 1400, 2000, 2500]; // PE takes longer
+    checks.forEach((id, idx) => {
+      setTimeout(() => {
+        // Hide shimmer
+        const sh = document.getElementById(shimmers[idx]);
+        if(sh) sh.style.display = 'none';
+        // Show check
+        const el = document.getElementById(id);
+        if(el){ el.style.opacity = '1'; el.style.transform = 'translateY(0)'; }
+        // Update label
+        if(label) label.textContent = `Checking... (${idx+1}/4)`;
+        // After last check
+        if(idx === checks.length - 1) {
+          setTimeout(() => {
+            if(label) label.textContent = '4 checks complete — 1 requires attention';
+            if(action) action.style.opacity = '1';
+          }, 400);
+        }
+      }, delays[idx]);
+    });
+  }
+
+  // Post-booking home screen state change
+  if (i === 8) {
+    const promo = document.getElementById('promo-book');
+    const hero = document.getElementById('traveler-hero');
+    const foryouEmpty = document.getElementById('foryou-empty');
+    const foryouBooked = document.getElementById('foryou-booked');
+    if (tripBooked) {
+      if(promo) promo.style.display = 'none';
+      if(hero) hero.style.display = 'block';
+      if(foryouEmpty) foryouEmpty.style.display = 'none';
+      if(foryouBooked) foryouBooked.style.display = 'block';
+    } else {
+      if(promo) promo.style.display = '';
+      if(hero) hero.style.display = 'none';
+      if(foryouEmpty) foryouEmpty.style.display = '';
+      if(foryouBooked) foryouBooked.style.display = 'none';
+    }
+  }
+
+  // Mark trip as booked when reaching success screen
+  if (i === 5) { tripBooked = true; }
+
+  // Toast on success
+  if (i === 5) {
+    setTimeout(() => {
+      document.getElementById('toast').classList.add('show');
+      setTimeout(() => document.getElementById('toast').classList.remove('show'), 4000);
+    }, 500);
+  }
+
+  // Re-trigger animations
+  const targetScreen = document.getElementById('screen-' + i);
+  if (targetScreen) targetScreen.querySelectorAll('.animate,.scale-in').forEach(el => {
+    el.style.animation = 'none';
+    el.offsetHeight;
+    el.style.animation = '';
+  });
+}
+
+function goBack() {
+  if (history.length > 1) {
+    history.pop();
+    goTo(history[history.length - 1]);
+    history.pop();
+  }
+}
+
+document.addEventListener('keydown', e => {
+  if (e.key === 'ArrowRight' && current < screens.length - 1) goTo(current + 1);
+  if (e.key === 'ArrowLeft') goBack();
+});
+
+// Search form fill simulation
+let searchFilled = false;
+function fillSearch() {
+  if (searchFilled) return;
+  searchFilled = true;
+
+  const to = document.getElementById('field-to');
+  const depart = document.getElementById('field-depart');
+  const ret = document.getElementById('field-return');
+  const purpose = document.getElementById('field-purpose');
+
+  // Step 1: Destination
+  to.innerHTML = '<span style="color: #1f74b3;">|</span>';
+  setTimeout(() => {
+    to.innerHTML = '<span style="font-weight: 600; font-size: 18px;">Tokyo, Japan <span style="font-weight: 400; color: #7c8286;">&#127471;&#127477;</span></span>';
+  }, 350);
+
+  // Step 2: Dates
+  setTimeout(() => {
+    depart.innerHTML = '<span style="font-weight: 600;">Mar 30, 2026</span><p style="font-size: 11px; color: #7c8286;">Monday</p>';
+    ret.innerHTML = '<span style="font-weight: 600;">Apr 5, 2026</span><p style="font-size: 11px; color: #7c8286;">Saturday</p>';
+  }, 700);
+
+  // Step 3: Purpose
+  setTimeout(() => {
+    purpose.innerHTML = '<span style="font-weight: 600;">Client visit</span>';
+  }, 1000);
+}
+
+
+// View switcher
+let currentView = 'manager';
+function switchView(view) {
+  currentView = view;
+  document.getElementById('sw-manager').classList.toggle('active', view === 'manager');
+  document.getElementById('sw-employee').classList.toggle('active', view === 'employee');
+  tripBooked = false; // Reset demo state on view switch
+
+  const orgName = document.querySelector('.deel-org-name');
+  const orgSub = document.querySelector('.deel-org-sub');
+  const avatar = document.querySelector('.deel-user-avatar');
+  const orgAvatar = document.querySelector('.deel-org-avatar');
+
+  const navItems = document.querySelector('.deel-nav-items');
+  const topnav = document.querySelector('.deel-topnav');
+
+  if (view === 'manager') {
+    topnav.classList.remove('nav-gradient');
+    orgName.textContent = 'Wayne Enterprise';
+    orgSub.textContent = 'All groups';
+    avatar.textContent = 'MK';
+    avatar.style.background = '#6c5ce7';
+    orgAvatar.style.background = 'linear-gradient(135deg, #f59e0b, #ef4444)';
+    orgAvatar.textContent = 'W';
+    // Restore manager nav
+    navItems.innerHTML = `
+      <button class="deel-nav-item active" id="nav-home" onclick="goTo(0)">
+        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 6.5l6-5 6 5V14a1 1 0 01-1 1H3a1 1 0 01-1-1z"/></svg>
+        Home
+      </button>
+      <button class="deel-nav-item"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="6" cy="6" r="4"/><circle cx="11" cy="10" r="4"/></svg> People</button>
+      <button class="deel-nav-item"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="3" width="12" height="10" rx="1.5"/><path d="M2 7h12"/></svg> Payroll</button>
+      <button class="deel-nav-item"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="8" cy="8" r="6"/><path d="M8 5v3l2 1.5"/></svg> Finance</button>
+      <button class="deel-nav-item"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M8 2l2 3h3l-2.5 2.5 1 3.5L8 9l-3.5 2 1-3.5L3 5h3z"/></svg> Engage</button>
+      <button class="deel-nav-item" id="nav-travel" onclick="goTo(1)"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M14 3L7 10M14 3l-4 11-2-5-5-2z"/></svg> Travel <span style="background:#6c5ce7;color:#fff;font-size:9px;font-weight:700;padding:1px 6px;border-radius:8px;">New</span></button>
+      <button class="deel-nav-item"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="2" width="5" height="5" rx="1"/><rect x="9" y="2" width="5" height="5" rx="1"/><rect x="2" y="9" width="5" height="5" rx="1"/><rect x="9" y="9" width="5" height="5" rx="1"/></svg> More <span style="font-size:10px;">&#9662;</span></button>
+    `;
+    goTo(0);
+  } else {
+    topnav.classList.add('nav-gradient');
+    orgName.textContent = 'Wayne Enterprise';
+    orgSub.textContent = 'Direct Employee Payroll';
+    avatar.textContent = 'TB';
+    avatar.style.background = '#e879a8';
+    orgAvatar.style.background = 'linear-gradient(135deg, #f59e0b, #ef4444)';
+    orgAvatar.textContent = 'W';
+    // Employee nav (simpler — matches real Deel)
+    navItems.innerHTML = `
+      <button class="deel-nav-item active" id="nav-home" onclick="goTo(8)">
+        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 6.5l6-5 6 5V14a1 1 0 01-1 1H3a1 1 0 01-1-1z"/></svg>
+        Home
+      </button>
+      <button class="deel-nav-item"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="2" width="12" height="12" rx="1.5"/><path d="M5 5h6M5 8h6M5 11h3"/></svg> Workspace</button>
+      <button class="deel-nav-item"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="8" cy="8" r="6"/><path d="M8 5v3l2 1.5"/></svg> Finance</button>
+      <button class="deel-nav-item"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="2" width="5" height="5" rx="1"/><rect x="9" y="2" width="5" height="5" rx="1"/><rect x="2" y="9" width="5" height="5" rx="1"/><rect x="9" y="9" width="5" height="5" rx="1"/></svg> More <span style="font-size:10px;">&#9662;</span></button>
+    `;
+    goTo(8);
+  }
+}
+</script>
+
+</body>
+</html>

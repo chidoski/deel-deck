@@ -1,0 +1,867 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Deel Travel — Product Strategy Deck</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: 'Inter', -apple-system, sans-serif; background: #0a0a0a; color: #1a1a1a; overflow: hidden; }
+.deck { width: 100vw; height: 100vh; position: relative; }
+.slide {
+  width: 100vw; height: 100vh; position: absolute; top: 0; left: 0;
+  display: flex; flex-direction: column; justify-content: center;
+  padding: 60px 80px; opacity: 0; pointer-events: none;
+  transition: opacity 0.4s ease;
+}
+.slide.active { opacity: 1; pointer-events: all; }
+.slide.bg-white { background: #ffffff; color: #1a1a1a; }
+.slide.bg-cream { background: #f6f6f4; color: #1a1a1a; }
+.slide.bg-light-blue { background: #E8EFF8; color: #1a1a1a; }
+.slide.bg-navy { background: #15177A; color: #ffffff; }
+.slide.bg-dark { background: #0f0f0f; color: #ffffff; }
+
+/* Deel brand colors */
+:root {
+  --navy: #15177A;
+  --yellow: #F5A623;
+  --orange: #E8553A;
+  --light-blue: #D6E4F0;
+  --green: #16a34a;
+  --red: #dc2626;
+  --amber: #d97706;
+}
+
+.slide-number { position: absolute; bottom: 30px; right: 40px; font-size: 13px; font-weight: 500; opacity: 0.4; }
+h1 { font-size: 48px; font-weight: 800; line-height: 1.1; letter-spacing: -0.03em; margin-bottom: 16px; color: var(--navy); }
+h1.hero { font-size: 56px; }
+h2 { font-size: 36px; font-weight: 700; line-height: 1.2; letter-spacing: -0.02em; margin-bottom: 12px; color: var(--navy); }
+h3 { font-size: 22px; font-weight: 600; margin-bottom: 8px; color: var(--navy); }
+.bg-navy h1, .bg-navy h2, .bg-navy h3, .bg-dark h1, .bg-dark h2, .bg-dark h3 { color: #ffffff; }
+.subtitle { font-size: 20px; font-weight: 400; opacity: 0.7; line-height: 1.5; margin-bottom: 32px; }
+.label { font-size: 13px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--orange); margin-bottom: 12px; }
+p { font-size: 16px; line-height: 1.6; }
+.small { font-size: 14px; line-height: 1.5; }
+.muted { opacity: 0.6; }
+.accent { color: var(--navy); }
+.bg-navy .accent, .bg-dark .accent { color: var(--yellow); }
+.yellow { color: var(--yellow); }
+.green { color: var(--green); }
+.red { color: var(--red); }
+.amber { color: var(--amber); }
+.orange { color: var(--orange); }
+.bold { font-weight: 700; }
+
+.two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; align-items: start; }
+.three-col { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 32px; }
+.four-col { display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 24px; }
+.mt-8 { margin-top: 8px; }
+.mt-16 { margin-top: 16px; }
+.mt-24 { margin-top: 24px; }
+.mt-32 { margin-top: 32px; }
+.mt-48 { margin-top: 48px; }
+.mb-8 { margin-bottom: 8px; }
+.mb-16 { margin-bottom: 16px; }
+.mb-24 { margin-bottom: 24px; }
+
+.card {
+  background: #ffffff; border: 1px solid #e5e7eb;
+  border-radius: 12px; padding: 24px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+}
+.bg-navy .card, .bg-dark .card {
+  background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.15);
+  box-shadow: none;
+}
+.card-accent { border-left: 4px solid var(--navy); }
+.card-yellow { background: #FEF9EE; border: 1px solid #FCEABB; }
+.card-blue { background: var(--light-blue); border: 1px solid #B8D4EA; }
+
+table { width: 100%; border-collapse: collapse; font-size: 14px; }
+th { text-align: left; padding: 10px 16px; font-weight: 600; font-size: 12px; text-transform: uppercase; letter-spacing: 0.05em; opacity: 0.5; border-bottom: 2px solid #e5e7eb; }
+td { padding: 10px 16px; border-bottom: 1px solid #f0f0f0; }
+.bg-navy th, .bg-dark th { border-bottom-color: rgba(255,255,255,0.15); }
+.bg-navy td, .bg-dark td { border-bottom-color: rgba(255,255,255,0.08); }
+tr.highlight td { background: rgba(21,23,122,0.06); font-weight: 600; }
+.bg-navy tr.highlight td, .bg-dark tr.highlight td { background: rgba(245,166,35,0.1); }
+
+.badge { display: inline-block; padding: 4px 12px; border-radius: 20px; font-size: 12px; font-weight: 600; }
+.badge-navy { background: var(--navy); color: #fff; }
+.badge-yellow { background: var(--yellow); color: #fff; }
+.badge-orange { background: var(--orange); color: #fff; }
+.badge-green { background: #dcfce7; color: #166534; }
+.badge-red { background: #fee2e2; color: #991b1b; }
+
+.stat-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; }
+.stat { text-align: center; }
+.stat-value { font-size: 36px; font-weight: 800; letter-spacing: -0.02em; color: var(--navy); }
+.bg-navy .stat-value, .bg-dark .stat-value { color: var(--yellow); }
+.stat-label { font-size: 13px; opacity: 0.6; margin-top: 4px; }
+
+.check::before { content: "\2713"; color: var(--green); font-weight: 700; margin-right: 6px; }
+.cross::before { content: "\2717"; color: var(--red); font-weight: 700; margin-right: 6px; }
+
+blockquote {
+  border-left: 3px solid var(--navy); padding-left: 20px;
+  font-size: 18px; font-weight: 500; font-style: italic; line-height: 1.6; opacity: 0.9;
+}
+.bg-navy blockquote { border-left-color: var(--yellow); }
+
+.progress-track { height: 4px; background: rgba(128,128,128,0.15); border-radius: 2px; position: fixed; top: 0; left: 0; width: 100%; z-index: 100; }
+.progress-fill { height: 4px; background: var(--navy); border-radius: 2px; transition: width 0.3s ease; }
+.nav-hint { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); font-size: 12px; opacity: 0.3; z-index: 100; }
+
+/* Section divider */
+.section-divider {
+  display: flex; align-items: center; gap: 16px; margin-bottom: 32px;
+}
+.section-dot { width: 10px; height: 10px; border-radius: 50%; background: var(--orange); }
+.section-line { height: 2px; flex: 1; background: #e5e7eb; }
+
+/* Timeline bar */
+.timeline-bar { display: flex; gap: 0; margin-top: 32px; }
+.timeline-phase {
+  flex: 1; padding: 20px; border-top: 4px solid var(--navy); position: relative;
+}
+.timeline-phase.dim { border-top-color: #ccc; opacity: 0.5; }
+.timeline-phase::before {
+  content: ''; width: 14px; height: 14px; background: var(--navy); border-radius: 50%;
+  position: absolute; top: -9px; left: 0;
+}
+.timeline-phase.dim::before { background: #ccc; }
+
+/* Flow nodes */
+.flow-vertical { display: flex; flex-direction: column; gap: 0; }
+.flow-node {
+  display: flex; align-items: center; gap: 12px; padding: 10px 16px;
+  border-left: 3px solid #e5e7eb; margin-left: 16px;
+}
+.flow-node:first-child { border-left-color: transparent; }
+.flow-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
+
+/* Roadmap bars */
+.roadmap-bar {
+  height: 32px; border-radius: 6px; display: flex; align-items: center;
+  padding: 0 12px; font-size: 12px; font-weight: 600; color: #fff;
+}
+.roadmap-bar.compliance { background: var(--orange); }
+.roadmap-bar.moat { background: var(--navy); }
+.roadmap-bar.revenue { background: var(--green); }
+.roadmap-bar.retention { background: var(--yellow); color: #1a1a1a; }
+
+/* TOC item */
+.toc-item {
+  display: flex; align-items: baseline; gap: 12px; margin-bottom: 20px;
+}
+.toc-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; margin-top: 6px; }
+.toc-text h3 { font-size: 26px; margin-bottom: 4px; }
+.toc-text p { font-size: 15px; opacity: 0.5; }
+</style>
+</head>
+<body>
+
+<div class="progress-track"><div class="progress-fill" id="progress"></div></div>
+<div class="nav-hint">Arrow keys or click to navigate</div>
+
+<div class="deck" id="deck">
+
+<!-- ================================================================ -->
+<!-- SECTION 0: OPENING -->
+<!-- ================================================================ -->
+
+<!-- SLIDE 1: Title -->
+<div class="slide bg-white active" data-slide="0">
+  <div style="position:absolute; top:40px; left:60px; font-size:32px; font-weight:800; color:var(--navy); letter-spacing:-0.04em;">deel.</div>
+  <div class="two-col" style="align-items:center;">
+    <div>
+      <h1 class="hero" style="font-size:64px; line-height:1.05;">Deel<br>Travel</h1>
+      <p class="subtitle" style="font-size:18px; max-width:400px;">How I would help Deel's customers manage corporate travel.</p>
+      <p class="small muted" style="margin-top:48px;">April 2026 &nbsp;&bull;&nbsp; Chidiebere Kalu</p>
+    </div>
+    <div style="text-align:right;">
+      <!-- Placeholder for illustration -->
+      <div style="width:400px; height:400px; background:var(--light-blue); border-radius:20px; display:flex; align-items:center; justify-content:center; margin-left:auto;">
+        <span style="font-size:80px;">&#9992;&#65039;</span>
+      </div>
+    </div>
+  </div>
+  <div class="slide-number">1 / 19</div>
+</div>
+
+<!-- SLIDE 2: Table of Contents -->
+<div class="slide bg-white" data-slide="1">
+  <div class="two-col" style="align-items:center;">
+    <div>
+      <!-- Placeholder for character illustration -->
+      <div style="width:300px; height:420px; background:var(--light-blue); border-radius:16px; display:flex; align-items:center; justify-content:center;">
+        <span style="font-size:60px;">&#128187;</span>
+      </div>
+    </div>
+    <div>
+      <p class="small muted mb-16">Table of contents</p>
+      <div class="toc-item">
+        <div class="toc-dot" style="background:var(--orange);"></div>
+        <div class="toc-text">
+          <h3>Commercial Feasibility</h3>
+          <p>Winning the market, pricing moat, add-ons, infrastructure</p>
+        </div>
+      </div>
+      <div class="toc-item">
+        <div class="toc-dot" style="background:var(--navy);"></div>
+        <div class="toc-text">
+          <h3>Product &amp; Design</h3>
+          <p>MVP prototype, customer value, design decisions</p>
+        </div>
+      </div>
+      <div class="toc-item">
+        <div class="toc-dot" style="background:var(--yellow);"></div>
+        <div class="toc-text">
+          <h3>Engineering Feasibility</h3>
+          <p>Technical architecture, considerations, timeline</p>
+        </div>
+      </div>
+      <div class="toc-item">
+        <div class="toc-dot" style="background:var(--green);"></div>
+        <div class="toc-text">
+          <h3>Strategic Outlook</h3>
+          <p>Financial model, risks, and the path forward</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="slide-number">2 / 19</div>
+</div>
+
+<!-- ================================================================ -->
+<!-- SECTION 1: COMMERCIAL FEASIBILITY -->
+<!-- ================================================================ -->
+
+<!-- SLIDE 3: The Regulatory Trigger -->
+<div class="slide bg-white" data-slide="2">
+  <div class="label">Commercial Feasibility</div>
+  <h1 style="font-size:40px; max-width:700px;">Every multinational is now legally required to track employee travel.</h1>
+  <p class="subtitle" style="max-width:650px; font-size:17px;">The OECD's November 2025 PE update &mdash; the first revision since 2017 &mdash; mandates that employers systematically track cross-border working time. Deel already has the employment data. Travel booking is the missing input.</p>
+  <div class="stat-grid mt-32">
+    <div class="stat">
+      <div class="stat-value" style="font-size:32px;">$1.62T</div>
+      <div class="stat-label">Global business travel 2026</div>
+    </div>
+    <div class="stat">
+      <div class="stat-value" style="font-size:32px;">40,000</div>
+      <div class="stat-label">Deel customers with no travel solution</div>
+    </div>
+    <div class="stat">
+      <div class="stat-value" style="font-size:32px;">$702M</div>
+      <div class="stat-label">Navan revenue &mdash; the window is narrowing</div>
+    </div>
+    <div class="stat">
+      <div class="stat-value" style="font-size:32px; color:var(--orange);">Jul '25</div>
+      <div class="stat-label">Rippling launched travel (IDC Leader in months)</div>
+    </div>
+  </div>
+  <div class="mt-32">
+    <div class="card-yellow" style="border-radius:10px; padding:14px 20px; display:inline-block;">
+      <p class="small"><strong>Deel Mobility launched March 20, 2026</strong> &mdash; visa tracking in 100+ countries. It has no booking layer. The gap is confirmed and current.</p>
+    </div>
+  </div>
+  <div class="slide-number">3 / 19</div>
+</div>
+
+<!-- SLIDE 4: The Competitive Window -->
+<div class="slide bg-cream" data-slide="3">
+  <div class="label">Commercial Feasibility</div>
+  <h1 style="font-size:40px; max-width:700px;">Everyone is building this. Only Deel can build it right.</h1>
+  <p class="subtitle" style="max-width:650px; font-size:17px;">The industry is consolidating travel + HR into single platforms. But none of them own the employment relationship in 150 countries.</p>
+  <div class="two-col mt-24">
+    <div>
+      <h3 style="font-size:18px;" class="mb-16">The industry is moving</h3>
+      <p class="small mb-8"><span class="check"></span>Amex GBT + Concur formed &ldquo;Complete&rdquo; alliance (Oct 2025)</p>
+      <p class="small mb-8"><span class="check"></span>TravelPerk rebranded to &ldquo;Perk&rdquo; &mdash; unified travel + spend AI</p>
+      <p class="small mb-8"><span class="check"></span>Singh (Concur founder) built Avenir &mdash; Spotnana + Direct Travel ($4.1B)</p>
+      <p class="small mb-8"><span class="check"></span>Rippling launched travel July 2025, IDC Leader within months</p>
+      <p class="small"><span class="check"></span>Only 8% expect permanent shift to virtual (down from 29%)</p>
+    </div>
+    <div>
+      <h3 style="font-size:18px;" class="mb-16">Deel's position</h3>
+      <div class="card-blue" style="border-radius:12px; padding:24px;">
+        <p class="small mb-8">40,000+ customers &bull; $22B payroll processed &bull; 150 countries</p>
+        <p class="small mb-8">Deel Mobility live &mdash; visa tracking in 100+ countries</p>
+        <p class="small mb-8" style="color:var(--orange);"><strong>No booking layer. The missing piece.</strong></p>
+        <p class="small mb-8">$500M M&A budget earmarked for 2025-2026</p>
+        <p class="small">IPO targeting H2 2026 &bull; Rule of 40: 78</p>
+      </div>
+    </div>
+  </div>
+  <div class="slide-number">4 / 19</div>
+</div>
+
+<!-- SLIDE 5: How We Win -->
+<div class="slide bg-white" data-slide="4">
+  <div class="label">How we win in the market vs. competitors</div>
+  <h1 style="max-width:700px; font-size:42px;">The compliance layer is the moat.<br>The booking infrastructure is a commodity.</h1>
+  <div style="display:grid; grid-template-columns:280px 1fr; gap:32px; margin-top:36px; align-items:start;">
+    <!-- Left: Commodity (faded, small) -->
+    <div style="opacity:0.35; padding-top:8px;">
+      <p style="font-size:11px; font-weight:600; text-transform:uppercase; letter-spacing:0.08em; margin-bottom:14px; color:#999;">What every travel company knows</p>
+      <p style="font-size:14px; margin-bottom:6px; text-decoration:line-through;">Flight preferences</p>
+      <p style="font-size:14px; margin-bottom:6px; text-decoration:line-through;">Hotel loyalty status</p>
+      <p style="font-size:14px; margin-bottom:6px; text-decoration:line-through;">Expense receipts</p>
+      <p style="font-size:14px; text-decoration:line-through;">Travel itineraries</p>
+    </div>
+    <!-- Right: Deel only (bold, cards) -->
+    <div>
+      <p style="font-size:11px; font-weight:600; text-transform:uppercase; letter-spacing:0.08em; margin-bottom:14px; color:var(--navy);">What only Deel knows &mdash; because we are the employer</p>
+      <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px;">
+        <div style="background:var(--navy); color:#fff; border-radius:10px; padding:14px 16px;">
+          <p style="font-size:15px; font-weight:700; margin-bottom:3px;">Contract type</p>
+          <p style="font-size:12px; opacity:0.7;">EOR vs contractor vs direct payroll</p>
+        </div>
+        <div style="background:var(--navy); color:#fff; border-radius:10px; padding:14px 16px;">
+          <p style="font-size:15px; font-weight:700; margin-bottom:3px;">Visa status</p>
+          <p style="font-size:12px; opacity:0.7;">Nationality + destination eligibility</p>
+        </div>
+        <div style="background:var(--orange); color:#fff; border-radius:10px; padding:14px 16px;">
+          <p style="font-size:15px; font-weight:700; margin-bottom:3px;">PE exposure</p>
+          <p style="font-size:12px; opacity:0.85;">Cumulative days per country (OECD mandate)</p>
+        </div>
+        <div style="background:var(--navy); color:#fff; border-radius:10px; padding:14px 16px;">
+          <p style="font-size:15px; font-weight:700; margin-bottom:3px;">Tax residency</p>
+          <p style="font-size:12px; opacity:0.7;">Jurisdiction + withholding obligations</p>
+        </div>
+        <div style="background:var(--navy); color:#fff; border-radius:10px; padding:14px 16px;">
+          <p style="font-size:15px; font-weight:700; margin-bottom:3px;">Cost center + entity</p>
+          <p style="font-size:12px; opacity:0.7;">GL routing + legal employer</p>
+        </div>
+        <div style="background:var(--navy); color:#fff; border-radius:10px; padding:14px 16px;">
+          <p style="font-size:15px; font-weight:700; margin-bottom:3px;">Pay currency + seniority</p>
+          <p style="font-size:12px; opacity:0.7;">Reimbursement + policy tier</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="mt-24">
+    <div class="card-yellow" style="border-radius:10px; padding:16px 20px; display:inline-block;">
+      <p class="small"><strong>Deel is the legal employer in 150 countries.</strong> No travel company can replicate this without building legal entities globally &mdash; which took Deel 5+ years.</p>
+    </div>
+  </div>
+  <div class="slide-number">5 / 19</div>
+</div>
+
+<!-- SLIDE 6: Competitive Landscape -->
+<div class="slide bg-white" data-slide="5">
+  <div class="label">How we win in the market vs. competitors</div>
+  <h2>Only Deel fills the compliance columns.</h2>
+  <div class="mt-24">
+    <table>
+      <tr><th>Platform</th><th>Travel Product</th><th>EOR Data</th><th>Visa Sponsorship</th><th>PE Tracking</th></tr>
+      <tr class="highlight"><td><strong>Deel (owns Duffel)</strong></td><td>Owned NDC + compliance</td><td class="green bold">150 countries</td><td class="green bold">Native</td><td class="green bold">Automated</td></tr>
+      <tr><td>Rippling</td><td>Duffel white-label*</td><td>80 countries</td><td class="red">No</td><td class="red">No</td></tr>
+      <tr><td>Navan ($702M)</td><td>Owned, 8+ years</td><td class="red">None</td><td class="red">No</td><td class="red">No</td></tr>
+      <tr><td>Singh / Avenir</td><td>Spotnana-powered</td><td class="red">None</td><td class="red">No</td><td class="red">No</td></tr>
+      <tr><td>Perk ($2.7B)</td><td>Owned</td><td class="red">None</td><td class="red">No</td><td class="red">No</td></tr>
+      <tr><td>Concur + Amex GBT</td><td>Legacy &ldquo;Complete&rdquo;</td><td class="red">None</td><td class="red">No</td><td class="red">No</td></tr>
+      <tr><td>Remote</td><td>Insurance only</td><td>190 countries</td><td class="red">No</td><td class="red">No</td></tr>
+    </table>
+  </div>
+  <p class="small mt-24 muted">*Rippling white-labels Duffel &mdash; if Deel acquires Duffel, Rippling loses its travel infrastructure or becomes a Deel customer. Navan has $702M but no compliance layer. Singh spent $4B but won't sell.</p>
+  <div class="slide-number">6 / 19</div>
+</div>
+
+<!-- SLIDE 7: Pricing Moat -->
+<div class="slide bg-white" data-slide="6">
+  <div class="label">How will you build a moat on pricing?</div>
+  <h2>$0 opens the door. Compliance locks it.</h2>
+  <div class="two-col mt-24">
+    <div>
+      <h3 class="mb-16" style="font-size:18px;">Tier 1: Price Moat <span class="badge badge-navy">SMB</span></h3>
+      <table>
+        <tr><th></th><th>Navan</th><th>Perk</th><th>Deel</th></tr>
+        <tr><td>Platform fee</td><td>$25-40/mo</td><td>&euro;99-299/mo</td><td class="green bold">$0</td></tr>
+        <tr><td>Booking fee</td><td>Included</td><td>3%</td><td class="green bold">$0</td></tr>
+        <tr><td>Visa filing</td><td>External</td><td>N/A</td><td class="green bold">Native</td></tr>
+        <tr><td>PE tracking</td><td class="red">None</td><td class="red">None</td><td class="green bold">Included</td></tr>
+      </table>
+      <p class="small mt-16 muted">Revenue: hotel commissions (10-15%), Deel Card interchange (1.5-2%), VAT reclaim, float.</p>
+    </div>
+    <div>
+      <h3 class="mb-16" style="font-size:18px;">Tier 2: Compliance Premium <span class="badge badge-orange">Enterprise</span></h3>
+      <div class="card" style="margin-bottom:12px; padding:16px;">
+        <div style="display:flex; justify-content:space-between; align-items:baseline;">
+          <div>
+            <p class="small bold">PE Dashboard (Nomad Compass)</p>
+            <p class="small muted">Replaces Big 4 at $500-1K/yr</p>
+          </div>
+          <p class="small bold" style="color:var(--navy);">$5-10/user/mo</p>
+        </div>
+      </div>
+      <div class="card" style="margin-bottom:12px; padding:16px;">
+        <div style="display:flex; justify-content:space-between; align-items:baseline;">
+          <div>
+            <p class="small bold">VAT Reclaim Automation</p>
+            <p class="small muted">Replaces agencies at 20-30%</p>
+          </div>
+          <p class="small bold" style="color:var(--navy);">10% of recovered</p>
+        </div>
+      </div>
+      <div class="card" style="padding:16px;">
+        <div style="display:flex; justify-content:space-between; align-items:baseline;">
+          <div>
+            <p class="small bold">Visa-Aware Booking</p>
+            <p class="small muted">Replaces CIBTvisas at $200-500</p>
+          </div>
+          <p class="small bold" style="color:var(--navy);">Included</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="slide-number">7 / 19</div>
+</div>
+
+<!-- SLIDE 8: MVP Scope -->
+<div class="slide bg-white" data-slide="7">
+  <div class="label">What does the MVP look like?</div>
+  <h1 style="font-size:42px; max-width:700px;">One booking flow. Six data connections. Zero manual steps.</h1>
+  <p class="subtitle" style="font-size:16px; max-width:600px;">The MVP is not six features. It's one flow that reads data Deel already has. Every check below is an API call to an existing Deel system.</p>
+
+  <div class="mt-32" style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:16px; max-width:900px;">
+    <div style="background:var(--navy); color:#fff; border-radius:12px; padding:20px;">
+      <p style="font-size:22px; margin-bottom:8px;">&#9992;&#65039;</p>
+      <p style="font-size:15px; font-weight:700; margin-bottom:4px;">Duffel (Owned)</p>
+      <p style="font-size:12px; opacity:0.6; line-height:1.5;">Acquired NDC infrastructure. Flight search &amp; checkout. Same tech Rippling validated as IDC Leader.</p>
+      <p style="font-size:11px; font-weight:600; margin-top:10px; opacity:0.4;">ACQUIRED INFRASTRUCTURE</p>
+    </div>
+    <div style="background:var(--orange); color:#fff; border-radius:12px; padding:20px;">
+      <p style="font-size:22px; margin-bottom:8px;">&#9888;&#65039;</p>
+      <p style="font-size:15px; font-weight:700; margin-bottom:4px;">PE Dashboard</p>
+      <p style="font-size:12px; opacity:0.85; line-height:1.5;">Cumulative days per country, OECD 183-day threshold alerts, manager notifications.</p>
+      <p style="font-size:11px; font-weight:600; margin-top:10px; opacity:0.5;">READS: HRIS + PAYROLL</p>
+    </div>
+    <div style="background:var(--navy); color:#fff; border-radius:12px; padding:20px;">
+      <p style="font-size:22px; margin-bottom:8px;">&#128203;</p>
+      <p style="font-size:15px; font-weight:700; margin-bottom:4px;">Policy Rules</p>
+      <p style="font-size:12px; opacity:0.6; line-height:1.5;">Cabin class, spend limits, and approval flows set by contract type and seniority tier.</p>
+      <p style="font-size:11px; font-weight:600; margin-top:10px; opacity:0.4;">READS: HRIS + CONTRACTS</p>
+    </div>
+    <div style="background:var(--navy); color:#fff; border-radius:12px; padding:20px;">
+      <p style="font-size:22px; margin-bottom:8px;">&#127970;</p>
+      <p style="font-size:15px; font-weight:700; margin-bottom:4px;">Cost Center Routing</p>
+      <p style="font-size:12px; opacity:0.6; line-height:1.5;">Auto-assigns department, legal entity, and GL code. No manual entry by employee or manager.</p>
+      <p style="font-size:11px; font-weight:600; margin-top:10px; opacity:0.4;">READS: HRIS + FINANCE</p>
+    </div>
+    <div style="background:var(--navy); color:#fff; border-radius:12px; padding:20px;">
+      <p style="font-size:22px; margin-bottom:8px;">&#9889;</p>
+      <p style="font-size:15px; font-weight:700; margin-bottom:4px;">Expense Auto-Sync</p>
+      <p style="font-size:12px; opacity:0.6; line-height:1.5;">Booking creates expense, attaches receipt, pre-fills category. Kills the 80-item manager queue.</p>
+      <p style="font-size:11px; font-weight:600; margin-top:10px; opacity:0.4;">READS: EXPENSE MODULE</p>
+    </div>
+    <div style="background:var(--navy); color:#fff; border-radius:12px; padding:20px;">
+      <p style="font-size:22px; margin-bottom:8px;">&#128179;</p>
+      <p style="font-size:15px; font-weight:700; margin-bottom:4px;">Deel Card Checkout</p>
+      <p style="font-size:12px; opacity:0.6; line-height:1.5;">Company card auto-selected at checkout. Interchange captured. Reimbursement queued in payroll.</p>
+      <p style="font-size:11px; font-weight:600; margin-top:10px; opacity:0.4;">READS: DEEL CARD + PAYROLL</p>
+    </div>
+  </div>
+
+  <div class="mt-24">
+    <div class="card-yellow" style="border-radius:10px; padding:14px 20px; display:inline-block;">
+      <p class="small"><strong>Duffel acquisition gives us owned NDC pipes.</strong> The other five capabilities are API calls to systems Deel already ships. $150M for the full stack &mdash; not $1.2B for Spotnana.</p>
+    </div>
+  </div>
+  <div class="slide-number">8 / 19</div>
+</div>
+
+<!-- SLIDE 9: Add-On Roadmap -->
+<div class="slide bg-cream" data-slide="8">
+  <div class="label">What add-on features do you envision?</div>
+  <h2>Add-ons layer in after the MVP is validated.</h2>
+
+  <!-- Add-on roadmap -->
+  <div class="mt-32" style="max-width:900px;">
+    <div style="display:grid; grid-template-columns:100px 1fr 1fr 1fr 1fr 1fr; gap:4px; margin-bottom:4px;">
+      <div></div>
+      <div style="text-align:center;"><span class="badge badge-navy" style="font-size:11px;">Month 3</span></div>
+      <div style="text-align:center;"><span class="badge badge-navy" style="font-size:11px;">Month 6</span></div>
+      <div style="text-align:center;"><span class="badge badge-navy" style="font-size:11px;">Month 9</span></div>
+      <div style="text-align:center;"><span style="background:var(--orange); color:#fff; padding:3px 10px; border-radius:20px; font-size:11px; font-weight:600;">Month 12 &mdash; IPO</span></div>
+      <div style="text-align:center;"><span class="badge badge-navy" style="font-size:11px; opacity:0.5;">Month 18</span></div>
+    </div>
+    <div style="display:grid; grid-template-columns:100px 1fr 1fr 1fr 1fr 1fr; gap:4px; margin-bottom:6px;">
+      <div style="font-size:11px; font-weight:600; opacity:0.4; display:flex; align-items:center;">COMPLIANCE</div>
+      <div class="roadmap-bar compliance">Visa Pre-check</div>
+      <div></div><div></div><div></div><div></div>
+    </div>
+    <div style="display:grid; grid-template-columns:100px 1fr 1fr 1fr 1fr 1fr; gap:4px; margin-bottom:6px;">
+      <div style="font-size:11px; font-weight:600; opacity:0.4; display:flex; align-items:center;">MOAT</div>
+      <div></div>
+      <div class="roadmap-bar moat">Manager Dashboard</div>
+      <div></div>
+      <div class="roadmap-bar moat">AI Travel Agent</div>
+      <div class="roadmap-bar moat">Compliance API</div>
+    </div>
+    <div style="display:grid; grid-template-columns:100px 1fr 1fr 1fr 1fr 1fr; gap:4px; margin-bottom:6px;">
+      <div style="font-size:11px; font-weight:600; opacity:0.4; display:flex; align-items:center;">REVENUE</div>
+      <div></div><div></div>
+      <div class="roadmap-bar revenue">Travel Wallet</div>
+      <div></div>
+      <div class="roadmap-bar revenue">VAT Reclaim</div>
+    </div>
+    <div style="display:grid; grid-template-columns:100px 1fr 1fr 1fr 1fr 1fr; gap:4px;">
+      <div style="font-size:11px; font-weight:600; opacity:0.4; display:flex; align-items:center;">RETENTION</div>
+      <div></div><div></div><div></div>
+      <div class="roadmap-bar retention">Multi-leg Trips</div>
+      <div></div>
+    </div>
+  </div>
+  <!-- Ideas backlog -->
+  <div class="mt-24" style="display:flex; align-items:center; gap:10px; flex-wrap:wrap;">
+    <span style="font-size:11px; font-weight:600; text-transform:uppercase; letter-spacing:0.06em; color:#999; margin-right:4px;">On the radar:</span>
+    <span style="padding:4px 12px; border-radius:6px; font-size:11px; font-weight:500; border:1px dashed #ccc; color:#999;">Hotel Booking</span>
+    <span style="padding:4px 12px; border-radius:6px; font-size:11px; font-weight:500; border:1px dashed #ccc; color:#999;">Car Rental / Rail</span>
+    <span style="padding:4px 12px; border-radius:6px; font-size:11px; font-weight:500; border:1px dashed #ccc; color:#999;">Per Diem Automation</span>
+    <span style="padding:4px 12px; border-radius:6px; font-size:11px; font-weight:500; border:1px dashed #ccc; color:#999;">Duty of Care</span>
+    <span style="padding:4px 12px; border-radius:6px; font-size:11px; font-weight:500; border:1px dashed #ccc; color:#999;">Team Offsites</span>
+    <span style="padding:4px 12px; border-radius:6px; font-size:11px; font-weight:500; border:1px dashed #ccc; color:#999;">Loyalty Integration</span>
+    <span style="padding:4px 12px; border-radius:6px; font-size:11px; font-weight:500; border:1px dashed #ccc; color:#999;">Carbon Offsetting</span>
+  </div>
+  <p class="small mt-12 muted">Add-ons are prioritised by customer demand post-launch. Compliance API (B2B) is post-IPO &mdash; requires proven demand.</p>
+  <div class="slide-number">9 / 19</div>
+</div>
+
+<!-- SLIDE 10: Infrastructure Play -->
+<div class="slide bg-white" data-slide="9">
+  <div class="label">Infrastructure play?</div>
+  <h2>The Quad Lock.</h2>
+  <p class="subtitle" style="font-size:16px;">Moving away from Deel = rebuilding payroll + compliance + immigration + travel. A 12-month migration no CFO will approve.</p>
+  <div style="display:flex; justify-content:center; margin-top:16px;">
+    <div style="position:relative; width:600px; height:320px;">
+      <div style="position:absolute; top:0; left:0; width:600px; height:320px; border-radius:16px; border:2px solid var(--navy); background:rgba(21,23,122,0.03); padding:12px 16px;">
+        <span class="small bold" style="color:var(--navy);">&#9992;&#65039; Travel Lock &mdash; We book the flight and automate the expense</span>
+      </div>
+      <div style="position:absolute; top:44px; left:32px; width:536px; height:240px; border-radius:14px; border:2px solid var(--orange); background:rgba(232,85,58,0.03); padding:12px 16px;">
+        <span class="small bold" style="color:var(--orange);">&#128202; Compliance Lock &mdash; We track PE exposure per OECD mandate</span>
+      </div>
+      <div style="position:absolute; top:88px; left:64px; width:472px; height:160px; border-radius:12px; border:2px solid var(--yellow); background:rgba(245,166,35,0.05); padding:12px 16px;">
+        <span class="small bold" style="color:var(--amber);">&#127758; Visa Lock &mdash; We own their legal right to be there</span>
+      </div>
+      <div style="position:absolute; top:132px; left:96px; width:408px; height:80px; border-radius:10px; border:2px solid var(--green); background:rgba(22,163,74,0.06); display:flex; align-items:center; justify-content:center;">
+        <span class="bold" style="color:var(--green);">&#128176; Payroll Lock &mdash; We pay the employee</span>
+      </div>
+    </div>
+  </div>
+  <div class="mt-24" style="text-align:center; max-width:650px; margin-left:auto; margin-right:auto;">
+    <blockquote style="text-align:left; font-size:16px;">"We acquire what works (Duffel at $150M), layer what only we can do (compliance in 150 countries), and cut off Rippling's infrastructure in the process."</blockquote>
+  </div>
+  <div class="slide-number">10 / 19</div>
+</div>
+
+<!-- SLIDE 11: Strategy -->
+<div class="slide bg-cream" data-slide="10">
+  <div class="label">Commercial Feasibility</div>
+  <h2>Acquire Duffel. Layer compliance. Ship in 3 months.</h2>
+  <p class="subtitle" style="font-size:16px;">Rippling proved the tech. We buy it, add what only Deel can do, and launch before IPO.</p>
+  <div class="two-col mt-16">
+    <div>
+      <div class="timeline-bar" style="flex-direction:column; gap:0;">
+        <div style="display:flex; gap:16px; margin-bottom:20px;">
+          <div style="width:14px; height:14px; border-radius:50%; background:var(--navy); margin-top:4px; flex-shrink:0;"></div>
+          <div>
+            <p class="small bold" style="color:var(--navy);">Phase 1: Acquire Duffel + Build Compliance Layer</p>
+            <p class="small muted">Q2 2026 &mdash; $150M acquisition + ~$8M build</p>
+            <p class="small mt-8">Own the NDC infrastructure Rippling already validated. Build compliance automation natively. Launch to 40K customers. Zero CAC.</p>
+          </div>
+        </div>
+        <div style="display:flex; gap:16px; margin-bottom:20px;">
+          <div style="width:14px; height:14px; border-radius:50%; background:var(--navy); margin-top:4px; flex-shrink:0;"></div>
+          <div>
+            <p class="small bold" style="color:var(--navy);">Phase 2: IPO</p>
+            <p class="small muted">H2 2026</p>
+            <p class="small mt-8">$900K/mo run-rate. EBITDA accretive. Rule of 40 at 78+. Owned infrastructure on the books.</p>
+          </div>
+        </div>
+        <div style="display:flex; gap:16px;">
+          <div style="width:14px; height:14px; border-radius:50%; background:var(--navy); margin-top:4px; flex-shrink:0;"></div>
+          <div>
+            <p class="small bold" style="color:var(--navy);">Phase 3: B2B Platform (AWS Model)</p>
+            <p class="small muted">2027+</p>
+            <p class="small mt-8">Sell Duffel + compliance engine as Compliance API to other travel companies. Net margin: 60% (no middleman).</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div>
+      <div class="card" style="margin-bottom:16px;">
+        <h3 style="font-size:16px; margin-bottom:12px;">Why Duffel, not Spotnana</h3>
+        <table>
+          <tr><th></th><th>Duffel</th><th>Spotnana</th></tr>
+          <tr><td>Valuation</td><td class="green bold">~$150M</td><td class="red">$1.2B</td></tr>
+          <tr><td>Integration</td><td class="green bold">3-4 months</td><td class="red">6-12 months</td></tr>
+          <tr><td>Tech</td><td class="green bold">NDC, proven by Rippling</td><td>Same + Cleartrip</td></tr>
+          <tr><td>Blocker</td><td class="green bold">None</td><td class="red">Singh / Avenir</td></tr>
+          <tr><td>IPO fit</td><td class="green bold">EBITDA accretive</td><td class="red">-$595M hit</td></tr>
+        </table>
+      </div>
+      <div class="card-yellow" style="border-radius:10px; padding:14px 18px;">
+        <p class="small"><strong>Duffel: $30M Series B (2019) + Rippling revenue &rarr; ~$150M valuation.</strong> Fits Deel's $500M M&A budget. Singh built a $4B competing ecosystem around Spotnana &mdash; he won't sell.</p>
+      </div>
+    </div>
+  </div>
+  <div class="slide-number">11 / 19</div>
+</div>
+
+<!-- ================================================================ -->
+<!-- SECTION 2: PRODUCT & DESIGN -->
+<!-- ================================================================ -->
+
+<!-- SLIDE 12: MVP Flow -->
+<div class="slide bg-white" data-slide="11">
+  <div class="label">Does the MVP prototype make sense?</div>
+  <h2>Teena Bramley. London to Tokyo. One flow.</h2>
+  <div class="mt-16">
+    <table>
+      <tr><th style="width:50%;">Today (manual, disconnected)</th><th>With Deel Travel (automated)</th></tr>
+      <tr><td class="muted">Books on Air China website independently</td><td><span class="green bold">Taps &ldquo;Book Travel&rdquo; in Deel</span></td></tr>
+      <tr><td class="muted">No visa check happens</td><td><span class="green bold">Auto-check: GB &rarr; Japan visa-exempt &check;</span></td></tr>
+      <tr><td class="muted">No PE risk check</td><td><span class="amber bold">147/183 days Japan &mdash; alert surfaced</span></td></tr>
+      <tr><td class="muted">Pays $750 on personal Visa card</td><td><span class="green bold">Deel Card charges, interchange captured</span></td></tr>
+      <tr><td class="muted">Downloads PDF, uploads manually</td><td><span class="green bold">Receipt auto-generated from booking data</span></td></tr>
+      <tr><td class="muted">Types category, amount, currency by hand</td><td><span class="green bold">Pre-populated: Flight, $750, USD, Air China</span></td></tr>
+      <tr><td class="muted">Manager sees 1 of 80 items, no context</td><td><span class="green bold">&ldquo;LHR&rarr;NRT, CTO policy, Logistics&rdquo; &mdash; auto-approved</span></td></tr>
+    </table>
+  </div>
+  <p class="small mt-16 muted">Zero manual steps. Seven data connections automated &mdash; because Deel already knows who Teena is, what she's allowed to book, and how to pay her back.</p>
+  <div class="slide-number">12 / 19</div>
+</div>
+
+<!-- SLIDE 13: Prototype -->
+<div class="slide bg-navy" data-slide="12">
+  <div style="text-align:center;">
+    <div class="label" style="color:var(--yellow);">Interactive Prototype</div>
+    <h1 style="font-size:48px; color:#fff;">See it in action.</h1>
+    <p class="subtitle" style="opacity:0.7; max-width:450px; margin:0 auto;">Booking flow &bull; Visa pre-check &bull; PE warning &bull; Auto-expense confirmation</p>
+    <div class="mt-48">
+      <div style="display:inline-block; background:rgba(255,255,255,0.1); border:1px solid rgba(255,255,255,0.25); border-radius:12px; padding:16px 40px;">
+        <p style="font-size:18px; font-weight:600; color:#fff;">[ Prototype Link &mdash; Figma / Lovable ]</p>
+      </div>
+    </div>
+  </div>
+  <div class="slide-number" style="color:rgba(255,255,255,0.3);">13 / 19</div>
+</div>
+
+<!-- SLIDE 14: Will Customers Sign Up? -->
+<div class="slide bg-white" data-slide="13">
+  <div class="label">Will customers sign up for it?</div>
+  <h2>The demand already exists inside Deel.</h2>
+  <div class="two-col mt-32">
+    <div>
+      <p class="small mb-8"><span class="check"></span>80 pending travel expenses in the demo account right now</p>
+      <p class="small mb-8"><span class="check"></span>Deel Mobility captures destination + purpose + dates &mdash; no booking layer</p>
+      <p class="small mb-8"><span class="check"></span>40,000 customers on-platform &mdash; zero acquisition cost</p>
+      <p class="small mb-8"><span class="check"></span>Rippling proved Duffel earns IDC Leader within months</p>
+      <p class="small mb-8"><span class="check"></span>OECD PE mandate means enterprise CFOs <em>must</em> buy compliance tooling</p>
+      <p class="small"><span class="check"></span>Only 8% expect permanent shift to virtual (down from 29%)</p>
+    </div>
+    <div>
+      <div class="card-yellow" style="border-radius:12px; padding:24px;">
+        <p style="font-size:18px; font-weight:600; color:var(--navy); margin-bottom:12px;">The compliance math</p>
+        <p class="small mb-16">Companies currently pay Big 4 firms $500-1,000 per employee per year for manual PE tracking.</p>
+        <p class="small mb-16"><strong style="color:var(--navy);">Deel automates it for $60-120/year.</strong></p>
+        <p class="small muted">Post-OECD 2025, this isn't optional. It's legally mandated.</p>
+      </div>
+    </div>
+  </div>
+  <div class="slide-number">14 / 19</div>
+</div>
+
+<!-- ================================================================ -->
+<!-- SECTION 3: ENGINEERING FEASIBILITY -->
+<!-- ================================================================ -->
+
+<!-- SLIDE 15: Engineering -->
+<div class="slide bg-white" data-slide="14">
+  <div class="label">Is it feasible?</div>
+  <h2>80% of the infrastructure already exists inside Deel.</h2>
+  <div class="mt-16">
+    <table>
+      <tr><th>Requirement</th><th>Deel already ships this</th><th>What's new for travel</th></tr>
+      <tr><td>Multi-currency payments</td><td>Payroll in 150 currencies, Deel Card</td><td>Route card to booking</td></tr>
+      <tr><td>Expense engine</td><td>Expense module (80 items in demo)</td><td>API push replaces PDF upload</td></tr>
+      <tr><td>Employee identity</td><td>HRIS (contract, entity, cost center)</td><td>Expose to booking flow</td></tr>
+      <tr><td>Visa / immigration</td><td>Deel Mobility (March 2026)</td><td>Connect to pre-booking check</td></tr>
+      <tr><td>AI agents</td><td>Deel AI Workforce (5 agents launched)</td><td>Add travel agent (#6)</td></tr>
+      <tr><td>Design system</td><td>Deel Design System (DDS)</td><td>Skin Duffel data feeds</td></tr>
+    </table>
+  </div>
+  <div class="three-col mt-24">
+    <div style="text-align:center; padding:20px; background:var(--light-blue); border-radius:12px;">
+      <div style="font-size:32px; font-weight:800; color:var(--navy);">8-10</div>
+      <div class="small muted">Engineers</div>
+    </div>
+    <div style="text-align:center; padding:20px; background:var(--light-blue); border-radius:12px;">
+      <div style="font-size:32px; font-weight:800; color:var(--navy);">6 months</div>
+      <div class="small muted">To global launch</div>
+    </div>
+    <div style="text-align:center; padding:20px; background:var(--light-blue); border-radius:12px;">
+      <div style="font-size:32px; font-weight:800; color:var(--navy);">$150M</div>
+      <div class="small muted">Acquisition + build</div>
+    </div>
+  </div>
+  <div class="slide-number">15 / 19</div>
+</div>
+
+<!-- SLIDE 16: Technical Considerations -->
+<div class="slide bg-white" data-slide="15">
+  <div class="label">Important technical considerations</div>
+  <h2>What we build. What we don't.</h2>
+  <div class="two-col mt-32">
+    <div>
+      <h3 style="color:var(--green); font-size:18px;" class="mb-16">We build (compliance automation)</h3>
+      <p class="small mb-8"><span class="check"></span>PE risk engine (OECD 2025 mandate)</p>
+      <p class="small mb-8"><span class="check"></span>Visa pre-check (connects Deel Mobility)</p>
+      <p class="small mb-8"><span class="check"></span>Policy rules by contract type</p>
+      <p class="small mb-8"><span class="check"></span>Expense auto-sync (booking &rarr; ledger &rarr; payroll)</p>
+      <p class="small"><span class="check"></span>AI Travel Agent (next in Deel AI suite)</p>
+    </div>
+    <div>
+      <h3 style="color:var(--red); font-size:18px;" class="mb-16">We don't build</h3>
+      <p class="small mb-8"><span class="cross"></span>GDS/NDC integration (owned via Duffel)</p>
+      <p class="small mb-8"><span class="cross"></span>Fare search engine (owned via Duffel)</p>
+      <p class="small mb-8"><span class="cross"></span>Payment gateway (Deel Card exists)</p>
+      <p class="small mb-8"><span class="cross"></span>24/7 travel ops center (96% self-service)</p>
+      <p class="small mb-8"><span class="cross"></span>Loyalty integration (Phase 3)</p>
+      <p class="small"><span class="cross"></span>Car rental / rail (Phase 2)</p>
+    </div>
+  </div>
+  <div class="mt-32">
+    <blockquote style="font-size:16px;">"We are not building a travel product. We are building a compliance automation layer that happens to include a booking flow."</blockquote>
+  </div>
+  <div class="slide-number">16 / 19</div>
+</div>
+
+<!-- ================================================================ -->
+<!-- SECTION 4: STRATEGIC OUTLOOK -->
+<!-- ================================================================ -->
+
+<!-- SLIDE 17: Financial Model -->
+<div class="slide bg-white" data-slide="16">
+  <div class="label">Strategic Outlook &mdash; Financial Model</div>
+  <h2>$150M in. $60M/yr by Year 3. 1.3x cash return + owned infrastructure.</h2>
+  <p class="subtitle" style="font-size:15px;">From travel revenue alone &mdash; excludes churn reduction, compliance upsells, Rippling disruption, and B2B API revenue.</p>
+  <div class="two-col mt-16">
+    <div>
+      <table>
+        <tr><th>Month</th><th>Monthly Rev</th><th>Cumulative</th><th>Net Margin</th></tr>
+        <tr><td>6 <span class="badge badge-navy" style="font-size:10px;">MVP</span></td><td>$300K</td><td>$1.05M</td><td>60%</td></tr>
+        <tr><td>12</td><td>$900K</td><td>$5.4M</td><td>60%</td></tr>
+        <tr class="highlight"><td>18 <span class="badge badge-orange" style="font-size:10px;">IPO</span></td><td>$2M</td><td>$17.3M</td><td>60%</td></tr>
+        <tr><td>24</td><td>$3.5M</td><td>$33M</td><td>60%</td></tr>
+        <tr><td><strong>36</strong></td><td><strong>$5M</strong></td><td><strong>$60M</strong></td><td><strong>60%</strong></td></tr>
+      </table>
+      <p class="small mt-16 muted">60% net margins &mdash; no middleman post-acquisition. Y3 EBITDA: $36M. Acquisition pays for itself by Month 30. Rule of 40: 78+.</p>
+    </div>
+    <div>
+      <h3 style="font-size:16px;" class="mb-16">Investment Breakdown</h3>
+      <div class="card card-accent" style="margin-bottom:10px; padding:14px 18px;">
+        <div style="display:flex; justify-content:space-between;">
+          <span class="small bold">Duffel acquisition</span>
+          <span class="bold" style="color:var(--navy);">~$150M</span>
+        </div>
+      </div>
+      <div class="card" style="margin-bottom:10px; padding:14px 18px;">
+        <div style="display:flex; justify-content:space-between;">
+          <span class="small">Compliance layer build (8-10 eng, 6mo)</span>
+          <span class="bold">~$8M</span>
+        </div>
+      </div>
+      <div class="card" style="margin-bottom:16px; padding:14px 18px;">
+        <div style="display:flex; justify-content:space-between;">
+          <span class="small bold">Total Phase 1</span>
+          <span class="bold" style="color:var(--navy);">~$158M</span>
+        </div>
+      </div>
+      <div class="card-yellow" style="border-radius:10px; padding:14px 18px;">
+        <p class="small"><strong>Fits $500M M&A budget.</strong> 4-6x cheaper than Spotnana ($600M-$1.2B). EBITDA accretive for H2 2026 IPO. Cuts off Rippling's infrastructure.</p>
+      </div>
+    </div>
+  </div>
+  <div class="slide-number">17 / 19</div>
+</div>
+
+<!-- SLIDE 18: Risks -->
+<div class="slide bg-cream" data-slide="17">
+  <div class="label">Strategic Outlook &mdash; Risks</div>
+  <h2>Eyes open.</h2>
+  <div class="mt-24">
+    <table>
+      <tr><th style="width:35%;">Risk</th><th>Mitigation</th></tr>
+      <tr><td>Duffel valuation higher than $150M</td><td>Rippling dependency gives Deel leverage. Mubadala overlap (invested in Deel + Spotnana) may facilitate. $500M budget has room.</td></tr>
+      <tr><td>Rippling loses Duffel, retaliates</td><td>Rippling has 80 countries, no visa, no PE. They'd need 2+ years to rebuild booking infra. Compliance moat widens.</td></tr>
+      <tr><td>$150M EBITDA dip before IPO</td><td>Tuck-in acquisition amortised over 5-7 years. Travel revenue is EBITDA accretive by Month 6. Rule of 40 stays at 78+.</td></tr>
+      <tr><td>Navan at $702M, cash-flow positive</td><td>Navan wins on UX/price. OECD shifts enterprise buying to compliance &mdash; they have no path to EOR data.</td></tr>
+      <tr><td>Cleartrip gap (India)</td><td>Deel India EOR &rarr; direct IndiGo partnership. 12% of Deel hires are India-based. Solvable in Phase 2.</td></tr>
+      <tr><td>Travel support burden</td><td>96% self-service. AI handles 80% of rest. Deel's 24/7 support absorbs incremental volume.</td></tr>
+    </table>
+  </div>
+  <div class="slide-number">18 / 19</div>
+</div>
+
+<!-- SLIDE 19: Closing -->
+<div class="slide bg-navy" data-slide="18">
+  <div style="text-align:center; max-width:700px; margin:0 auto;">
+    <h1 style="font-size:38px; line-height:1.35; color:#fff; margin-bottom:32px;">The compliance layer is the moat.<br>The booking infrastructure<br>is a commodity.</h1>
+    <p style="font-size:17px; opacity:0.8; line-height:1.7; margin-bottom:48px; color:#fff;">Acquire the infrastructure Rippling proved. Layer the compliance only Deel can build. Cut off the competition. Ship before IPO.</p>
+    <div style="display:flex; justify-content:center; gap:40px; margin-bottom:48px;">
+      <div style="text-align:center;">
+        <div style="font-size:28px; font-weight:800; color:var(--yellow);">$150M</div>
+        <div style="font-size:13px; opacity:0.5; color:#fff;">Duffel acquisition</div>
+      </div>
+      <div style="text-align:center;">
+        <div style="font-size:28px; font-weight:800; color:var(--yellow);">3 months</div>
+        <div style="font-size:13px; opacity:0.5; color:#fff;">To MVP</div>
+      </div>
+      <div style="text-align:center;">
+        <div style="font-size:28px; font-weight:800; color:var(--yellow);">$60M/yr</div>
+        <div style="font-size:13px; opacity:0.5; color:#fff;">Y3 revenue</div>
+      </div>
+      <div style="text-align:center;">
+        <div style="font-size:28px; font-weight:800; color:var(--yellow);">60%</div>
+        <div style="font-size:13px; opacity:0.5; color:#fff;">Net margin</div>
+      </div>
+    </div>
+    <p style="font-size:15px; opacity:0.4; color:#fff;">Chidiebere Kalu</p>
+  </div>
+  <div class="slide-number" style="color:rgba(255,255,255,0.3);">19 / 19</div>
+</div>
+
+</div>
+
+<script>
+let current = 0;
+const slides = document.querySelectorAll('.slide');
+const total = slides.length;
+const progress = document.getElementById('progress');
+
+function goTo(n) {
+  if (n < 0 || n >= total) return;
+  slides[current].classList.remove('active');
+  current = n;
+  slides[current].classList.add('active');
+  progress.style.width = ((current + 1) / total * 100) + '%';
+}
+
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'ArrowRight' || e.key === 'ArrowDown' || e.key === ' ') { e.preventDefault(); goTo(current + 1); }
+  if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') { e.preventDefault(); goTo(current - 1); }
+  if (e.key === 'Home') { e.preventDefault(); goTo(0); }
+  if (e.key === 'End') { e.preventDefault(); goTo(total - 1); }
+});
+
+document.addEventListener('click', (e) => {
+  if (e.clientX > window.innerWidth / 2) goTo(current + 1);
+  else goTo(current - 1);
+});
+
+progress.style.width = (1 / total * 100) + '%';
+</script>
+</body>
+</html>
