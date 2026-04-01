@@ -539,6 +539,177 @@ a:hover { text-decoration: underline; }
 .expense-approve { color: #059669; border-color: #A7F3D0; }
 .expense-approve:hover { background: #ECFDF5; }
 
+/* ===== EXPENSE CHOICE MODAL ===== */
+.expense-modal-overlay {
+  position: fixed; inset: 0; background: rgba(0,0,0,0.45); z-index: 500;
+  display: flex; align-items: center; justify-content: center;
+  opacity: 0; pointer-events: none; transition: opacity 0.2s ease;
+}
+.expense-modal-overlay.visible { opacity: 1; pointer-events: auto; }
+.expense-modal {
+  background: #fff; border-radius: 12px; width: 480px; max-width: 90vw;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.2); animation: modalSlideUp 0.25s ease;
+}
+@keyframes modalSlideUp { from { transform: translateY(16px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+.expense-modal-header {
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 20px 24px 0; font-size: 18px; font-weight: 700; color: #111827;
+}
+.expense-modal-close {
+  width: 32px; height: 32px; border-radius: 8px; border: none; background: none;
+  cursor: pointer; font-size: 18px; color: #6B7280; display: flex; align-items: center;
+  justify-content: center;
+}
+.expense-modal-close:hover { background: #F3F4F6; }
+.expense-modal-body { padding: 16px 24px 24px; }
+.expense-choice-tile {
+  display: flex; align-items: flex-start; gap: 14px; padding: 16px;
+  border: 1px solid #E5E7EB; border-radius: 10px; cursor: pointer;
+  background: #fff; transition: all 0.15s; margin-bottom: 10px; width: 100%;
+  text-align: left; font-family: inherit;
+}
+.expense-choice-tile:hover { border-color: #1f74b3; background: #F0F7FF; }
+.expense-choice-icon {
+  width: 40px; height: 40px; border-radius: 10px; background: #F3F4F6;
+  display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+}
+.expense-choice-tile h4 { margin: 0; font-size: 14px; font-weight: 600; color: #111827; }
+.expense-choice-tile p { margin: 3px 0 0; font-size: 12px; color: #6B7280; }
+
+/* ===== ADD NEW ITEM SCREEN ===== */
+.add-item-topbar {
+  display: flex; align-items: center; gap: 16px; padding: 14px 24px;
+  border-bottom: 1px solid #E5E7EB; background: #fff;
+}
+.add-item-topbar .logo { font-size: 22px; font-weight: 800; color: #111827; }
+.add-item-topbar .divider { width: 1px; height: 24px; background: #E5E7EB; }
+.add-item-topbar .title { font-size: 15px; font-weight: 600; color: #111827; flex: 1; }
+.add-item-layout { display: flex; min-height: calc(100vh - 120px); }
+.add-item-left {
+  flex: 1; background: #fff; padding: 20px 28px; border-right: 1px solid #E5E7EB;
+  display: flex; flex-direction: column;
+}
+.add-item-no-docs {
+  display: flex; align-items: center; gap: 8px; padding: 10px 14px;
+  background: #F9FAFB; border-radius: 8px; margin-bottom: 16px;
+  font-size: 13px; color: #6B7280;
+}
+.add-item-upload-zone {
+  flex: 1; background: #F9FAFB; border-radius: 12px;
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  padding: 40px; text-align: center;
+}
+.add-item-upload-icon {
+  width: 80px; height: 80px; border-radius: 50%; background: #EEF2FF;
+  display: flex; align-items: center; justify-content: center; margin-bottom: 16px;
+}
+.add-item-upload-zone h3 { font-size: 15px; font-weight: 600; color: #111827; margin: 0 0 6px; }
+.add-item-upload-zone p { font-size: 13px; color: #6B7280; margin: 0 0 20px; }
+.add-item-dropzone {
+  border: 2px dashed #93C5FD; border-radius: 8px; padding: 14px 32px;
+  color: #1f74b3; font-size: 13px; font-weight: 500; cursor: pointer;
+  background: #EFF6FF; transition: all 0.15s;
+}
+.add-item-dropzone:hover { background: #DBEAFE; border-color: #60A5FA; }
+.add-item-formats { font-size: 11px; color: #9CA3AF; margin-top: 12px; }
+.add-item-right { width: 420px; padding: 20px 28px; background: #fff; overflow-y: auto; }
+.add-item-details-header {
+  display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;
+}
+.add-item-details-header h3 { font-size: 16px; font-weight: 700; color: #111827; margin: 0; }
+.policy-guidance-btn {
+  display: flex; align-items: center; gap: 6px; padding: 6px 12px; border-radius: 6px;
+  border: 1px solid #E5E7EB; background: #fff; font-size: 12px; font-weight: 500;
+  color: #374151; cursor: pointer; font-family: inherit;
+}
+.policy-guidance-btn:hover { background: #F9FAFB; }
+.add-item-field { margin-bottom: 16px; }
+.add-item-field label {
+  display: block; font-size: 11px; font-weight: 600; color: #6B7280;
+  text-transform: uppercase; letter-spacing: 0.04em; margin-bottom: 6px;
+}
+.add-item-input {
+  width: 100%; padding: 10px 12px; border: 1px solid #D1D5DB; border-radius: 8px;
+  font-size: 14px; font-family: inherit; color: #111827; background: #fff;
+  transition: border-color 0.15s;
+}
+.add-item-input:focus { outline: none; border-color: #1f74b3; box-shadow: 0 0 0 3px rgba(31,116,179,0.1); }
+.add-item-input::placeholder { color: #9CA3AF; }
+.add-item-textarea {
+  width: 100%; padding: 10px 12px; border: 1px solid #D1D5DB; border-radius: 8px;
+  font-size: 14px; font-family: inherit; color: #111827; background: #fff;
+  resize: vertical; min-height: 80px; transition: border-color 0.15s;
+}
+.add-item-textarea:focus { outline: none; border-color: #1f74b3; box-shadow: 0 0 0 3px rgba(31,116,179,0.1); }
+.add-item-textarea::placeholder { color: #9CA3AF; }
+.add-item-hint { font-size: 11px; color: #9CA3AF; margin-top: 4px; display: flex; justify-content: space-between; }
+.add-item-row { display: flex; gap: 12px; }
+.add-item-row .add-item-field { flex: 1; }
+.add-item-footer {
+  padding: 14px 24px; border-top: 1px solid #E5E7EB; background: #fff;
+  display: flex; justify-content: flex-end;
+}
+.add-item-submit {
+  padding: 10px 28px; border-radius: 8px; background: #111827; color: #fff;
+  font-size: 14px; font-weight: 600; border: none; cursor: pointer; font-family: inherit;
+}
+.add-item-submit:hover { background: #1f2937; }
+
+/* ===== GROUPED REPORT MODAL ===== */
+.grouped-modal-body { padding: 0 24px 24px; }
+.grouped-modal-subtitle { font-size: 14px; color: #6B7280; margin: 4px 0 20px; }
+.grouped-radio-option {
+  display: flex; align-items: flex-start; gap: 12px; padding: 16px;
+  border: 1px solid #E5E7EB; border-radius: 10px; cursor: pointer;
+  margin-bottom: 10px; background: #fff; transition: all 0.15s; width: 100%;
+  text-align: left; font-family: inherit;
+}
+.grouped-radio-option:hover { border-color: #1f74b3; }
+.grouped-radio-option.selected { border-color: #1f74b3; background: #F0F7FF; }
+.grouped-radio-circle {
+  width: 20px; height: 20px; border-radius: 50%; border: 2px solid #D1D5DB;
+  flex-shrink: 0; margin-top: 1px; display: flex; align-items: center; justify-content: center;
+  transition: all 0.15s;
+}
+.grouped-radio-option.selected .grouped-radio-circle {
+  border-color: #1f74b3;
+}
+.grouped-radio-option.selected .grouped-radio-circle::after {
+  content: ''; width: 10px; height: 10px; border-radius: 50%; background: #1f74b3;
+}
+.grouped-radio-option h4 { margin: 0; font-size: 14px; font-weight: 600; color: #111827; }
+.grouped-radio-option p { margin: 3px 0 0; font-size: 12px; color: #6B7280; }
+.grouped-modal-footer {
+  display: flex; justify-content: flex-end; align-items: center; gap: 12px;
+  padding-top: 16px; border-top: 1px solid #F3F4F6; margin-top: 20px;
+}
+.grouped-step-info { font-size: 12px; color: #9CA3AF; text-align: right; margin-right: auto; }
+.grouped-step-info strong { color: #6B7280; }
+.grouped-continue-btn {
+  padding: 10px 24px; border-radius: 8px; background: #E5E7EB; color: #9CA3AF;
+  font-size: 13px; font-weight: 600; border: none; cursor: not-allowed; font-family: inherit;
+  transition: all 0.15s;
+}
+.grouped-continue-btn.active { background: #111827; color: #fff; cursor: pointer; }
+.grouped-continue-btn.active:hover { background: #1f2937; }
+.grouped-back-btn {
+  width: 32px; height: 32px; border-radius: 8px; border: none; background: none;
+  cursor: pointer; font-size: 16px; color: #374151; display: flex; align-items: center;
+  justify-content: center;
+}
+.grouped-back-btn:hover { background: #F3F4F6; }
+.grouped-section-label {
+  font-size: 13px; font-weight: 700; color: #111827; margin: 20px 0 10px;
+}
+.grouped-section-label:first-of-type { margin-top: 0; }
+.grouped-add-dest {
+  display: flex; align-items: center; gap: 6px; padding: 10px; width: 100%;
+  border: 1px dashed #D1D5DB; border-radius: 8px; background: none;
+  font-size: 13px; color: #6B7280; cursor: pointer; font-family: inherit;
+  justify-content: center; margin-top: 8px;
+}
+.grouped-add-dest:hover { background: #F9FAFB; border-color: #9CA3AF; }
+
 /* ===== RESPONSIVE ===== */
 @media (max-width: 768px) {
   .deel-topnav { padding: 0 12px; gap: 0; }
@@ -2023,7 +2194,7 @@ a:hover { text-decoration: underline; }
       <div style="max-width: 800px; margin: 0 auto;">
         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
           <h1 style="font-size: 26px; font-weight: 700;">My Expenses</h1>
-          <button class="btn btn-dark" style="padding: 8px 16px; font-size: 13px;">Add new &#9662;</button>
+          <button class="btn btn-dark" style="padding: 8px 16px; font-size: 13px;" onclick="showExpenseChoice()">Add new &#9662;</button>
         </div>
         <p class="small muted mb-24">Your submitted expenses and reimbursements</p>
 
@@ -2122,7 +2293,7 @@ a:hover { text-decoration: underline; }
                 Quick actions
               </div>
               <div class="quick-actions">
-                <button class="quick-action-tile" onclick="goTo(11)">
+                <button class="quick-action-tile" onclick="showExpenseChoice()">
                   <div class="quick-action-icon">
                     <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="#666" stroke-width="1.5"><rect x="2" y="3" width="12" height="10" rx="1.5"/><path d="M5 7h6M5 10h3"/></svg>
                   </div>
@@ -2753,6 +2924,251 @@ a:hover { text-decoration: underline; }
     </div>
   </div>
 
+  <!-- ============================================================ -->
+  <!-- SCREEN 14: Add New Expense Item (Individual) -->
+  <!-- ============================================================ -->
+  <div class="screen" id="screen-14">
+    <div class="add-item-topbar">
+      <span class="logo">deel.</span>
+      <span class="divider"></span>
+      <span class="title">Add new item</span>
+      <button class="expense-modal-close" onclick="closeAddItem()" style="margin-left: auto;">&#10005;</button>
+    </div>
+    <div class="add-item-layout">
+      <div class="add-item-left">
+        <div class="add-item-no-docs">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="#9CA3AF" stroke-width="1.5"><rect x="3" y="1" width="10" height="14" rx="1.5"/><path d="M6 5h4M6 8h4M6 11h2"/></svg>
+          No documents to preview.
+        </div>
+        <div class="add-item-upload-zone">
+          <div class="add-item-upload-icon">
+            <svg width="36" height="36" viewBox="0 0 36 36" fill="none">
+              <rect x="8" y="4" width="20" height="28" rx="2" stroke="#818CF8" stroke-width="1.5" fill="#EEF2FF"/>
+              <path d="M13 12h10M13 16h7" stroke="#818CF8" stroke-width="1.5" stroke-linecap="round"/>
+              <rect x="13" y="20" width="10" height="3" rx="1" fill="#818CF8" opacity="0.3"/>
+              <circle cx="26" cy="26" r="7" fill="#DBEAFE" stroke="#60A5FA" stroke-width="1.5"/>
+              <path d="M24 26h4M26 24v4" stroke="#60A5FA" stroke-width="1.5" stroke-linecap="round"/>
+            </svg>
+          </div>
+          <h3>Upload one or more files</h3>
+          <p>Automatically capture details and check for issues with your submission</p>
+          <div class="add-item-dropzone">Click here or drag files to upload</div>
+          <p class="add-item-formats">Supported file format: PDF, PNG, JPG; maximum file size: 8MB</p>
+        </div>
+      </div>
+      <div class="add-item-right">
+        <div class="add-item-details-header">
+          <h3>Details</h3>
+          <button class="policy-guidance-btn">
+            <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="1" width="10" height="12" rx="1.5"/><path d="M5 4h4M5 7h4M5 10h2"/></svg>
+            Policy guidance
+          </button>
+        </div>
+        <div class="add-item-field">
+          <label>Worker contract *</label>
+          <select class="add-item-input" style="color: #6B7280; appearance: none; background-image: url('data:image/svg+xml;utf8,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%2212%22 height=%2212%22 viewBox=%220 0 12 12%22><path d=%22M3 5l3 3 3-3%22 stroke=%22%239CA3AF%22 stroke-width=%221.5%22 fill=%22none%22/></svg>'); background-repeat: no-repeat; background-position: right 12px center;">
+            <option>Teena Bramley</option>
+          </select>
+        </div>
+        <div class="add-item-field">
+          <label>Category *</label>
+          <select class="add-item-input" style="appearance: none; color: #9CA3AF; background-image: url('data:image/svg+xml;utf8,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%2212%22 height=%2212%22 viewBox=%220 0 12 12%22><path d=%22M3 5l3 3 3-3%22 stroke=%22%239CA3AF%22 stroke-width=%221.5%22 fill=%22none%22/></svg>'); background-repeat: no-repeat; background-position: right 12px center;">
+            <option value="">Category *</option>
+            <option>Flight</option>
+            <option>Hotel</option>
+            <option>Meal Allowance</option>
+            <option>Ground Transport</option>
+            <option>Other - Allowance</option>
+          </select>
+        </div>
+        <div class="add-item-field">
+          <label>Date of item *</label>
+          <input type="text" class="add-item-input" placeholder="Date of item (DD/MM/YYYY) *" onfocus="this.type='date'" onblur="if(!this.value)this.type='text'">
+        </div>
+        <div class="add-item-field">
+          <label>Description *</label>
+          <textarea class="add-item-textarea" placeholder="Description *" maxlength="2000" oninput="document.getElementById('desc-counter').textContent=this.value.length+'/2000'"></textarea>
+          <div class="add-item-hint">
+            <span>Explain the business purpose of this expense</span>
+            <span id="desc-counter">0/2000</span>
+          </div>
+        </div>
+        <div class="add-item-row">
+          <div class="add-item-field">
+            <label>Currency *</label>
+            <select class="add-item-input" style="appearance: none; color: #9CA3AF; background-image: url('data:image/svg+xml;utf8,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%2212%22 height=%2212%22 viewBox=%220 0 12 12%22><path d=%22M3 5l3 3 3-3%22 stroke=%22%239CA3AF%22 stroke-width=%221.5%22 fill=%22none%22/></svg>'); background-repeat: no-repeat; background-position: right 12px center;">
+              <option value="">Currency *</option>
+              <option>GBP</option>
+              <option>USD</option>
+              <option>EUR</option>
+              <option>JPY</option>
+            </select>
+          </div>
+          <div class="add-item-field">
+            <label>Amount</label>
+            <input type="text" class="add-item-input" placeholder="Amount">
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="add-item-footer">
+      <button class="add-item-submit" onclick="submitExpenseItem()">Submit</button>
+    </div>
+  </div>
+
+</div>
+
+<!-- ===== EXPENSE CHOICE MODAL ===== -->
+<div class="expense-modal-overlay" id="expense-choice-modal">
+  <div class="expense-modal">
+    <div class="expense-modal-header">
+      Add expense
+      <button class="expense-modal-close" onclick="hideExpenseChoice()">&#10005;</button>
+    </div>
+    <div class="expense-modal-body">
+      <p style="font-size: 13px; color: #6B7280; margin: 4px 0 18px;">How would you like to add your expense?</p>
+      <button class="expense-choice-tile" onclick="chooseIndividualExpense()">
+        <div class="expense-choice-icon">
+          <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="#374151" stroke-width="1.5"><rect x="3" y="2" width="14" height="16" rx="2"/><path d="M7 6h6M7 10h6M7 14h3"/></svg>
+        </div>
+        <div>
+          <h4>Individual items</h4>
+          <p>Add single expense items one at a time</p>
+        </div>
+      </button>
+      <button class="expense-choice-tile" onclick="showGroupedReport()">
+        <div class="expense-choice-icon">
+          <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="#374151" stroke-width="1.5"><rect x="2" y="3" width="12" height="14" rx="2"/><rect x="6" y="1" width="12" height="14" rx="2" fill="#fff"/><path d="M9 5h6M9 8h6M9 11h3"/></svg>
+        </div>
+        <div>
+          <h4>Create grouped report</h4>
+          <p>Group multiple expenses into a single report</p>
+        </div>
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- ===== GROUPED REPORT MODAL ===== -->
+<div class="expense-modal-overlay" id="grouped-report-modal">
+  <div class="expense-modal" style="width: 520px;">
+    <!-- Step 1: Business travel question -->
+    <div id="grouped-step-1">
+      <div class="expense-modal-header">
+        Grouped report
+        <button class="expense-modal-close" onclick="hideGroupedReport()">&#10005;</button>
+      </div>
+      <div class="grouped-modal-body">
+        <p class="grouped-modal-subtitle">Is this grouped report for business travel?</p>
+        <button class="grouped-radio-option" id="grp-opt-business" onclick="selectGroupedType('business')">
+          <div class="grouped-radio-circle"></div>
+          <div>
+            <h4>Business trip</h4>
+            <p>For all costs incurred during business travel</p>
+          </div>
+        </button>
+        <button class="grouped-radio-option" id="grp-opt-other" onclick="selectGroupedType('other')">
+          <div class="grouped-radio-circle"></div>
+          <div>
+            <h4>Other (Non-travel)</h4>
+            <p>Any claims you would like to be submitted and reviewed together</p>
+          </div>
+        </button>
+        <div class="grouped-modal-footer">
+          <div class="grouped-step-info">
+            <strong>Step 1 of 2</strong><br>Next: Details
+          </div>
+          <button class="grouped-continue-btn" id="grp-continue-1" onclick="groupedReportStep(2)">Continue</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Step 2: Group details -->
+    <div id="grouped-step-2" style="display: none;">
+      <div class="expense-modal-header">
+        <div style="display: flex; align-items: center; gap: 8px;">
+          <button class="grouped-back-btn" onclick="groupedReportStep(1)">&#8592;</button>
+          Grouped report
+        </div>
+        <button class="expense-modal-close" onclick="hideGroupedReport()">&#10005;</button>
+      </div>
+      <div class="grouped-modal-body">
+        <p class="grouped-modal-subtitle">What are the details for this group?</p>
+        <div class="add-item-field">
+          <input type="text" class="add-item-input" placeholder="Group name *">
+        </div>
+        <div class="add-item-field">
+          <textarea class="add-item-textarea" placeholder="Description *" maxlength="2000" oninput="document.getElementById('grp-desc-counter').textContent=this.value.length+'/2000'"></textarea>
+          <div class="add-item-hint">
+            <span>Describe why you are grouping these expenses and any activity they may relate to</span>
+            <span id="grp-desc-counter">0/2000</span>
+          </div>
+        </div>
+        <div class="grouped-modal-footer">
+          <div class="grouped-step-info">
+            <strong id="grp-step2-label">Step 2 of 2</strong><br>
+            <span id="grp-step2-next">Next: Create group and add items</span>
+          </div>
+          <button class="grouped-continue-btn active" id="grp-continue-2" onclick="groupedReportStep(3)">Create group</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Step 3: Travel details (Business trip only) -->
+    <div id="grouped-step-3" style="display: none;">
+      <div class="expense-modal-header">
+        <div style="display: flex; align-items: center; gap: 8px;">
+          <button class="grouped-back-btn" onclick="groupedReportStep(2)">&#8592;</button>
+          Grouped report
+        </div>
+        <button class="expense-modal-close" onclick="hideGroupedReport()">&#10005;</button>
+      </div>
+      <div class="grouped-modal-body">
+        <p class="grouped-modal-subtitle">When and where did you visit?</p>
+
+        <p class="grouped-section-label">Departure</p>
+        <div class="add-item-field">
+          <select class="add-item-input" style="appearance: none; color: #9CA3AF; background-image: url('data:image/svg+xml;utf8,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%2212%22 height=%2212%22 viewBox=%220 0 12 12%22><path d=%22M3 5l3 3 3-3%22 stroke=%22%239CA3AF%22 stroke-width=%221.5%22 fill=%22none%22/></svg>'); background-repeat: no-repeat; background-position: right 12px center;">
+            <option value="">From *</option>
+            <option>London, UK</option>
+            <option>New York, US</option>
+            <option>Tokyo, Japan</option>
+          </select>
+        </div>
+        <div class="add-item-field">
+          <input type="text" class="add-item-input" placeholder="Date and time *" onfocus="this.type='datetime-local'" onblur="if(!this.value)this.type='text'">
+        </div>
+
+        <p class="grouped-section-label">Destination</p>
+        <div class="add-item-field">
+          <select class="add-item-input" style="appearance: none; color: #9CA3AF; background-image: url('data:image/svg+xml;utf8,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%2212%22 height=%2212%22 viewBox=%220 0 12 12%22><path d=%22M3 5l3 3 3-3%22 stroke=%22%239CA3AF%22 stroke-width=%221.5%22 fill=%22none%22/></svg>'); background-repeat: no-repeat; background-position: right 12px center;">
+            <option value="">To *</option>
+            <option>London, UK</option>
+            <option>New York, US</option>
+            <option>Tokyo, Japan</option>
+          </select>
+        </div>
+        <div class="add-item-field">
+          <input type="text" class="add-item-input" placeholder="Date and time *" onfocus="this.type='datetime-local'" onblur="if(!this.value)this.type='text'">
+          <div class="add-item-hint"><span>Use local time of destination country</span></div>
+        </div>
+
+        <button class="grouped-add-dest">+ Add another destination</button>
+
+        <p class="grouped-section-label">Return</p>
+        <div class="add-item-field">
+          <input type="text" class="add-item-input" placeholder="Date and time *" onfocus="this.type='datetime-local'" onblur="if(!this.value)this.type='text'">
+        </div>
+
+        <div class="grouped-modal-footer">
+          <div class="grouped-step-info">
+            <strong>Step 3 of 3</strong><br>Next: Add items
+          </div>
+          <button class="grouped-continue-btn active" onclick="finishGroupedReport()">Create group</button>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
 
 <!-- View Switcher (floating bottom bar) -->
@@ -2777,7 +3193,7 @@ a:hover { text-decoration: underline; }
 
 <script>
 const screens = document.querySelectorAll('.screen');
-const navMap = {0:'nav-home', 1:'nav-travel', 2:'nav-travel', 3:'nav-travel', 4:'nav-travel', 5:'nav-travel', 6:'nav-home', 7:'nav-travel', 8:'nav-home', 9:'nav-travel', 10:'nav-travel', 11:'nav-home', 12:'nav-home', 13:'nav-travel'};
+const navMap = {0:'nav-home', 1:'nav-travel', 2:'nav-travel', 3:'nav-travel', 4:'nav-travel', 5:'nav-travel', 6:'nav-home', 7:'nav-travel', 8:'nav-home', 9:'nav-travel', 10:'nav-travel', 11:'nav-home', 12:'nav-home', 13:'nav-travel', 14:'nav-home'};
 const history = [0];
 let current = 0;
 let tripBooked = false;
@@ -2785,7 +3201,7 @@ let tripBooked = false;
 function goTo(i) {
   // View guard — prevent cross-view screen access (runs first!)
   const mgrOnly = [0, 6, 7, 12, 13];
-  const empOnly = [8, 11];
+  const empOnly = [8, 11, 14];
   if (currentView === 'employee' && mgrOnly.includes(i)) { i = 8; }
   if (currentView === 'manager' && empOnly.includes(i)) { i = 0; }
 
@@ -2830,7 +3246,7 @@ function goTo(i) {
 
   // Toggle nav gradient for employee home
   const tn = document.querySelector('.deel-topnav');
-  if ((i === 8 || i === 11) && currentView === 'employee') { tn.classList.add('nav-gradient'); }
+  if ((i === 8 || i === 11 || i === 14) && currentView === 'employee') { tn.classList.add('nav-gradient'); }
   else if (currentView === 'employee') { tn.classList.remove('nav-gradient'); }
   else if (currentView === 'manager') { tn.classList.remove('nav-gradient'); }
 
@@ -3091,6 +3507,94 @@ function switchView(view) {
     goTo(8);
   }
 }
+
+// ===== EXPENSE CHOICE MODAL =====
+function showExpenseChoice() {
+  document.getElementById('expense-choice-modal').classList.add('visible');
+}
+function hideExpenseChoice() {
+  document.getElementById('expense-choice-modal').classList.remove('visible');
+}
+function chooseIndividualExpense() {
+  hideExpenseChoice();
+  goTo(14);
+}
+function closeAddItem() {
+  goTo(11);
+}
+function submitExpenseItem() {
+  goTo(11);
+  const toast = document.getElementById('toast');
+  toast.innerHTML = '&#10003;&nbsp; Expense item submitted for approval';
+  toast.classList.add('show');
+  setTimeout(() => toast.classList.remove('show'), 4000);
+}
+
+// ===== GROUPED REPORT MODAL =====
+let groupedType = null;
+function showGroupedReport() {
+  hideExpenseChoice();
+  groupedType = null;
+  // Reset selections
+  document.getElementById('grp-opt-business').classList.remove('selected');
+  document.getElementById('grp-opt-other').classList.remove('selected');
+  document.getElementById('grp-continue-1').classList.remove('active');
+  // Show step 1, hide others
+  document.getElementById('grouped-step-1').style.display = '';
+  document.getElementById('grouped-step-2').style.display = 'none';
+  document.getElementById('grouped-step-3').style.display = 'none';
+  document.getElementById('grouped-report-modal').classList.add('visible');
+}
+function hideGroupedReport() {
+  document.getElementById('grouped-report-modal').classList.remove('visible');
+}
+function selectGroupedType(type) {
+  groupedType = type;
+  document.getElementById('grp-opt-business').classList.toggle('selected', type === 'business');
+  document.getElementById('grp-opt-other').classList.toggle('selected', type === 'other');
+  document.getElementById('grp-continue-1').classList.add('active');
+}
+function groupedReportStep(step) {
+  if (step === 2 && !groupedType) return;
+  document.getElementById('grouped-step-1').style.display = 'none';
+  document.getElementById('grouped-step-2').style.display = 'none';
+  document.getElementById('grouped-step-3').style.display = 'none';
+  if (step === 1) {
+    document.getElementById('grouped-step-1').style.display = '';
+  } else if (step === 2) {
+    // Update step label based on type
+    if (groupedType === 'business') {
+      document.getElementById('grp-step2-label').textContent = 'Step 2 of 3';
+      document.getElementById('grp-step2-next').textContent = 'Next: Travel details';
+      document.getElementById('grp-continue-2').textContent = 'Continue';
+      document.getElementById('grp-continue-2').onclick = function() { groupedReportStep(3); };
+    } else {
+      document.getElementById('grp-step2-label').textContent = 'Step 2 of 2';
+      document.getElementById('grp-step2-next').textContent = 'Next: Create group and add items';
+      document.getElementById('grp-continue-2').textContent = 'Create group';
+      document.getElementById('grp-continue-2').onclick = function() { finishGroupedReport(); };
+    }
+    document.getElementById('grouped-step-2').style.display = '';
+  } else if (step === 3) {
+    document.getElementById('grouped-step-3').style.display = '';
+  }
+}
+function finishGroupedReport() {
+  hideGroupedReport();
+  goTo(11);
+  const toast = document.getElementById('toast');
+  toast.innerHTML = '&#10003;&nbsp; Grouped report created &mdash; you can now add items';
+  toast.classList.add('show');
+  setTimeout(() => toast.classList.remove('show'), 4000);
+}
+
+// Close modals on backdrop click
+document.getElementById('expense-choice-modal').addEventListener('click', function(e) {
+  if (e.target === this) hideExpenseChoice();
+});
+document.getElementById('grouped-report-modal').addEventListener('click', function(e) {
+  if (e.target === this) hideGroupedReport();
+});
 </script>
 
 </body>
