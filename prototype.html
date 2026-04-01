@@ -8,32 +8,35 @@
 <style>
 *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 :root {
-  --bg-default: #f4f3f6;
+  --bg-default: #F9FAFB;
   --bg-paper: #fff;
-  --text-primary: #01090f;
-  --text-disabled: #7c8286;
+  --text-primary: #111827;
+  --text-secondary: #4B5563;
+  --text-disabled: #6B7280;
   --primary-main: #1b1b1b;
   --primary-light: #e9e9e9;
   --primary-lighter: #f2f2f2;
   --secondary-main: #1f74b3;
   --secondary-lighter: #f2f8ff;
-  --success-main: #29811e;
-  --success-light: #c2eeb5;
-  --success-lighter: #f1fbed;
-  --error-main: #d42d35;
-  --error-light: #ffe2de;
-  --error-lighter: #fff5f3;
-  --warning-main: #ed5e2a;
-  --warning-light: #ffe27c;
-  --warning-lighter: #fff7e5;
-  --neutral-light: #f3f3f3;
-  --neutral-main: #d1d3d5;
-  --divider: #e8ebf2;
-  --purple-vivid: #a041ff;
-  --purple-super-light: #f4f3f6;
+  --success-main: #059669;
+  --success-light: #A7F3D0;
+  --success-lighter: #ECFDF5;
+  --error-main: #DC2626;
+  --error-light: #FECACA;
+  --error-lighter: #FEF2F2;
+  --warning-main: #D97706;
+  --warning-light: #FDE68A;
+  --warning-lighter: #FFFBEB;
+  --neutral-light: #F3F4F6;
+  --neutral-main: #D1D5DB;
+  --divider: #E5E7EB;
+  --purple-vivid: #7C3AED;
+  --purple-super-light: #F5F3FF;
   --blue-link: #1f74b3;
-  --lavender-bg: #e1d7fb;
-  --lavender-light: #f4f3f6;
+  --lavender-bg: #EDE9FE;
+  --lavender-light: #F5F3FF;
+  --indigo-deep: #271138;
+  --font-mono: 'SF Mono', 'Fira Code', 'Consolas', monospace;
 }
 body { font-family: 'Inter', Arial, Helvetica, sans-serif; background: var(--bg-default); color: var(--text-primary); min-height: 100vh; -webkit-font-smoothing: antialiased; }
 a { color: var(--blue-link); text-decoration: none; font-weight: 500; }
@@ -71,8 +74,9 @@ a:hover { text-decoration: underline; }
   font-size: 13px; font-weight: 500; color: #666; cursor: pointer;
   background: none; border: none; font-family: inherit; transition: all 0.15s;
 }
-.deel-nav-item:hover { background: var(--neutral-light); color: #1a1a1a; }
-.deel-nav-item.active { background: var(--primary-light); color: var(--text-primary); font-weight: 600; }
+.deel-nav-item { opacity: 0.6; }
+.deel-nav-item:hover { background: var(--neutral-light); color: #1a1a1a; opacity: 0.85; }
+.deel-nav-item.active { background: var(--primary-light); color: var(--text-primary); font-weight: 600; border-bottom: 3px solid #7C3AED; border-radius: 8px 8px 0 0; opacity: 1; }
 .deel-nav-item svg { width: 16px; height: 16px; }
 
 .deel-nav-right { display: flex; align-items: center; gap: 8px; margin-left: auto; }
@@ -146,8 +150,8 @@ a:hover { text-decoration: underline; }
 
 /* ===== DEEL CARDS ===== */
 .deel-card {
-  background: #fff; border: 1px solid var(--divider); border-radius: 14px;
-  padding: 20px; margin-bottom: 16px;
+  background: #fff; border: 1px solid #E8EBEF; border-radius: 12px;
+  padding: 20px; margin-bottom: 16px; box-shadow: 0 2px 4px rgba(0,0,0,0.02);
 }
 .deel-card-header {
   display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px;
@@ -191,35 +195,36 @@ a:hover { text-decoration: underline; }
 
 /* To-do row (For you today) */
 .todo-row {
-  display: flex; align-items: center; gap: 12px; padding: 10px 0;
-  border-bottom: 1px solid #f3f2f0;
+  display: flex; align-items: center; gap: 12px; padding: 12px 0;
+  border-bottom: 1px solid #F3F4F6;
 }
 .todo-row:last-child { border-bottom: none; }
 .todo-icon {
-  width: 36px; height: 36px; border-radius: 10px; background: var(--neutral-light);
+  width: 36px; height: 36px; border-radius: 8px; background: var(--neutral-light);
   display: flex; align-items: center; justify-content: center; position: relative;
 }
-.todo-icon svg { width: 18px; height: 18px; color: #666; }
+.todo-icon svg { width: 18px; height: 18px; color: #6B7280; }
 .todo-badge {
   position: absolute; top: -4px; right: -4px; min-width: 18px; height: 18px;
-  border-radius: 10px; background: #a041ff; color: #fff; font-size: 10px;
+  border-radius: 4px; background: #6B7280; color: #fff; font-size: 10px;
   font-weight: 700; display: flex; align-items: center; justify-content: center; padding: 0 4px;
+  font-family: var(--font-mono);
 }
-.todo-text { flex: 1; font-size: 14px; font-weight: 500; }
+.todo-text { flex: 1; font-size: 14px; font-weight: 500; color: #111827; }
 .todo-review-btn {
-  padding: 5px 14px; border-radius: 8px; border: 1px solid var(--divider);
-  font-size: 12px; font-weight: 500; cursor: pointer; background: #fff;
-  font-family: inherit;
+  padding: 5px 14px; border-radius: 6px; border: 1px solid #E5E7EB;
+  font-size: 12px; font-weight: 500; cursor: pointer; background: transparent;
+  font-family: inherit; color: #4B5563; transition: all 0.15s;
 }
-.todo-review-btn:hover { border-color: #ccc; }
+.todo-review-btn:hover { border-color: #9CA3AF; color: #111827; }
 
 /* ===== BADGES ===== */
-.badge { display: inline-block; padding: 3px 10px; border-radius: 20px; font-size: 11px; font-weight: 600; }
-.badge-green { background: var(--success-lighter); color: var(--success-main); }
-.badge-amber { background: var(--warning-lighter); color: var(--warning-main); }
-.badge-red { background: var(--error-lighter); color: var(--error-main); }
-.badge-purple { background: var(--lavender-bg); color: var(--purple-vivid); }
-.badge-blue { background: var(--secondary-lighter); color: var(--blue-link); }
+.badge { display: inline-block; padding: 3px 10px; border-radius: 4px; font-size: 11px; font-weight: 600; letter-spacing: 0.02em; }
+.badge-green { background: #ECFDF5; color: #059669; }
+.badge-amber { background: #FFFBEB; color: #D97706; }
+.badge-red { background: #FEF2F2; color: #DC2626; }
+.badge-purple { background: #F5F3FF; color: #7C3AED; }
+.badge-blue { background: #EFF6FF; color: #1D4ED8; }
 .badge-gray { background: var(--neutral-light); color: var(--text-disabled); }
 .badge-dark { background: var(--primary-main); color: #fff; }
 
@@ -452,22 +457,22 @@ a:hover { text-decoration: underline; }
   flex-shrink: 0;
 }
 
-/* View switcher */
+/* View switcher — compact top-right */
 .view-switcher {
-  position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%); z-index: 300;
-  display: flex; background: #1a1a1a; border-radius: 14px; padding: 4px;
-  box-shadow: 0 8px 30px rgba(0,0,0,0.25);
+  position: fixed; top: 12px; right: 24px; z-index: 300;
+  display: flex; background: #1a1a1a; border-radius: 10px; padding: 3px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.2);
 }
 .view-switcher-btn {
-  padding: 10px 24px; border-radius: 11px; border: none; font-family: inherit;
-  font-size: 13px; font-weight: 600; cursor: pointer; color: rgba(255,255,255,0.5);
-  background: none; transition: all 0.2s; display: flex; align-items: center; gap: 6px;
+  padding: 7px 16px; border-radius: 8px; border: none; font-family: inherit;
+  font-size: 11px; font-weight: 600; cursor: pointer; color: rgba(255,255,255,0.5);
+  background: none; transition: all 0.2s; display: flex; align-items: center; gap: 5px;
 }
 .view-switcher-btn:hover { color: rgba(255,255,255,0.8); }
 .view-switcher-btn.active { background: #a041ff; color: #fff; }
 .view-switcher-label {
-  font-size: 11px; color: rgba(255,255,255,0.3); padding: 0 12px; display: flex; align-items: center;
-  font-weight: 500; letter-spacing: 0.03em;
+  font-size: 9px; color: rgba(255,255,255,0.25); padding: 0 8px; display: flex; align-items: center;
+  font-weight: 500; letter-spacing: 0.04em; text-transform: uppercase;
 }
 
 /* Toast */
@@ -510,25 +515,29 @@ a:hover { text-decoration: underline; }
 .filter-chip.active { background: var(--lavender-bg); border-color: #c9b8f0; color: #5b21b6; }
 .expenses-table { width: 100%; border-collapse: collapse; font-size: 13px; }
 .expenses-table th {
-  text-align: left; padding: 10px 14px; font-size: 11px; font-weight: 600;
-  color: #999; text-transform: uppercase; letter-spacing: 0.04em;
-  border-bottom: 1px solid var(--divider);
+  text-align: left; padding: 10px 14px; font-size: 10px; font-weight: 700;
+  color: #6B7280; text-transform: uppercase; letter-spacing: 0.06em;
+  border-bottom: 1px solid #E5E7EB; background: #F9FAFB;
 }
-.expenses-table td { padding: 12px 14px; border-bottom: 1px solid #f3f2f0; vertical-align: middle; }
-.expenses-table tr:hover td { background: #fafaff; }
+.expenses-table td { padding: 12px 14px; border-bottom: 1px solid #F3F4F6; vertical-align: middle; }
+.expenses-table tr:hover td { background: #F9FAFB; }
 .expense-category a { color: #1f74b3; font-weight: 500; }
 .expense-worker { display: flex; align-items: center; gap: 8px; }
 .expense-worker-avatar {
   width: 28px; height: 28px; border-radius: 50%; display: flex;
   align-items: center; justify-content: center; font-size: 10px; font-weight: 700; color: #fff;
 }
-.expense-actions { display: flex; align-items: center; gap: 6px; }
+.expense-actions { display: flex; align-items: center; gap: 4px; }
 .expense-action-btn {
-  width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center;
-  justify-content: center; border: none; cursor: pointer; font-size: 14px;
+  padding: 4px 10px; border-radius: 4px; display: flex; align-items: center;
+  justify-content: center; border: 1px solid transparent; cursor: pointer;
+  font-size: 12px; font-weight: 600; font-family: inherit; background: none;
+  transition: all 0.15s;
 }
-.expense-reject { background: #fee2e2; color: #dc2626; }
-.expense-approve { background: #dcfce7; color: #16a34a; }
+.expense-reject { color: #DC2626; border-color: #FECACA; }
+.expense-reject:hover { background: #FEF2F2; }
+.expense-approve { color: #059669; border-color: #A7F3D0; }
+.expense-approve:hover { background: #ECFDF5; }
 
 /* ===== RESPONSIVE ===== */
 @media (max-width: 768px) {
@@ -550,6 +559,144 @@ a:hover { text-decoration: underline; }
 @media (max-width: 480px) {
   .deel-org-name, .deel-org-sub, .deel-org-chevron { display: none; }
 }
+
+/* ===== COMMAND CENTER STYLES ===== */
+.savings-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 14px; margin-bottom: 20px; }
+.savings-metric {
+  background: #fff; border: 1px solid var(--divider); border-radius: 12px;
+  padding: 20px 16px; text-align: center; position: relative; overflow: hidden;
+}
+.savings-metric::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; }
+.savings-metric.sm-green::before { background: #16a34a; }
+.savings-metric.sm-blue::before { background: #1f74b3; }
+.savings-metric.sm-purple::before { background: #a041ff; }
+
+/* Risk cards */
+.risk-card {
+  background: #fff; border: 1px solid var(--divider); border-radius: 12px;
+  padding: 20px; margin-bottom: 12px; transition: all 0.15s; position: relative;
+}
+.risk-card:hover { border-color: #ccc; box-shadow: 0 2px 8px rgba(0,0,0,0.06); }
+.risk-severity {
+  padding: 3px 10px; border-radius: 3px; font-size: 10px;
+  font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em;
+  font-family: var(--font-mono);
+}
+.risk-high { background: #FEF2F2; color: #991B1B; border: 1px solid #FECACA; }
+.risk-medium { background: #FFFBEB; color: #92400E; border: 1px solid #FDE68A; }
+
+/* Smart filter toggle */
+.smart-toggle {
+  display: inline-flex; align-items: center; gap: 10px; padding: 10px 18px;
+  background: linear-gradient(135deg, #f0ecfa, #e8e0f8);
+  border: 1.5px solid #c9b8f0; border-radius: 10px; cursor: pointer;
+  transition: all 0.3s; font-family: inherit; position: relative; overflow: hidden;
+}
+.smart-toggle::before {
+  content: ''; position: absolute; inset: 0;
+  background: linear-gradient(90deg, transparent 0%, rgba(160,65,255,0.08) 50%, transparent 100%);
+  animation: toggleGlow 2s ease infinite;
+}
+@keyframes toggleGlow {
+  0%, 100% { opacity: 0; } 50% { opacity: 1; }
+}
+.smart-toggle:hover { border-color: #a041ff; box-shadow: 0 0 16px rgba(160,65,255,0.15); }
+.smart-toggle-track {
+  width: 38px; height: 20px; border-radius: 10px; background: #c9b8f0;
+  position: relative; flex-shrink: 0; transition: background 0.3s;
+}
+.smart-toggle-knob {
+  width: 16px; height: 16px; border-radius: 50%; background: #fff;
+  position: absolute; top: 2px; left: 2px; transition: transform 0.3s;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.15);
+}
+
+/* Live pulse dot */
+.live-dot {
+  width: 8px; height: 8px; border-radius: 50%; background: #16a34a;
+  display: inline-block; animation: livePulse 2s ease infinite;
+}
+@keyframes livePulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
+
+/* Scan line animation */
+.scan-overlay {
+  position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+  z-index: 250; pointer-events: none;
+}
+.scan-line {
+  position: absolute; left: 0; right: 0; height: 3px;
+  background: linear-gradient(90deg, transparent, #a041ff, #c084fc, #a041ff, transparent);
+  box-shadow: 0 0 20px rgba(160,65,255,0.5), 0 0 60px rgba(160,65,255,0.2);
+}
+.scan-line-trail {
+  position: absolute; left: 0; right: 0; height: 80px;
+  background: linear-gradient(180deg, rgba(160,65,255,0.06), transparent);
+}
+
+/* Todo row severity — urgency blocks */
+.todo-row-urgent {
+  background: #FEF2F2; border-radius: 6px; padding: 12px 14px !important;
+  margin: 6px 0; border-left: 4px solid #DC2626; border-bottom: none !important;
+}
+.todo-row-warning {
+  background: #FFFBEB; border-radius: 6px; padding: 12px 14px !important;
+  margin: 6px 0; border-left: 4px solid #D97706; border-bottom: none !important;
+}
+.todo-subtext { font-size: 11px; font-family: var(--font-mono); color: #6B7280; letter-spacing: -0.01em; }
+.todo-subtext-red { color: #991B1B; }
+.btn-review-urgent {
+  padding: 6px 16px; border-radius: 6px; border: none; font-size: 12px; font-weight: 600;
+  cursor: pointer; background: var(--indigo-deep); color: #fff; font-family: inherit;
+  transition: all 0.15s; flex-shrink: 0;
+}
+.btn-review-urgent:hover { background: #3B1F5B; }
+
+/* Report footer */
+.report-grid {
+  display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px;
+  background: rgba(255,255,255,0.06); border-radius: 8px; overflow: hidden; margin-top: 20px;
+}
+.report-stat {
+  background: #0f0f1a; padding: 20px 16px; text-align: center;
+}
+.report-stat-value { font-size: 28px; font-weight: 800; color: #e2e8f0; letter-spacing: -0.02em; font-family: var(--font-mono); }
+.report-stat-label { font-size: 10px; color: rgba(255,255,255,0.35); text-transform: uppercase; letter-spacing: 0.08em; margin-top: 6px; font-family: var(--font-mono); }
+
+/* Receipt column icons */
+.attach-icon { font-size: 12px; margin-right: 4px; }
+.attach-missing { color: #dc2626; }
+.attach-ok { color: #16a34a; }
+.attach-none { color: #d1d3d5; }
+
+/* Traveler mini cards for live widget */
+.traveler-mini {
+  display: flex; align-items: center; gap: 10px; padding: 8px 0;
+  border-bottom: 1px solid #f3f2f0;
+}
+.traveler-mini:last-child { border-bottom: none; }
+
+/* PE hover trend line */
+.pe-hover-trend {
+  display: none; margin-top: 14px; padding-top: 14px;
+  border-top: 1px solid #F3F4F6;
+  animation: fadeIn 0.2s ease;
+}
+#pe-audit-card:hover .pe-hover-trend { display: block; }
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+/* Brand logo image tiles */
+.brand-logo {
+  width: 40px; height: 40px; border-radius: 8px; object-fit: contain;
+  border: 1px solid #F3F4F6; background: #fff; flex-shrink: 0;
+}
+.brand-logo-sm { width: 28px; height: 28px; border-radius: 6px; }
+.brand-logo-lg { width: 48px; height: 48px; }
+.brand-tile {
+  flex: 1; border: 1px solid #E5E7EB; border-radius: 8px; padding: 12px;
+  display: flex; align-items: center; gap: 12px; cursor: pointer;
+  transition: border-color 0.15s;
+}
+.brand-tile:hover { border-color: #9CA3AF; }
 </style>
 </head>
 <body>
@@ -650,38 +797,114 @@ a:hover { text-decoration: underline; }
       <div class="two-col">
         <!-- LEFT COLUMN -->
         <div>
-          <!-- Payments tracker -->
-          <div class="deel-card">
-            <div class="deel-card-header">
-              <div class="deel-card-title">
-                <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="8" cy="8" r="6"/><path d="M8 5v6m-2-4h4"/></svg>
-                Payments tracker
+          <!-- Efficiency Score -->
+          <div class="deel-card" style="border: 1px solid #E8EBEF; box-shadow: 0 2px 4px rgba(0,0,0,0.02);">
+            <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 20px;">
+              <div>
+                <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 4px;">
+                  <span style="font-size: 10px; font-weight: 800; color: #7C3AED; background: #F5F3FF; padding: 2px 6px; border-radius: 4px; text-transform: uppercase; font-family: var(--font-mono);">Travel_Service</span>
+                  <span style="font-size: 10px; font-weight: 800; color: #6B7280; font-family: var(--font-mono);">CY: MAR-2026</span>
+                </div>
+                <p style="margin: 4px 0 0; font-size: 24px; font-weight: 700; color: #111827;">96% Auto-Resolved</p>
               </div>
+              <span style="background: #F5F3FF; color: #7C3AED; padding: 4px 12px; border-radius: 4px; font-size: 12px; font-weight: 600;">+12h saved</span>
             </div>
-            <div style="display: flex; gap: 16px;">
-              <div class="deel-card" style="flex: 1; margin: 0; background: var(--primary-lighter);">
-                <p class="small muted">Unpaid invoices</p>
-                <p style="font-size: 22px; font-weight: 700;">$0</p>
-                <p style="font-size: 11px; color: #999;">USD &bull; 0 invoices</p>
-              </div>
-              <div style="flex: 1; padding: 12px;">
-                <p class="small muted">Processing payments</p>
-                <p style="font-size: 22px; font-weight: 700; color: #ccc;">$0</p>
-                <p style="font-size: 11px; color: #999;">USD &bull; 0 payments</p>
-              </div>
+            <div style="display: flex; gap: 3px; height: 32px; align-items: flex-end; margin-bottom: 16px;">
+              <div style="flex: 1; background: #7C3AED; height: 100%; border-radius: 2px;" title="Week 1: 98%"></div>
+              <div style="flex: 1; background: #7C3AED; height: 80%; border-radius: 2px;" title="Week 2: 92%"></div>
+              <div style="flex: 1; background: #7C3AED; height: 95%; border-radius: 2px;" title="Week 3: 96%"></div>
+              <div style="flex: 1; background: #E5E7EB; height: 30%; border-radius: 2px;" title="Week 4: in progress"></div>
             </div>
+            <p style="font-size: 13px; color: #4B5563; margin: 0;"><strong style="color: #111827;">77 of 80</strong> expense items auto-vetted and approved against company policy. <strong style="color: #7C3AED;">3 exceptions</strong> flagged for your review.</p>
           </div>
 
-          <!-- TRAVEL PROMO BANNER (new — like "Simplify your payroll") -->
-          <div class="promo-banner promo-banner-travel">
-            <button class="promo-close">&times;</button>
-            <div class="promo-title">Manage travel with compliance built in</div>
-            <div class="promo-desc">Book flights and hotels for your team. Visa checks, PE tracking, and expense automation &mdash; all in one flow.</div>
-            <button class="promo-btn" onclick="goTo(1)">
-              Book travel
-              <svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 8h10m-4-4l4 4-4 4"/></svg>
-            </button>
-            <div class="promo-illustration">&#9992;&#65039;</div>
+          <!-- ACTIVE TEAM TRAVEL — Flight Tracker -->
+          <div class="deel-card" style="border: 1px solid #E8EBEF; box-shadow: 0 2px 4px rgba(0,0,0,0.02);">
+            <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px;">
+              <p style="font-size: 13px; font-weight: 700; color: #111827; display: flex; align-items: center; gap: 8px;">
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="#6B7280" stroke-width="1.5"><path d="M14 3L7 10M14 3l-4 11-2-5-5-2z"/></svg>
+                Active Team Travel
+                <span style="background: #F3F4F6; color: #6B7280; font-size: 11px; padding: 1px 8px; border-radius: 4px; font-weight: 600; font-family: var(--font-mono);">3</span>
+              </p>
+              <div style="display: flex; align-items: center; gap: 5px;">
+                <span class="live-dot"></span>
+                <span style="font-size: 11px; font-weight: 600; color: #059669; font-family: var(--font-mono); letter-spacing: 0.04em;">LIVE</span>
+              </div>
+            </div>
+
+            <!-- Traveler 1: Teena — PE RISK -->
+            <div style="padding: 10px 0; border-bottom: 1px solid #F3F4F6;">
+              <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 6px;">
+                <div style="width: 28px; height: 28px; border-radius: 6px; background: #e879a8; display: flex; align-items: center; justify-content: center; color: #fff; font-size: 10px; font-weight: 700;">TB</div>
+                <div style="flex: 1;">
+                  <div style="display: flex; align-items: center; gap: 6px;">
+                    <span style="font-size: 12px; font-weight: 600; color: #111827;">Teena Bramley</span>
+                    <span style="font-size: 11px; color: #6B7280; font-family: var(--font-mono);">LHR</span>
+                    <span style="font-size: 10px; color: #9CA3AF;">&#9992;</span>
+                    <span style="font-size: 11px; color: #6B7280; font-family: var(--font-mono);">NRT</span>
+                  </div>
+                  <p style="font-size: 11px; color: #9CA3AF; font-family: var(--font-mono);">Mar 30 &bull; BA5 &bull; Eco+</p>
+                </div>
+                <span style="font-size: 10px; font-weight: 700; color: #D97706; background: #FEF3C7; padding: 2px 8px; border-radius: 3px; letter-spacing: 0.04em;">PE RISK</span>
+              </div>
+              <div style="margin-left: 38px; display: flex; align-items: center; gap: 8px;">
+                <div style="flex: 1; height: 2px; background: #F3F4F6; border-radius: 1px; overflow: hidden;">
+                  <div style="width: 15%; height: 100%; background: #D97706; border-radius: 1px;"></div>
+                </div>
+                <span style="font-size: 10px; color: #9CA3AF; font-family: var(--font-mono);">Departing</span>
+              </div>
+            </div>
+
+            <!-- Traveler 2: Freddie — ON TRACK -->
+            <div style="padding: 10px 0; border-bottom: 1px solid #F3F4F6;">
+              <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 6px;">
+                <div style="width: 28px; height: 28px; border-radius: 6px; background: #7c6bc4; display: flex; align-items: center; justify-content: center; color: #fff; font-size: 10px; font-weight: 700;">FA</div>
+                <div style="flex: 1;">
+                  <div style="display: flex; align-items: center; gap: 6px;">
+                    <span style="font-size: 12px; font-weight: 600; color: #111827;">Freddie Adams</span>
+                    <span style="font-size: 11px; color: #6B7280; font-family: var(--font-mono);">TXL</span>
+                    <span style="font-size: 10px; color: #9CA3AF;">&#9992;</span>
+                    <span style="font-size: 11px; color: #6B7280; font-family: var(--font-mono);">DXB</span>
+                  </div>
+                  <p style="font-size: 11px; color: #9CA3AF; font-family: var(--font-mono);">Apr 2 &bull; EK48 &bull; Biz</p>
+                </div>
+                <span style="font-size: 10px; font-weight: 700; color: #059669; background: #ECFDF5; padding: 2px 8px; border-radius: 3px; letter-spacing: 0.04em;">ON TRACK</span>
+              </div>
+              <div style="margin-left: 38px; display: flex; align-items: center; gap: 8px;">
+                <div style="flex: 1; height: 2px; background: #F3F4F6; border-radius: 1px; overflow: hidden;">
+                  <div style="width: 0%; height: 100%; background: #059669; border-radius: 1px;"></div>
+                </div>
+                <span style="font-size: 10px; color: #9CA3AF; font-family: var(--font-mono);">Scheduled</span>
+              </div>
+            </div>
+
+            <!-- Traveler 3: Meaghan — IN TRANSIT -->
+            <div style="padding: 10px 0;">
+              <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 6px;">
+                <div style="width: 28px; height: 28px; border-radius: 6px; background: #f59e0b; display: flex; align-items: center; justify-content: center; color: #fff; font-size: 10px; font-weight: 700;">MW</div>
+                <div style="flex: 1;">
+                  <div style="display: flex; align-items: center; gap: 6px;">
+                    <span style="font-size: 12px; font-weight: 600; color: #111827;">Meaghan Wolf</span>
+                    <span style="font-size: 11px; color: #6B7280; font-family: var(--font-mono);">JFK</span>
+                    <span style="font-size: 10px; color: #9CA3AF;">&#9992;</span>
+                    <span style="font-size: 11px; color: #6B7280; font-family: var(--font-mono);">NRT</span>
+                  </div>
+                  <p style="font-size: 11px; color: #9CA3AF; font-family: var(--font-mono);">Mar 25 &bull; NH9 &bull; Eco+</p>
+                </div>
+                <span style="font-size: 10px; font-weight: 700; color: #1D4ED8; background: #EFF6FF; padding: 2px 8px; border-radius: 3px; letter-spacing: 0.04em;">IN TRANSIT</span>
+              </div>
+              <div style="margin-left: 38px; display: flex; align-items: center; gap: 8px;">
+                <div style="flex: 1; height: 2px; background: #F3F4F6; border-radius: 1px; overflow: hidden;">
+                  <div style="width: 65%; height: 100%; background: #1D4ED8; border-radius: 1px;"></div>
+                </div>
+                <span style="font-size: 10px; color: #9CA3AF; font-family: var(--font-mono);">En route</span>
+              </div>
+            </div>
+
+            <div style="margin-top: 14px; display: flex; gap: 8px;">
+              <button class="btn btn-dark" style="padding: 7px 16px; font-size: 12px; flex: 1; border-radius: 6px;" onclick="goTo(13)">Book for team</button>
+              <button class="btn btn-outline" style="padding: 7px 16px; font-size: 12px; flex: 1; border-radius: 6px;">View all trips</button>
+            </div>
           </div>
 
           <!-- Payroll requests -->
@@ -712,37 +935,99 @@ a:hover { text-decoration: underline; }
             </div>
             <p class="small muted mb-12">To-dos that need your attention</p>
 
+            <!-- Data update — standard priority -->
             <div class="todo-row">
-              <div class="todo-icon">
-                <svg viewBox="0 0 16 16" fill="none" stroke="#666" stroke-width="1.5"><path d="M4 4h8M4 8h8M4 12h5"/></svg>
+              <div class="todo-icon" style="background: #EFF6FF;">
+                <svg viewBox="0 0 16 16" fill="none" stroke="#1D4ED8" stroke-width="1.5"><path d="M4 4h8M4 8h8M4 12h5"/></svg>
                 <span class="todo-badge">8</span>
               </div>
               <span class="todo-text">Data update</span>
               <button class="todo-review-btn">Review</button>
             </div>
 
-            <div class="todo-row" style="cursor: pointer;" onclick="goTo(6)">
-              <div class="todo-icon">
-                <svg viewBox="0 0 16 16" fill="none" stroke="#666" stroke-width="1.5"><rect x="2" y="3" width="12" height="10" rx="1.5"/><path d="M5 7h6m-6 3h3"/></svg>
-                <span class="todo-badge">80</span>
+            <!-- Expenses — exception handling -->
+            <div style="background: #fff; border: 1px solid #E8EBEF; border-radius: 12px; padding: 20px; margin: 8px 0; cursor: pointer; box-shadow: 0 2px 4px rgba(0,0,0,0.02);" onclick="goTo(6)">
+              <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 16px;">
+                <div>
+                  <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 4px;">
+                    <span style="font-size: 10px; font-weight: 800; color: #7C3AED; background: #F5F3FF; padding: 2px 6px; border-radius: 4px; text-transform: uppercase; font-family: var(--font-mono);">Expense_Service</span>
+                    <span style="font-size: 10px; font-weight: 800; color: #6B7280; font-family: var(--font-mono);">ID: EXP-2026-03</span>
+                  </div>
+                  <h3 style="margin: 0; font-size: 18px; font-weight: 700; color: #111827;">3 Exceptions Require Review</h3>
+                </div>
+                <button class="btn-review-urgent" style="background: #111827; flex-shrink: 0;" onclick="event.stopPropagation(); goTo(6)">Review All</button>
               </div>
-              <span class="todo-text">Expenses</span>
-              <button class="todo-review-btn" onclick="event.stopPropagation(); goTo(6)">Review</button>
+
+              <div style="background: #F0FDF4; border-radius: 8px; padding: 10px 14px; margin-bottom: 16px; display: flex; justify-content: space-between; align-items: center;">
+                <p style="margin: 0; font-size: 12px; color: #16A34A;"><strong>77 of 80</strong> items auto-approved by Deel Travel policy.</p>
+                <span style="font-size: 11px; color: #16A34A; font-weight: 700; font-family: var(--font-mono);">+4.2hrs saved</span>
+              </div>
+
+              <div style="display: flex; flex-direction: column; gap: 0;">
+                <div style="display: flex; justify-content: space-between; align-items: center; padding: 8px 0; border-bottom: 1px solid #F3F4F6;">
+                  <span style="font-size: 13px; color: #4B5563;">Teena Bramley &bull; Flight &pound;742</span>
+                  <span style="font-size: 10px; font-weight: 700; color: #B45309; background: #FFFBEB; padding: 2px 8px; border-radius: 4px; font-family: var(--font-mono);">PE_RISK (153d)</span>
+                </div>
+                <div style="display: flex; justify-content: space-between; align-items: center; padding: 8px 0; border-bottom: 1px solid #F3F4F6;">
+                  <span style="font-size: 13px; color: #4B5563;">Freddie Adams &bull; Flight $2,100</span>
+                  <span style="font-size: 10px; font-weight: 700; color: #B91C1C; background: #FEF2F2; padding: 2px 8px; border-radius: 4px; font-family: var(--font-mono);">OUT_OF_POLICY</span>
+                </div>
+                <div style="display: flex; justify-content: space-between; align-items: center; padding: 8px 0;">
+                  <span style="font-size: 13px; color: #4B5563;">Meaghan Wolf &bull; Hotel $890</span>
+                  <span style="font-size: 10px; font-weight: 700; color: #B45309; background: #FFFBEB; padding: 2px 8px; border-radius: 4px; font-family: var(--font-mono);">RECEIPT_MISSING</span>
+                </div>
+              </div>
+            </div>
+            <!-- AUDIT EXCEPTION: PE Risk — Tax Liability Warning -->
+            <div id="pe-audit-card" style="background: #fff; border: 1px solid #E8EBEF; border-left: 4px solid #D92D20; border-radius: 12px; padding: 20px; margin: 8px 0; cursor: pointer; position: relative; box-shadow: 0 2px 4px rgba(0,0,0,0.02);" onclick="goTo(7)">
+              <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+                <div style="display: flex; gap: 14px; align-items: flex-start; flex: 1;">
+                  <div style="font-size: 18px; flex-shrink: 0; margin-top: 1px;">&#9878;&#65039;</div>
+                  <div style="flex: 1;">
+                    <p style="font-size: 10px; font-weight: 700; color: #9CA3AF; font-family: var(--font-mono); letter-spacing: 0.06em; text-transform: uppercase; margin-bottom: 4px;">TAX_SERVICE &bull; COMPLIANCE_ENGINE</p>
+                    <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 4px;">
+                      <p id="travel-todo-label" style="font-size: 14px; font-weight: 700; color: #111827; margin: 0;">PE Threshold Exception</p>
+                      <span id="travel-todo-badge" style="font-size: 10px; font-weight: 700; color: #D92D20; background: #FEF2F2; padding: 2px 6px; border-radius: 3px; font-family: var(--font-mono);">ACTION REQUIRED</span>
+                    </div>
+                    <p style="font-size: 12px; color: #4B5563; line-height: 1.6; margin: 0;">
+                      Traveler: <strong>Teena Bramley</strong> &bull; Jurisdiction: <strong>Japan (JP)</strong><br>
+                      <code style="background: #F9FAFB; padding: 2px 5px; border-radius: 3px; color: #D92D20; font-size: 11px;">153 / 183 cumulative days tracked</code>
+                      &bull; <code style="background: #F9FAFB; padding: 2px 5px; border-radius: 3px; color: #6B7280; font-size: 11px;">OECD Art.5 &sect;3</code>
+                    </p>
+                  </div>
+                </div>
+                <button class="btn-review-urgent" style="flex-shrink: 0; margin-left: 12px;" onclick="event.stopPropagation(); goTo(7)">Resolve Risk</button>
+              </div>
+              <!-- Hover: trend line -->
+              <div class="pe-hover-trend">
+                <p style="font-size: 10px; font-weight: 700; color: #6B7280; text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 8px; font-family: var(--font-mono);">Cumulative Days in JP &mdash; FY2026</p>
+                <div style="display: flex; align-items: flex-end; gap: 2px; height: 40px; margin-bottom: 6px;">
+                  <div style="flex: 1; background: #E5E7EB; border-radius: 1px; height: 15%;"></div>
+                  <div style="flex: 1; background: #E5E7EB; border-radius: 1px; height: 22%;"></div>
+                  <div style="flex: 1; background: #E5E7EB; border-radius: 1px; height: 30%;"></div>
+                  <div style="flex: 1; background: #FDE68A; border-radius: 1px; height: 40%;"></div>
+                  <div style="flex: 1; background: #FDE68A; border-radius: 1px; height: 52%;"></div>
+                  <div style="flex: 1; background: #FBBF24; border-radius: 1px; height: 60%;"></div>
+                  <div style="flex: 1; background: #FBBF24; border-radius: 1px; height: 68%;"></div>
+                  <div style="flex: 1; background: #F59E0B; border-radius: 1px; height: 75%;"></div>
+                  <div style="flex: 1; background: #D97706; border-radius: 1px; height: 80%;"></div>
+                  <div style="flex: 1; background: #D92D20; border-radius: 1px; height: 84%;"></div>
+                  <div style="flex: 1; background: #D92D20; border-radius: 1px; height: 84%; opacity: 0.5; border: 1px dashed #D92D20;"></div>
+                </div>
+                <div style="display: flex; justify-content: space-between; font-size: 9px; color: #9CA3AF; font-family: var(--font-mono);">
+                  <span>Jan</span><span>Feb</span><span>Mar</span><span style="color: #D92D20;">Apr (proj)</span>
+                </div>
+                <div style="margin-top: 8px; padding-top: 6px; border-top: 1px solid #F3F4F6; display: flex; justify-content: space-between; font-size: 10px; font-family: var(--font-mono);">
+                  <span style="color: #6B7280;">Threshold: <strong style="color: #111827;">183d</strong></span>
+                  <span style="color: #D92D20;">Remaining: <strong>30d</strong></span>
+                </div>
+              </div>
             </div>
 
-            <!-- NEW: Travel Requests -->
-            <div class="todo-row" style="cursor: pointer;" onclick="goTo(7)">
-              <div class="todo-icon">
-                <svg viewBox="0 0 16 16" fill="none" stroke="#666" stroke-width="1.5"><path d="M14 3L7 10M14 3l-4 11-2-5-5-2z"/></svg>
-                <span class="todo-badge" style="background: #d97706;">1</span>
-              </div>
-              <span class="todo-text">Travel requests <span class="badge badge-amber" style="margin-left: 6px; font-size: 9px;">PE alert</span></span>
-              <button class="todo-review-btn" onclick="event.stopPropagation(); goTo(7)">Review</button>
-            </div>
-
-            <div class="todo-row">
-              <div class="todo-icon">
-                <svg viewBox="0 0 16 16" fill="none" stroke="#666" stroke-width="1.5"><rect x="2" y="2" width="12" height="12" rx="1.5"/><path d="M5 8l2 2 4-4"/></svg>
+            <!-- Contractors — standard priority -->
+            <div class="todo-row" style="margin-top: 4px;">
+              <div class="todo-icon" style="background: #F5F3FF;">
+                <svg viewBox="0 0 16 16" fill="none" stroke="#7C3AED" stroke-width="1.5"><rect x="2" y="2" width="12" height="12" rx="1.5"/><path d="M5 8l2 2 4-4"/></svg>
                 <span class="todo-badge">13</span>
               </div>
               <span class="todo-text">Contractors' submissions</span>
@@ -768,6 +1053,20 @@ a:hover { text-decoration: underline; }
                 <p style="font-size: 11px; color: #999; margin-top: 2px;">Next up: Tell us about your organization</p>
               </div>
               <button class="btn btn-dark" style="padding: 6px 14px; font-size: 12px;">Continue</button>
+            </div>
+          </div>
+
+          <!-- Team Travel shortcut -->
+          <div class="deel-card" style="cursor: pointer;" onclick="goTo(13)">
+            <div style="display: flex; align-items: center; gap: 12px;">
+              <div style="width: 36px; height: 36px; border-radius: 10px; background: var(--lavender-bg); display: flex; align-items: center; justify-content: center;">
+                <svg width="18" height="18" viewBox="0 0 16 16" fill="none" stroke="#1f74b3" stroke-width="1.5"><path d="M14 3L7 10M14 3l-4 11-2-5-5-2z"/></svg>
+              </div>
+              <div style="flex: 1;">
+                <p class="small bold">Team Travel</p>
+                <p style="font-size: 11px; color: #999;">Book flights &amp; hotels on behalf of your team</p>
+              </div>
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="#ccc" stroke-width="1.5"><path d="M6 4l4 4-4 4"/></svg>
             </div>
           </div>
         </div>
@@ -1014,7 +1313,7 @@ a:hover { text-decoration: underline; }
 
         <div class="deel-card" style="padding: 0; overflow: hidden;">
           <div class="flight-option" onclick="goTo(9)">
-            <div class="flight-airline" style="background: #1a1a2e;">BA</div>
+            <img src="https://airhex.com/images/airline-logos/square/british-airways.png" alt="British Airways" style="width: 40px; height: 40px; border-radius: 10px; object-fit: contain; background: #fff; border: 1px solid #E5E7EB; flex-shrink: 0;">
             <div class="flight-details">
               <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 4px;">
                 <p class="small bold">British Airways &bull; BA5</p>
@@ -1037,7 +1336,7 @@ a:hover { text-decoration: underline; }
           </div>
 
           <div class="flight-option" onclick="goTo(9)">
-            <div class="flight-airline" style="background: #c4002b;">JL</div>
+            <img src="https://airhex.com/images/airline-logos/square/japan-airlines.png" alt="Japan Airlines" style="width: 40px; height: 40px; border-radius: 10px; object-fit: contain; background: #fff; border: 1px solid #E5E7EB; flex-shrink: 0;">
             <div class="flight-details">
               <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 4px;">
                 <p class="small bold">Japan Airlines &bull; JL401</p>
@@ -1060,7 +1359,7 @@ a:hover { text-decoration: underline; }
           </div>
 
           <div class="flight-option" style="opacity: 0.55;" onclick="goTo(9)">
-            <div class="flight-airline" style="background: #003d7a;">NH</div>
+            <img src="https://airhex.com/images/airline-logos/square/all-nippon-airways.png" alt="ANA" style="width: 40px; height: 40px; border-radius: 10px; object-fit: contain; background: #fff; border: 1px solid #E5E7EB; flex-shrink: 0;">
             <div class="flight-details">
               <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 4px;">
                 <p class="small bold">ANA &bull; NH211</p>
@@ -1129,7 +1428,7 @@ a:hover { text-decoration: underline; }
 
               <!-- Flight -->
               <div style="display: flex; gap: 16px; margin-bottom: 24px; position: relative; z-index: 2;">
-                <div style="background: var(--bg-paper); border: 2px solid var(--divider); border-radius: 50%; width: 24px; height: 24px; display: flex; align-items: center; justify-content: center; font-size: 12px; flex-shrink: 0;">&#9992;&#65039;</div>
+                <img src="https://airhex.com/images/airline-logos/square/british-airways.png" alt="BA" style="width: 24px; height: 24px; border-radius: 50%; object-fit: contain; flex-shrink: 0; border: 2px solid var(--divider); background: #fff;">
                 <div style="flex: 1;">
                   <div style="display: flex; justify-content: space-between;">
                     <p class="small bold">British Airways &bull; BA5</p>
@@ -1141,7 +1440,7 @@ a:hover { text-decoration: underline; }
 
               <!-- Hotel -->
               <div style="display: flex; gap: 16px; margin-bottom: 24px; position: relative; z-index: 2;">
-                <div style="background: var(--bg-paper); border: 2px solid var(--divider); border-radius: 50%; width: 24px; height: 24px; display: flex; align-items: center; justify-content: center; font-size: 12px; flex-shrink: 0;">&#127976;</div>
+                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a9/Shinjuku_Park_Tower_2018_from_MetGovBld.jpg/250px-Shinjuku_Park_Tower_2018_from_MetGovBld.jpg" alt="Park Hyatt Tokyo" style="width: 24px; height: 24px; border-radius: 50%; object-fit: cover; flex-shrink: 0; border: 2px solid var(--divider);">
                 <div style="flex: 1;">
                   <div style="display: flex; justify-content: space-between;">
                     <p class="small bold">Park Hyatt Tokyo</p>
@@ -1153,7 +1452,7 @@ a:hover { text-decoration: underline; }
 
               <!-- Car -->
               <div style="display: flex; gap: 16px; position: relative; z-index: 2;">
-                <div style="background: var(--bg-paper); border: 2px solid var(--divider); border-radius: 50%; width: 24px; height: 24px; display: flex; align-items: center; justify-content: center; font-size: 12px; flex-shrink: 0;">&#128664;</div>
+                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/91/2019_Tesla_Model_3_Performance_AWD_Front.jpg/330px-2019_Tesla_Model_3_Performance_AWD_Front.jpg" alt="Tesla Model 3" style="width: 24px; height: 24px; border-radius: 50%; object-fit: cover; flex-shrink: 0; border: 2px solid var(--divider);">
                 <div style="flex: 1;">
                   <div style="display: flex; justify-content: space-between;">
                     <p class="small bold">Tesla Model 3 (Electric)</p>
@@ -1325,7 +1624,7 @@ a:hover { text-decoration: underline; }
         <div class="deel-card" style="padding: 0; overflow: hidden;">
           <!-- Hotel 1 -->
           <div class="flight-option" onclick="goTo(10)">
-            <div style="width: 40px; height: 40px; border-radius: 10px; background: var(--neutral-light); display: flex; align-items: center; justify-content: center; font-size: 20px; flex-shrink: 0;">&#127976;</div>
+            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a9/Shinjuku_Park_Tower_2018_from_MetGovBld.jpg/250px-Shinjuku_Park_Tower_2018_from_MetGovBld.jpg" alt="Park Hyatt Tokyo" style="width: 40px; height: 40px; border-radius: 10px; object-fit: cover; flex-shrink: 0;">
             <div class="flight-details">
               <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 4px;">
                 <p class="small bold">Park Hyatt Tokyo</p>
@@ -1344,7 +1643,7 @@ a:hover { text-decoration: underline; }
 
           <!-- Hotel 2 -->
           <div class="flight-option" onclick="goTo(10)">
-            <div style="width: 40px; height: 40px; border-radius: 10px; background: var(--neutral-light); display: flex; align-items: center; justify-content: center; font-size: 20px; flex-shrink: 0;">&#127976;</div>
+            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/d6/Shinjuku_Toho4.jpg/330px-Shinjuku_Toho4.jpg" alt="Hotel Gracery Shinjuku" style="width: 40px; height: 40px; border-radius: 10px; object-fit: cover; flex-shrink: 0;">
             <div class="flight-details">
               <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 4px;">
                 <p class="small bold">Hotel Gracery Shinjuku</p>
@@ -1362,7 +1661,7 @@ a:hover { text-decoration: underline; }
 
           <!-- Hotel 3 -->
           <div class="flight-option" style="opacity: 0.55;">
-            <div style="width: 40px; height: 40px; border-radius: 10px; background: var(--neutral-light); display: flex; align-items: center; justify-content: center; font-size: 20px; flex-shrink: 0;">&#127976;</div>
+            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/55/Otemachi_1-6.jpg/250px-Otemachi_1-6.jpg" alt="Aman Tokyo" style="width: 40px; height: 40px; border-radius: 10px; object-fit: cover; flex-shrink: 0;">
             <div class="flight-details">
               <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 4px;">
                 <p class="small bold">Aman Tokyo</p>
@@ -1420,7 +1719,7 @@ a:hover { text-decoration: underline; }
         <div class="deel-card" style="padding: 0; overflow: hidden;">
           <!-- Car 1: EV -->
           <div class="flight-option" onclick="goTo(4)">
-            <div style="width: 40px; height: 40px; border-radius: 10px; background: var(--secondary-lighter); display: flex; align-items: center; justify-content: center; font-size: 20px; flex-shrink: 0;">&#128664;</div>
+            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/91/2019_Tesla_Model_3_Performance_AWD_Front.jpg/330px-2019_Tesla_Model_3_Performance_AWD_Front.jpg" alt="Tesla Model 3" style="width: 40px; height: 40px; border-radius: 10px; object-fit: cover; flex-shrink: 0;">
             <div class="flight-details">
               <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 4px;">
                 <p class="small bold">Tesla Model 3 (Electric)</p>
@@ -1438,7 +1737,7 @@ a:hover { text-decoration: underline; }
 
           <!-- Car 2 -->
           <div class="flight-option" onclick="goTo(4)">
-            <div style="width: 40px; height: 40px; border-radius: 10px; background: var(--neutral-light); display: flex; align-items: center; justify-content: center; font-size: 20px; flex-shrink: 0;">&#128663;</div>
+            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/ac/2018_Toyota_Camry_%28ASV70R%29_Ascent_sedan_%282018-08-27%29_01.jpg/330px-2018_Toyota_Camry_%28ASV70R%29_Ascent_sedan_%282018-08-27%29_01.jpg" alt="Toyota Camry" style="width: 40px; height: 40px; border-radius: 10px; object-fit: cover; flex-shrink: 0;">
             <div class="flight-details">
               <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 4px;">
                 <p class="small bold">Toyota Camry</p>
@@ -1453,7 +1752,7 @@ a:hover { text-decoration: underline; }
 
           <!-- Executive Transfer -->
           <div class="flight-option" onclick="goTo(4)">
-            <div style="width: 40px; height: 40px; border-radius: 10px; background: var(--neutral-light); display: flex; align-items: center; justify-content: center; font-size: 20px; flex-shrink: 0;">&#128661;</div>
+            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/86/BMW_G60_520i_1X7A2443.jpg/250px-BMW_G60_520i_1X7A2443.jpg" alt="Executive Airport Transfer" style="width: 40px; height: 40px; border-radius: 10px; object-fit: cover; flex-shrink: 0;">
             <div class="flight-details">
               <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 4px;">
                 <p class="small bold">Executive Airport Transfer</p>
@@ -1499,6 +1798,19 @@ a:hover { text-decoration: underline; }
       </div>
       <p class="small muted mb-16">Any action you need to take for all workers in your organization</p>
 
+      <!-- Smart Filter Toggle -->
+      <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px;">
+        <div style="display: flex; align-items: center; gap: 12px;">
+          <span style="font-size: 13px; font-weight: 600; color: #666;">Viewing: All expenses</span>
+          <span style="font-size: 11px; color: #999;">&bull; Manual review mode</span>
+        </div>
+        <button class="smart-toggle demo-hotspot" onclick="activateSmartFilter()">
+          <div class="smart-toggle-track"><div class="smart-toggle-knob"></div></div>
+          <span style="font-size: 12px; font-weight: 600; color: #5b21b6; position: relative;">Enable Auto-Approval Logic</span>
+          <span style="font-size: 9px; font-weight: 700; background: #a041ff; color: #fff; padding: 2px 6px; border-radius: 6px; position: relative;">AI</span>
+        </button>
+      </div>
+
       <div class="expenses-layout">
         <div class="expenses-sidebar">
           <button class="expenses-sidebar-item">
@@ -1528,7 +1840,7 @@ a:hover { text-decoration: underline; }
             <button class="filter-chip" style="margin-left: auto;">Your approval &#9662;</button>
           </div>
 
-          <p class="small muted mb-8">Total 80 items</p>
+          <p class="small muted mb-8">Total 80 items &mdash; <span style="color: #d97706; font-weight: 600;">all require manual review</span></p>
 
           <div class="deel-card" style="padding: 0; overflow-x: auto;">
             <table class="expenses-table">
@@ -1540,6 +1852,7 @@ a:hover { text-decoration: underline; }
                   <th>Vendor</th>
                   <th>Worker</th>
                   <th>Status</th>
+                  <th>Receipt</th>
                   <th>Actions</th>
                 </tr>
               </thead>
@@ -1550,8 +1863,9 @@ a:hover { text-decoration: underline; }
                   <td><strong>$750.00</strong><br><span style="font-size: 11px; color: #999;">Mar 30th 2026</span></td>
                   <td>Air China</td>
                   <td><div class="expense-worker"><div class="expense-worker-avatar" style="background: #e879a8;">TB</div><div><p class="small bold">Teena Bramley</p><p style="font-size: 11px; color: #999;">Global Payroll</p></div></div></td>
-                  <td><span class="badge badge-amber">Pending your approval</span></td>
-                  <td><div class="expense-actions"><button class="expense-action-btn expense-reject">&#10005;</button><button class="expense-action-btn expense-approve">&#10003;</button><span class="muted">&#8942;</span></div></td>
+                  <td><span style="display: inline-block; padding: 4px 10px; border-radius: 6px; font-size: 11px; font-weight: 700; background: #d97706; color: #fff;">PENDING</span></td>
+                  <td><span class="attach-icon attach-ok">&#128206;</span><span style="font-size: 11px; color: #16a34a;">1 file</span></td>
+                  <td><div class="expense-actions"><button class="expense-action-btn expense-approve">Approve</button><button class="expense-action-btn expense-reject">Decline</button></div></td>
                 </tr>
                 <tr>
                   <td><input type="checkbox" disabled></td>
@@ -1559,8 +1873,9 @@ a:hover { text-decoration: underline; }
                   <td><strong>$542.00</strong></td>
                   <td>Wayne Enterprises</td>
                   <td><div class="expense-worker"><div class="expense-worker-avatar" style="background: #7c6bc4;">FA</div><div><p class="small bold">Freddie Adams</p><p style="font-size: 11px; color: #999;">EOR</p></div></div></td>
-                  <td><span class="badge badge-amber">Pending your approval</span></td>
-                  <td><div class="expense-actions"><button class="expense-action-btn expense-reject">&#10005;</button><button class="expense-action-btn expense-approve">&#10003;</button><span class="muted">&#8942;</span></div></td>
+                  <td><span style="display: inline-block; padding: 4px 10px; border-radius: 6px; font-size: 11px; font-weight: 700; background: #d97706; color: #fff;">PENDING</span></td>
+                  <td><span class="attach-icon attach-missing">&#128206;</span><span style="font-size: 11px; color: #dc2626;">Missing</span></td>
+                  <td><div class="expense-actions"><button class="expense-action-btn expense-approve">Approve</button><button class="expense-action-btn expense-reject">Decline</button></div></td>
                 </tr>
                 <tr>
                   <td><input type="checkbox" disabled></td>
@@ -1568,8 +1883,9 @@ a:hover { text-decoration: underline; }
                   <td><strong>$924.00</strong></td>
                   <td>Wayne Enterprises</td>
                   <td><div class="expense-worker"><div class="expense-worker-avatar" style="background: #7c6bc4;">FA</div><div><p class="small bold">Freddie Adams</p><p style="font-size: 11px; color: #999;">EOR</p></div></div></td>
-                  <td><span class="badge badge-amber">Pending your approval</span></td>
-                  <td><div class="expense-actions"><button class="expense-action-btn expense-reject">&#10005;</button><button class="expense-action-btn expense-approve">&#10003;</button><span class="muted">&#8942;</span></div></td>
+                  <td><span style="display: inline-block; padding: 4px 10px; border-radius: 6px; font-size: 11px; font-weight: 700; background: #d97706; color: #fff;">PENDING</span></td>
+                  <td><span class="attach-icon attach-ok">&#128206;</span><span style="font-size: 11px; color: #16a34a;">1 file</span></td>
+                  <td><div class="expense-actions"><button class="expense-action-btn expense-approve">Approve</button><button class="expense-action-btn expense-reject">Decline</button></div></td>
                 </tr>
                 <tr>
                   <td><input type="checkbox" disabled></td>
@@ -1577,8 +1893,9 @@ a:hover { text-decoration: underline; }
                   <td><strong>$811.00</strong></td>
                   <td>Wayne Enterprises</td>
                   <td><div class="expense-worker"><div class="expense-worker-avatar" style="background: #f59e0b;">MW</div><div><p class="small bold">Meaghan Wolf</p><p style="font-size: 11px; color: #999;">EOR</p></div></div></td>
-                  <td><span class="badge badge-amber">Pending your approval</span></td>
-                  <td><div class="expense-actions"><button class="expense-action-btn expense-reject">&#10005;</button><button class="expense-action-btn expense-approve">&#10003;</button><span class="muted">&#8942;</span></div></td>
+                  <td><span style="display: inline-block; padding: 4px 10px; border-radius: 6px; font-size: 11px; font-weight: 700; background: #d97706; color: #fff;">PENDING</span></td>
+                  <td><span class="attach-icon attach-missing">&#128206;</span><span style="font-size: 11px; color: #dc2626;">Missing</span></td>
+                  <td><div class="expense-actions"><button class="expense-action-btn expense-approve">Approve</button><button class="expense-action-btn expense-reject">Decline</button></div></td>
                 </tr>
                 <tr>
                   <td><input type="checkbox" disabled></td>
@@ -1586,26 +1903,15 @@ a:hover { text-decoration: underline; }
                   <td><strong>&pound;393.00</strong></td>
                   <td>Wayne Enterprises</td>
                   <td><div class="expense-worker"><div class="expense-worker-avatar" style="background: #6366f1;">TN</div><div><p class="small bold">Tillman Nienow</p><p style="font-size: 11px; color: #999;">EOR</p></div></div></td>
-                  <td><span class="badge badge-amber">Pending your approval</span></td>
-                  <td><div class="expense-actions"><button class="expense-action-btn expense-reject">&#10005;</button><button class="expense-action-btn expense-approve">&#10003;</button><span class="muted">&#8942;</span></div></td>
+                  <td><span style="display: inline-block; padding: 4px 10px; border-radius: 6px; font-size: 11px; font-weight: 700; background: #d97706; color: #fff;">PENDING</span></td>
+                  <td><span class="attach-icon attach-none">&#128206;</span><span style="font-size: 11px; color: #999;">None</span></td>
+                  <td><div class="expense-actions"><button class="expense-action-btn expense-approve">Approve</button><button class="expense-action-btn expense-reject">Decline</button></div></td>
                 </tr>
               </tbody>
             </table>
             <div style="padding: 12px 20px; text-align: center; border-top: 1px solid #f3f2f0;">
               <p class="small muted">Showing 5 of 80 items &mdash; <a href="#" onclick="event.preventDefault()">View all</a></p>
             </div>
-          </div>
-
-          <!-- Callout: what travel changes -->
-          <div class="promo-banner promo-banner-travel mt-16">
-            <button class="promo-close">&times;</button>
-            <div class="promo-title">With Deel Travel, travel expenses auto-approve</div>
-            <div class="promo-desc">Bookings within policy are pre-approved. No manual review needed. Receipts attach automatically. Reduce your 80-item queue to only exceptions.</div>
-            <button class="promo-btn" onclick="goTo(0)">
-              Learn more
-              <svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 8h10m-4-4l4 4-4 4"/></svg>
-            </button>
-            <div class="promo-illustration">&#128640;</div>
           </div>
         </div>
       </div>
@@ -1685,7 +1991,7 @@ a:hover { text-decoration: underline; }
 
         <!-- Manager actions -->
         <div style="display: flex; gap: 12px; margin-top: 24px;">
-          <button class="btn btn-green btn-lg" style="flex: 1;" onclick="goTo(0)">
+          <button class="btn btn-green btn-lg demo-hotspot" style="flex: 1;" onclick="approveTrip()">
             <span>&#10003;</span> Approve Trip
           </button>
           <button class="btn btn-outline btn-lg" style="flex: 1;" onclick="goTo(0)">
@@ -1843,57 +2149,113 @@ a:hover { text-decoration: underline; }
               </div>
             </div>
 
-            <!-- Book your next trip promo (pre-booking state) -->
-            <div id="promo-book" class="promo-banner promo-banner-travel mt-16" style="cursor: pointer; position: relative;" onclick="goTo(1)">
-              <button class="promo-close" onclick="event.stopPropagation();">&times;</button>
-              <div class="promo-title">Book your next trip</div>
-              <div class="promo-desc">Flights and hotels with visa checks, PE tracking, and expense automation built in. No manual receipts. No PDF uploads.</div>
-              <button class="promo-btn" onclick="event.stopPropagation(); goTo(1)">
-                Book travel &rarr;
-              </button>
-              <div class="promo-illustration">&#9992;&#65039;</div>
+            <!-- Your Travel Summary (pre-booking state) -->
+            <div id="promo-book" class="deel-card mt-16" style="border: 1px solid #E5E7EB;">
+              <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 20px;">
+                <div>
+                  <p style="margin: 0; font-size: 11px; font-weight: 700; color: #6B7280; text-transform: uppercase; letter-spacing: 0.06em;">Your Travel</p>
+                  <p style="margin: 4px 0 0; font-size: 24px; font-weight: 700; color: #111827;">&pound;1,640 <span style="font-size: 14px; font-weight: 500; color: #6B7280;">YTD spend</span></p>
+                </div>
+                <span style="background: #ECFDF5; color: #059669; padding: 4px 12px; border-radius: 4px; font-size: 12px; font-weight: 600;">3 trips this quarter</span>
+              </div>
+              <div style="display: flex; gap: 3px; height: 32px; align-items: flex-end; margin-bottom: 16px;">
+                <div style="flex: 1; background: #1f74b3; height: 35%; border-radius: 2px;" title="Jan: &pound;520"></div>
+                <div style="flex: 1; background: #1f74b3; height: 75%; border-radius: 2px;" title="Feb: &pound;780"></div>
+                <div style="flex: 1; background: #1f74b3; height: 30%; border-radius: 2px;" title="Mar: &pound;340"></div>
+                <div style="flex: 1; background: #E5E7EB; height: 10%; border-radius: 2px;" title="Apr: pending"></div>
+              </div>
+              <div style="display: flex; justify-content: space-between; align-items: center;">
+                <p style="font-size: 13px; color: #4B5563; margin: 0;"><strong>100%</strong> of expenses auto-approved this quarter.</p>
+                <button class="btn btn-dark" style="padding: 7px 16px; font-size: 12px; border-radius: 6px;" onclick="goTo(1)">Book travel</button>
+              </div>
             </div>
 
             <!-- Traveler Dashboard Hero (post-booking state — hidden initially) -->
-            <div id="traveler-hero" class="deel-card mt-16" style="display: none;">
-              <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+            <div id="traveler-hero" style="display: none; background: #fff; border: 1px solid #E5E7EB; border-radius: 8px; padding: 28px; margin-top: 16px;">
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 22px;">
                 <div>
-                  <p style="color: var(--text-disabled); font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 8px;">Upcoming Trip</p>
-                  <h2 style="font-size: 22px; font-weight: 700; margin: 0 0 4px;">You're heading to Tokyo in 12 days! &#127471;&#127477;</h2>
-                  <p style="color: var(--text-disabled); font-size: 13px;">Flight BA5 &bull; Mar 30 &bull; Economy Plus &bull; Terminal 5</p>
+                  <h2 style="font-size: 28px; font-weight: 800; color: #111827; margin: 0; letter-spacing: -0.5px;">Tokyo, Japan</h2>
+                  <p style="margin: 4px 0 0; font-size: 12px; color: #6B7280; font-weight: 600; text-transform: uppercase; letter-spacing: 0.04em; font-family: var(--font-mono);">Upcoming Trip &bull; LHR &rarr; NRT</p>
                 </div>
-                <div style="display: flex; gap: 8px; text-align: center;">
-                  <div><div style="font-size: 20px; font-weight: 700;">12</div><div style="font-size: 9px; color: var(--text-disabled); text-transform: uppercase;">Days</div></div>
-                  <div style="font-size: 20px; color: var(--divider);">:</div>
-                  <div><div style="font-size: 20px; font-weight: 700;">08</div><div style="font-size: 9px; color: var(--text-disabled); text-transform: uppercase;">Hrs</div></div>
+                <div style="display: flex; gap: 6px; background: #111827; padding: 10px 14px; border-radius: 8px; color: #fff;">
+                  <div style="text-align: center;"><div style="font-size: 18px; font-weight: 700; font-family: var(--font-mono);">12</div><div style="font-size: 8px; opacity: 0.5; text-transform: uppercase; letter-spacing: 0.06em;">Days</div></div>
+                  <div style="font-size: 18px; opacity: 0.25;">:</div>
+                  <div style="text-align: center;"><div style="font-size: 18px; font-weight: 700; font-family: var(--font-mono);">08</div><div style="font-size: 8px; opacity: 0.5; text-transform: uppercase; letter-spacing: 0.06em;">Hrs</div></div>
                 </div>
               </div>
-              <div style="margin-top: 16px; display: flex; gap: 8px;">
-                <button class="btn btn-dark" style="padding: 8px 16px; font-size: 12px;">View Flight Details</button>
-                <button class="btn btn-outline" style="padding: 8px 16px; font-size: 12px;">Add Hotel</button>
+              <div style="display: flex; gap: 12px; margin-bottom: 20px;">
+                <div class="brand-tile">
+                  <img src="https://airhex.com/images/airline-logos/square/british-airways.png" class="brand-logo" alt="BA">
+                  <div>
+                    <p style="font-size: 13px; font-weight: 700; color: #111827; margin: 0;">Flight BA5</p>
+                    <p style="font-size: 11px; color: #6B7280; margin: 2px 0 0; font-family: var(--font-mono);">Mar 30 &bull; 09:15</p>
+                  </div>
+                </div>
+                <div class="brand-tile">
+                  <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a9/Shinjuku_Park_Tower_2018_from_MetGovBld.jpg/250px-Shinjuku_Park_Tower_2018_from_MetGovBld.jpg" class="brand-logo" style="object-fit: cover;" alt="Park Hyatt">
+                  <div>
+                    <p style="font-size: 13px; font-weight: 700; color: #111827; margin: 0;">Park Hyatt Tokyo</p>
+                    <p style="font-size: 11px; color: #6B7280; margin: 2px 0 0; font-family: var(--font-mono);">6 Nights &bull; Shinjuku</p>
+                  </div>
+                </div>
+                <div class="brand-tile">
+                  <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/91/2019_Tesla_Model_3_Performance_AWD_Front.jpg/330px-2019_Tesla_Model_3_Performance_AWD_Front.jpg" class="brand-logo" style="object-fit: cover;" alt="Tesla">
+                  <div>
+                    <p style="font-size: 13px; font-weight: 700; color: #111827; margin: 0;">Tesla Model 3</p>
+                    <p style="font-size: 11px; color: #6B7280; margin: 2px 0 0; font-family: var(--font-mono);">Hertz &bull; NRT Pickup</p>
+                  </div>
+                </div>
               </div>
-              <div style="margin-top: 12px; padding: 10px 14px; background: var(--success-lighter); border-radius: 8px; display: flex; align-items: center; gap: 8px;">
-                <span style="color: var(--success-main);">&#10003;</span>
-                <p style="color: var(--success-main); font-size: 12px; margin: 0;"><strong>Expense automated:</strong> Your flight (&pound;742) is added to April payroll. No receipt needed.</p>
+              <div style="background: #F0FDF4; border: 1px solid #A7F3D0; border-radius: 8px; padding: 14px 16px; display: flex; align-items: flex-start; gap: 10px; margin-bottom: 18px;">
+                <span style="color: #059669; font-size: 16px; flex-shrink: 0;">&#10003;</span>
+                <div>
+                  <p style="margin: 0; font-size: 13px; font-weight: 700; color: #111827;">&pound;2,572 trip bundle auto-approved</p>
+                  <p style="margin: 3px 0 0; font-size: 12px; color: #065F46;">Mapped to Logistics (GL 6200). <strong>Reimbursement queued for April 30 payroll cycle.</strong></p>
+                </div>
+              </div>
+              <div style="display: flex; gap: 10px; justify-content: flex-end;">
+                <button class="btn btn-outline" style="padding: 10px 20px; font-size: 13px; border-radius: 6px;">Manage Expenses</button>
+                <button class="btn btn-dark" style="padding: 10px 20px; font-size: 13px; border-radius: 6px; background: var(--indigo-deep);">View Full Itinerary</button>
               </div>
             </div>
 
             <!-- For you today (pre-booking) -->
             <div id="foryou-empty" class="deel-card mt-16">
-              <div style="padding: 0 0 4px; font-size: 14px; font-weight: 600; display: flex; align-items: center; gap: 8px;">
-                <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="#666" stroke-width="1.5"><rect x="2" y="2" width="12" height="12" rx="1.5"/><path d="M2 6h12"/></svg>
-                For you today
+              <div class="deel-card-header">
+                <div class="deel-card-title">
+                  <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="2" width="12" height="12" rx="1.5"/><path d="M2 6h12"/><path d="M6 2v4m4-4v4"/></svg>
+                  For you today
+                </div>
+                <button class="deel-card-action">Manage &#9662;</button>
               </div>
-              <div class="for-you-illustration">
-                <svg width="120" height="90" viewBox="0 0 120 90" fill="none">
-                  <rect x="25" y="15" width="70" height="50" rx="6" fill="#EDE8F5" stroke="#c9b8f0" stroke-width="1.5"/>
-                  <path d="M40 40l10-10 8 6 12-12 10 8" stroke="#1f74b3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                  <circle cx="45" cy="30" r="3" fill="#a78bfa"/>
-                  <circle cx="80" cy="52" r="8" fill="#dcfce7" stroke="#16a34a" stroke-width="1.5"/>
-                  <path d="M76 52l3 3 5-5" stroke="#16a34a" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                </svg>
-                <p class="bold" style="font-size: 14px; margin-bottom: 2px;">That's all for today!</p>
-                <p style="font-size: 12px; color: var(--text-disabled);">You've earned a coffee break.</p>
+              <p class="small muted mb-12">To-dos that need your attention</p>
+
+              <div class="todo-row todo-row-warning" style="cursor: pointer;" onclick="goTo(11)">
+                <div class="todo-icon" style="background: #FEF3C7; border-radius: 8px;">
+                  <svg viewBox="0 0 16 16" fill="none" stroke="#92400e" stroke-width="1.5"><rect x="2" y="3" width="12" height="10" rx="1.5"/><path d="M5 7h6m-6 3h3"/></svg>
+                  <span class="todo-badge" style="background: #D97706; border-radius: 4px;">1</span>
+                </div>
+                <div style="flex: 1;">
+                  <span class="todo-text" style="display: block;">Pending expense</span>
+                  <span class="todo-subtext">$750.00 &bull; Air China &bull; awaiting manager approval</span>
+                </div>
+                <button class="todo-review-btn" onclick="event.stopPropagation(); goTo(11)">View</button>
+              </div>
+
+              <div class="todo-row">
+                <div class="todo-icon" style="background: #F5F3FF;">
+                  <svg viewBox="0 0 16 16" fill="none" stroke="#7C3AED" stroke-width="1.5"><circle cx="8" cy="5.5" r="3"/><path d="M2.5 14c0-3 2.5-5 5.5-5s5.5 2 5.5 5"/></svg>
+                </div>
+                <span class="todo-text">Update emergency contacts</span>
+                <button class="todo-review-btn">Update</button>
+              </div>
+
+              <div class="todo-row">
+                <div class="todo-icon" style="background: var(--neutral-light);">
+                  <svg viewBox="0 0 16 16" fill="none" stroke="#6B7280" stroke-width="1.5"><rect x="3" y="2" width="10" height="12" rx="1.5"/><path d="M6 5h4M6 8h4M6 11h2"/></svg>
+                </div>
+                <span class="todo-text">Review updated expense policy</span>
+                <button class="todo-review-btn">View</button>
               </div>
             </div>
 
@@ -1927,34 +2289,16 @@ a:hover { text-decoration: underline; }
             </div>
 
             <!-- Referrals -->
-            <div class="deel-card mt-16">
-              <div style="padding: 0 0 4px; font-size: 14px; font-weight: 600; display: flex; align-items: center; gap: 8px;">
-                <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="#666" stroke-width="1.5"><circle cx="6" cy="6" r="3.5"/><circle cx="11" cy="10" r="3.5"/></svg>
-                Referrals
-              </div>
-              <p style="font-size: 13px; color: #999; margin: 4px 0 12px;">Refer Deel. Get $1,500 and give $500!</p>
-              <p class="small muted mb-12">Looks like you don't have any referrals yet. Learn how to get started:</p>
-              <div class="referral-step">
-                <div class="referral-step-icon" style="background: var(--lavender-bg); color: #1f74b3;">1</div>
-                <p class="small">Invite a business to explore Deel</p>
-              </div>
-              <div class="referral-step">
-                <div class="referral-step-icon" style="background: #dcfce7; color: #16a34a;">2</div>
-                <p class="small">Your referral signs up and connects with Deel</p>
-              </div>
-              <div class="referral-step">
-                <div class="referral-step-icon" style="background: #FEF3C7; color: #d97706;">3</div>
-                <p class="small">Earn $1,500 USD for every qualifying referral</p>
-              </div>
-              <div style="display: flex; gap: 8px; margin-top: 14px;">
-                <button style="flex: 1; padding: 10px 0; font-size: 12px; font-weight: 500; font-family: inherit; display: flex; align-items: center; justify-content: center; gap: 6px; background: #fff; border: 1px solid var(--divider); border-radius: 10px; cursor: pointer; color: #1a1a1a;">
-                  Copy referral link
-                  <svg width="12" height="12" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="5" y="5" width="8" height="8" rx="1.5"/><path d="M3 11V4a1.5 1.5 0 011.5-1.5H11"/></svg>
-                </button>
-                <button style="flex: 1; padding: 10px 0; font-size: 12px; font-weight: 500; font-family: inherit; display: flex; align-items: center; justify-content: center; gap: 6px; background: #fff; border: 1px solid var(--divider); border-radius: 10px; cursor: pointer; color: #1a1a1a;">
-                  Share via email
-                  <svg width="12" height="12" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="3.5" width="12" height="9" rx="1.5"/><path d="M2 4l6 4.5L14 4"/></svg>
-                </button>
+            <div class="deel-card mt-16" style="cursor: pointer;">
+              <div style="display: flex; align-items: center; gap: 12px;">
+                <div style="width: 36px; height: 36px; border-radius: 10px; background: var(--lavender-bg); display: flex; align-items: center; justify-content: center;">
+                  <svg width="18" height="18" viewBox="0 0 16 16" fill="none" stroke="#7C3AED" stroke-width="1.5"><circle cx="6" cy="6" r="3.5"/><circle cx="11" cy="10" r="3.5"/></svg>
+                </div>
+                <div style="flex: 1;">
+                  <p class="small bold">Refer Deel, earn $1,500</p>
+                  <p style="font-size: 11px; color: #999;">0 referrals &bull; Share your link to get started</p>
+                </div>
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="#ccc" stroke-width="1.5"><path d="M6 4l4 4-4 4"/></svg>
               </div>
             </div>
           </div>
@@ -1962,53 +2306,448 @@ a:hover { text-decoration: underline; }
           <!-- ===== RIGHT COLUMN ===== -->
           <div>
             <!-- Contracts -->
-            <div class="deel-card">
-              <div style="font-size: 14px; font-weight: 600; display: flex; align-items: center; gap: 8px; margin-bottom: 12px;">
-                <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="#666" stroke-width="1.5"><rect x="3" y="2" width="10" height="12" rx="1.5"/><path d="M6 5h4M6 8h4M6 11h2"/></svg>
-                Contracts
+            <div class="deel-card" style="border: 1px solid #E5E7EB;">
+              <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px;">
+                <p style="font-size: 13px; font-weight: 700; color: #111827; display: flex; align-items: center; gap: 8px;">
+                  <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="#6B7280" stroke-width="1.5"><rect x="3" y="2" width="10" height="12" rx="1.5"/><path d="M6 5h4M6 8h4M6 11h2"/></svg>
+                  Contracts
+                </p>
               </div>
-              <div class="contract-row" style="border-bottom: 1px solid #e8ebf2; padding-bottom: 12px;">
+              <div class="contract-row" style="border-bottom: 1px solid #F3F4F6; padding-bottom: 12px;">
                 <div class="contract-avatar" style="background: #e879a8;">TB</div>
                 <div style="flex: 1;">
                   <p class="small"><a style="color: #1f74b3; font-weight: 600;">Teena Bramley</a> &middot; CTO &middot; GB</p>
                   <span class="contract-active">Active</span>
                 </div>
                 <div style="text-align: right;">
-                  <p class="small bold">&pound;130,326.00</p>
-                  <p style="font-size: 11px; color: #999;">Per year</p>
+                  <p class="small bold" style="font-family: var(--font-mono);">&pound;130,326</p>
+                  <p style="font-size: 11px; color: #9CA3AF; font-family: var(--font-mono);">Per year</p>
                 </div>
               </div>
             </div>
 
-            <!-- Recent Trips -->
-            <div class="deel-card mt-16">
-              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
-                <div style="font-size: 14px; font-weight: 600; display: flex; align-items: center; gap: 8px;">
-                  <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="#666" stroke-width="1.5"><path d="M14 3L7 10M14 3l-4 11-2-5-5-2z"/></svg>
-                  Recent Trips
+            <!-- Compliance Status -->
+            <div class="deel-card mt-16" style="border: 1px solid #E5E7EB;">
+              <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px;">
+                <p style="font-size: 13px; font-weight: 700; color: #111827; display: flex; align-items: center; gap: 8px;">
+                  <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="#6B7280" stroke-width="1.5"><path d="M8 1l7 4v3c0 4.5-3 7.5-7 9-4-1.5-7-4.5-7-9V5z"/></svg>
+                  Compliance Status
+                </p>
+              </div>
+              <div class="check-row"><div class="check-icon check-green">&#10003;</div><p class="small">Passport: GB &mdash; valid until 2029</p></div>
+              <div class="check-row"><div class="check-icon check-green">&#10003;</div><p class="small">Policy tier: Executive (Eco+)</p></div>
+              <div class="check-row"><div class="check-icon check-green">&#10003;</div><p class="small">Deel Card: *4821 &mdash; active</p></div>
+              <div class="check-row"><div class="check-icon check-amber">!</div><p class="small"><span class="amber bold">PE Japan: 147/183 days</span></p></div>
+              <div style="margin-top: 8px; margin-left: 32px;">
+                <div style="display: flex; justify-content: space-between; font-size: 10px; color: #999; margin-bottom: 3px; font-family: var(--font-mono);">
+                  <span>0</span><span style="color: #d97706; font-weight: 600;">183 limit</span>
                 </div>
+                <div class="pe-track" style="height: 6px;">
+                  <div class="pe-fill" style="width: 80%; background: linear-gradient(90deg, #fbbf24, #d97706);"></div>
+                </div>
+                <p style="font-size: 10px; color: #9CA3AF; margin-top: 3px; font-family: var(--font-mono);">36 days remaining this tax year</p>
+              </div>
+            </div>
+
+            <!-- Recent Trips -->
+            <div class="deel-card mt-16" style="border: 1px solid #E5E7EB;">
+              <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px;">
+                <p style="font-size: 13px; font-weight: 700; color: #111827; display: flex; align-items: center; gap: 8px;">
+                  <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="#6B7280" stroke-width="1.5"><path d="M14 3L7 10M14 3l-4 11-2-5-5-2z"/></svg>
+                  Recent Trips
+                  <span style="background: #F3F4F6; color: #6B7280; font-size: 11px; padding: 1px 8px; border-radius: 4px; font-weight: 600; font-family: var(--font-mono);">3</span>
+                </p>
                 <button class="deel-card-action">View all</button>
               </div>
-              <div style="border-top: 1px solid #e8ebf2;">
-                <div style="display: flex; align-items: center; gap: 12px; padding: 11px 0; border-bottom: 1px solid #e8ebf2;">
-                  <span style="font-size: 16px;">&#9992;&#65039;</span>
-                  <div style="flex: 1;"><p class="small bold">London &rarr; Berlin</p><p style="font-size: 11px; color: #999;">Mar 12&ndash;14 &bull; &pound;340</p></div>
-                  <span class="badge badge-green">Complete</span>
+
+              <!-- Trip 1 -->
+              <div style="padding: 10px 0; border-bottom: 1px solid #F3F4F6;">
+                <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 6px;">
+                  <div style="width: 28px; height: 28px; border-radius: 6px; background: #EFF6FF; display: flex; align-items: center; justify-content: center;">
+                    <svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="#1D4ED8" stroke-width="1.5"><path d="M14 3L7 10M14 3l-4 11-2-5-5-2z"/></svg>
+                  </div>
+                  <div style="flex: 1;">
+                    <div style="display: flex; align-items: center; gap: 6px;">
+                      <span style="font-size: 12px; font-weight: 600; color: #111827;">London &rarr; Berlin</span>
+                    </div>
+                    <p style="font-size: 11px; color: #9CA3AF; font-family: var(--font-mono);">Mar 12&ndash;14 &bull; BA &bull; &pound;340</p>
+                  </div>
+                  <span style="font-size: 10px; font-weight: 700; color: #059669; background: #ECFDF5; padding: 2px 8px; border-radius: 3px; letter-spacing: 0.04em;">COMPLETE</span>
                 </div>
-                <div style="display: flex; align-items: center; gap: 12px; padding: 11px 0; border-bottom: 1px solid #e8ebf2;">
-                  <span style="font-size: 16px;">&#9992;&#65039;</span>
-                  <div style="flex: 1;"><p class="small bold">London &rarr; Tokyo</p><p style="font-size: 11px; color: #999;">Feb 22&ndash;28 &bull; &pound;780</p></div>
-                  <span class="badge badge-green">Complete</span>
+                <div style="margin-left: 38px; display: flex; align-items: center; gap: 8px;">
+                  <div style="flex: 1; height: 2px; background: #F3F4F6; border-radius: 1px; overflow: hidden;">
+                    <div style="width: 100%; height: 100%; background: #059669; border-radius: 1px;"></div>
+                  </div>
+                  <span style="font-size: 10px; color: #9CA3AF; font-family: var(--font-mono);">Auto-expensed</span>
                 </div>
-                <div style="display: flex; align-items: center; gap: 12px; padding: 11px 0;">
-                  <span style="font-size: 16px;">&#9992;&#65039;</span>
-                  <div style="flex: 1;"><p class="small bold">London &rarr; New York</p><p style="font-size: 11px; color: #999;">Jan 8&ndash;12 &bull; &pound;520</p></div>
-                  <span class="badge badge-green">Complete</span>
+              </div>
+
+              <!-- Trip 2 -->
+              <div style="padding: 10px 0; border-bottom: 1px solid #F3F4F6;">
+                <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 6px;">
+                  <div style="width: 28px; height: 28px; border-radius: 6px; background: #FEF3C7; display: flex; align-items: center; justify-content: center;">
+                    <svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="#D97706" stroke-width="1.5"><path d="M14 3L7 10M14 3l-4 11-2-5-5-2z"/></svg>
+                  </div>
+                  <div style="flex: 1;">
+                    <div style="display: flex; align-items: center; gap: 6px;">
+                      <span style="font-size: 12px; font-weight: 600; color: #111827;">London &rarr; Tokyo</span>
+                      <span style="font-size: 11px; color: #6B7280; font-family: var(--font-mono);">LHR</span>
+                      <span style="font-size: 10px; color: #9CA3AF;">&#9992;</span>
+                      <span style="font-size: 11px; color: #6B7280; font-family: var(--font-mono);">NRT</span>
+                    </div>
+                    <p style="font-size: 11px; color: #9CA3AF; font-family: var(--font-mono);">Feb 22&ndash;28 &bull; AC &bull; &pound;780</p>
+                  </div>
+                  <span style="font-size: 10px; font-weight: 700; color: #D97706; background: #FEF3C7; padding: 2px 8px; border-radius: 3px; letter-spacing: 0.04em;">PE FLAGGED</span>
+                </div>
+                <div style="margin-left: 38px; display: flex; align-items: center; gap: 8px;">
+                  <div style="flex: 1; height: 2px; background: #F3F4F6; border-radius: 1px; overflow: hidden;">
+                    <div style="width: 100%; height: 100%; background: #059669; border-radius: 1px;"></div>
+                  </div>
+                  <span style="font-size: 10px; color: #9CA3AF; font-family: var(--font-mono);">Auto-expensed</span>
+                </div>
+              </div>
+
+              <!-- Trip 3 -->
+              <div style="padding: 10px 0;">
+                <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 6px;">
+                  <div style="width: 28px; height: 28px; border-radius: 6px; background: #EFF6FF; display: flex; align-items: center; justify-content: center;">
+                    <svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="#1D4ED8" stroke-width="1.5"><path d="M14 3L7 10M14 3l-4 11-2-5-5-2z"/></svg>
+                  </div>
+                  <div style="flex: 1;">
+                    <div style="display: flex; align-items: center; gap: 6px;">
+                      <span style="font-size: 12px; font-weight: 600; color: #111827;">London &rarr; New York</span>
+                      <span style="font-size: 11px; color: #6B7280; font-family: var(--font-mono);">LHR</span>
+                      <span style="font-size: 10px; color: #9CA3AF;">&#9992;</span>
+                      <span style="font-size: 11px; color: #6B7280; font-family: var(--font-mono);">JFK</span>
+                    </div>
+                    <p style="font-size: 11px; color: #9CA3AF; font-family: var(--font-mono);">Jan 8&ndash;12 &bull; BA &bull; &pound;520</p>
+                  </div>
+                  <span style="font-size: 10px; font-weight: 700; color: #059669; background: #ECFDF5; padding: 2px 8px; border-radius: 3px; letter-spacing: 0.04em;">COMPLETE</span>
+                </div>
+                <div style="margin-left: 38px; display: flex; align-items: center; gap: 8px;">
+                  <div style="flex: 1; height: 2px; background: #F3F4F6; border-radius: 1px; overflow: hidden;">
+                    <div style="width: 100%; height: 100%; background: #059669; border-radius: 1px;"></div>
+                  </div>
+                  <span style="font-size: 10px; color: #9CA3AF; font-family: var(--font-mono);">Auto-expensed</span>
                 </div>
               </div>
             </div>
           </div>
 
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- SCREEN 12: Manager — Smart Expense Queue (With Deel Travel) -->
+  <!-- ============================================================ -->
+  <div class="screen" id="screen-12">
+    <div class="deel-subnav">
+      <button class="deel-subnav-item" onclick="goTo(0)">Payroll</button>
+      <button class="deel-subnav-item active">
+        <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="1" y="2.5" width="12" height="9" rx="1.5"/><path d="M4 6h6m-6 2.5h3"/></svg>
+        Expenses
+      </button>
+      <button class="deel-subnav-item">Tax documents</button>
+    </div>
+    <div class="page" style="max-width: 1100px; margin: 0 auto;">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
+        <h1 style="font-size: 26px; font-weight: 700;">Action required</h1>
+        <div style="display: flex; gap: 8px;">
+          <button class="btn btn-outline" style="padding: 8px 16px; font-size: 13px;" onclick="goTo(6)">View old queue (80) &rarr;</button>
+          <button class="btn btn-dark" style="padding: 8px 16px; font-size: 13px;">Add new &#9662;</button>
+        </div>
+      </div>
+      <p class="small muted mb-16">Smart queue &mdash; only items that need your attention</p>
+
+      <div class="expenses-layout">
+        <div class="expenses-sidebar">
+          <button class="expenses-sidebar-item">
+            <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="2" width="12" height="12" rx="1.5"/><path d="M5 5h6m-6 3h6m-6 3h3"/></svg>
+            Overview
+          </button>
+          <button class="expenses-sidebar-item" style="padding-left: 32px;">EOR</button>
+          <button class="expenses-sidebar-item" style="padding-left: 32px;">Other worker types</button>
+          <button class="expenses-sidebar-item active">
+            <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="8" cy="8" r="6"/><path d="M8 5v3m0 2.5v0"/></svg>
+            Action required
+            <span class="expenses-sidebar-badge" style="background: #d97706;">3</span>
+          </button>
+          <button class="expenses-sidebar-item">
+            <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="2" width="12" height="12" rx="1.5"/><path d="M5 8l2 2 4-4"/></svg>
+            Auto-approved
+            <span class="expenses-sidebar-badge" style="background: #16a34a;">77</span>
+          </button>
+          <button class="expenses-sidebar-item">
+            <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="2" width="12" height="12" rx="1.5"/><path d="M5 8l2 2 4-4"/></svg>
+            Contractors adjustments
+          </button>
+        </div>
+
+        <div class="expenses-main">
+          <!-- Savings Dashboard -->
+          <div class="savings-grid">
+            <div class="savings-metric sm-green">
+              <p style="font-size: 36px; font-weight: 800; color: #059669; letter-spacing: -0.02em; font-family: var(--font-mono);">77</p>
+              <p style="font-size: 11px; font-weight: 700; color: #065F46; margin-top: 2px; text-transform: uppercase; letter-spacing: 0.06em;">Auto-Approved</p>
+              <p style="font-size: 11px; color: #6B7280; margin-top: 6px;">Policy validated &bull; Receipts attached</p>
+            </div>
+            <div class="savings-metric sm-blue">
+              <p style="font-size: 36px; font-weight: 800; color: #1D4ED8; letter-spacing: -0.02em; font-family: var(--font-mono);">4.2<span style="font-size: 16px; font-weight: 600;">h</span></p>
+              <p style="font-size: 11px; font-weight: 700; color: #1E40AF; margin-top: 2px; text-transform: uppercase; letter-spacing: 0.06em;">Time Saved</p>
+              <p style="font-size: 11px; color: #6B7280; margin-top: 6px;">This payroll cycle</p>
+            </div>
+            <div class="savings-metric sm-purple">
+              <p style="font-size: 36px; font-weight: 800; color: #7C3AED; letter-spacing: -0.02em; font-family: var(--font-mono);">0.0<span style="font-size: 16px; font-weight: 600;">%</span></p>
+              <p style="font-size: 11px; font-weight: 700; color: #5B21B6; margin-top: 2px; text-transform: uppercase; letter-spacing: 0.06em;">Compliance Risk</p>
+              <p style="font-size: 11px; color: #6B7280; margin-top: 6px;">All policies enforced at booking</p>
+            </div>
+          </div>
+
+          <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px;">
+            <p style="font-size: 14px; font-weight: 600;">3 exceptions require your decision</p>
+            <button class="filter-chip" style="margin: 0;">Bulk approve &#9662;</button>
+          </div>
+
+          <!-- Risk Card 1: PE Warning -->
+          <div class="risk-card" onclick="goTo(7)">
+            <div style="display: flex; align-items: flex-start; gap: 14px;">
+              <div style="width: 40px; height: 40px; border-radius: 50%; background: #e879a8; display: flex; align-items: center; justify-content: center; color: #fff; font-size: 13px; font-weight: 700; flex-shrink: 0;">TB</div>
+              <div style="flex: 1;">
+                <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 4px;">
+                  <p style="font-size: 14px; font-weight: 600;">Teena Bramley</p>
+                  <span class="risk-severity risk-medium">PE WARNING</span>
+                </div>
+                <p style="font-size: 13px; color: #333;">Flight &bull; British Airways BA5 &bull; <strong>&pound;742.00</strong></p>
+                <p style="font-size: 12px; color: #999;">London &rarr; Tokyo &bull; Mar 30 &ndash; Apr 5, 2026</p>
+                <!-- Inline PE Meter -->
+                <div style="display: flex; align-items: center; gap: 10px; margin-top: 10px; padding: 8px 12px; background: #fffbeb; border-radius: 8px; border: 1px solid #fde68a;">
+                  <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="#d97706" stroke-width="2"><path d="M8 1l7 13H1z"/><path d="M8 6v3m0 2v0"/></svg>
+                  <div style="flex: 1;">
+                    <div style="display: flex; justify-content: space-between; font-size: 11px; margin-bottom: 3px;">
+                      <span style="font-weight: 600; color: #92400e;">PE Exposure: 153 / 183 days</span>
+                      <span style="color: #92400e;">30 days remaining</span>
+                    </div>
+                    <div style="height: 6px; background: #fef3c7; border-radius: 3px; overflow: hidden;">
+                      <div style="width: 83.6%; height: 100%; border-radius: 3px; background: linear-gradient(90deg, #fbbf24, #d97706);"></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div style="display: flex; gap: 6px; flex-shrink: 0;">
+                <button class="expense-action-btn expense-approve">Approve</button>
+                <button class="expense-action-btn expense-reject">Decline</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Risk Card 2: Policy Violation -->
+          <div class="risk-card">
+            <div style="display: flex; align-items: flex-start; gap: 14px;">
+              <div style="width: 40px; height: 40px; border-radius: 50%; background: #7c6bc4; display: flex; align-items: center; justify-content: center; color: #fff; font-size: 13px; font-weight: 700; flex-shrink: 0;">FA</div>
+              <div style="flex: 1;">
+                <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 4px;">
+                  <p style="font-size: 14px; font-weight: 600;">Freddie Adams</p>
+                  <span class="risk-severity risk-high">POLICY VIOLATION</span>
+                </div>
+                <p style="font-size: 13px; color: #333;">Flight &bull; Emirates EK47 &bull; <strong>$2,100.00</strong></p>
+                <p style="font-size: 12px; color: #999;">Berlin &rarr; Dubai &bull; Apr 2 &ndash; Apr 6, 2026</p>
+                <div style="margin-top: 10px; padding: 8px 12px; background: #fef2f2; border-radius: 8px; border: 1px solid #fecaca;">
+                  <p style="font-size: 11px; color: #991b1b;">
+                    <strong>Business Class</strong> booked &mdash; Policy limit: <strong>Premium Economy</strong> (EOR tier).<br>
+                    Overage: <span style="font-weight: 700;">$840.00</span> above policy ceiling.
+                  </p>
+                </div>
+              </div>
+              <div style="display: flex; gap: 6px; flex-shrink: 0;">
+                <button class="expense-action-btn expense-approve">Approve</button>
+                <button class="expense-action-btn expense-reject">Decline</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Risk Card 3: Personal Card -->
+          <div class="risk-card">
+            <div style="display: flex; align-items: flex-start; gap: 14px;">
+              <div style="width: 40px; height: 40px; border-radius: 50%; background: #f59e0b; display: flex; align-items: center; justify-content: center; color: #fff; font-size: 13px; font-weight: 700; flex-shrink: 0;">MW</div>
+              <div style="flex: 1;">
+                <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 4px;">
+                  <p style="font-size: 14px; font-weight: 600;">Meaghan Wolf</p>
+                  <span class="risk-severity risk-medium">RECEIPT REQUIRED</span>
+                </div>
+                <p style="font-size: 13px; color: #333;">Hotel &bull; Marriott Tokyo &bull; <strong>$890.00</strong></p>
+                <p style="font-size: 12px; color: #999;">3 nights &bull; Mar 25 &ndash; Mar 28, 2026</p>
+                <div style="margin-top: 10px; padding: 8px 12px; background: #fffbeb; border-radius: 8px; border: 1px solid #fde68a;">
+                  <p style="font-size: 11px; color: #92400e;">
+                    Booked with <strong>personal card</strong> (not Deel Card). Receipt must be uploaded manually for reimbursement.
+                  </p>
+                </div>
+              </div>
+              <div style="display: flex; gap: 6px; flex-shrink: 0;">
+                <button class="expense-action-btn expense-approve">Approve</button>
+                <button class="expense-action-btn expense-reject">Decline</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Quarterly Report Footer -->
+          <div class="report-footer">
+            <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 4px;">
+              <p style="font-size: 11px; font-weight: 700; color: rgba(255,255,255,0.5); text-transform: uppercase; letter-spacing: 0.08em;">Expense Cycle Summary &mdash; March 2026</p>
+              <p style="font-size: 11px; color: rgba(255,255,255,0.25);">Generated by Deel Travel Auto-Approval</p>
+            </div>
+            <div style="display: flex; align-items: baseline; gap: 16px; margin-top: 12px;">
+              <p style="font-size: 28px; font-weight: 800; color: #e2e8f0;">80 <span style="font-size: 14px; font-weight: 400; color: rgba(255,255,255,0.35);">total expenses</span></p>
+              <span style="color: rgba(255,255,255,0.15);">|</span>
+              <p style="font-size: 16px; font-weight: 600; color: #34d399;">77 auto-cleared</p>
+              <span style="color: rgba(255,255,255,0.15);">|</span>
+              <p style="font-size: 16px; font-weight: 600; color: #fbbf24;">3 flagged</p>
+            </div>
+            <div class="report-grid">
+              <div class="report-stat">
+                <p class="report-stat-value">96.3<span style="font-size: 14px;">%</span></p>
+                <p class="report-stat-label">Auto-approval rate</p>
+              </div>
+              <div class="report-stat">
+                <p class="report-stat-value">0</p>
+                <p class="report-stat-label">Receipt uploads</p>
+              </div>
+              <div class="report-stat">
+                <p class="report-stat-value">4.2<span style="font-size: 14px;">h</span></p>
+                <p class="report-stat-label">Manager time saved</p>
+              </div>
+              <div class="report-stat">
+                <p class="report-stat-value">$0</p>
+                <p class="report-stat-label">Policy violations missed</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- SCREEN 13: Manager — Book on Behalf of Employee -->
+  <!-- ============================================================ -->
+  <div class="screen" id="screen-13">
+    <div class="deel-subnav">
+      <button class="deel-subnav-item" onclick="goTo(0)">
+        <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M8 2L3 7l5 5"/></svg>
+        Home
+      </button>
+      <button class="deel-subnav-item active">
+        <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 2L6 8M12 2l-3 10-2-4-4-2z"/></svg>
+        Team Travel
+      </button>
+    </div>
+    <div class="page">
+      <div style="max-width: 960px; margin: 0 auto;">
+        <h1 style="font-size: 26px; font-weight: 700; margin-bottom: 4px;">Book for Your Team</h1>
+        <p class="small muted mb-24">Book travel on behalf of an employee. As their manager, no separate approval is needed.</p>
+
+        <div class="steps">
+          <div class="step current"><div class="step-dot">1</div> <span>Employee &amp; Search</span></div>
+          <div class="step-line"></div>
+          <div class="step"><div class="step-dot">2</div> <span>Compliance</span></div>
+          <div class="step-line"></div>
+          <div class="step"><div class="step-dot">3</div> <span>Flight</span></div>
+          <div class="step-line"></div>
+          <div class="step"><div class="step-dot">4</div> <span>Hotel</span></div>
+          <div class="step-line"></div>
+          <div class="step"><div class="step-dot">5</div> <span>Confirm</span></div>
+        </div>
+
+        <div class="two-col">
+          <div>
+            <!-- Employee picker -->
+            <div class="deel-card" style="border: 2px solid #a041ff;">
+              <label style="font-size: 10px; text-transform: uppercase; letter-spacing: 0.06em; color: #a041ff; font-weight: 600;">Booking for</label>
+              <div style="display: flex; align-items: center; gap: 12px; margin-top: 8px;">
+                <div style="width: 40px; height: 40px; border-radius: 50%; background: #e879a8; display: flex; align-items: center; justify-content: center; color: #fff; font-weight: 700; font-size: 14px;">TB</div>
+                <div style="flex: 1;">
+                  <p style="font-weight: 600; font-size: 15px;">Teena Bramley</p>
+                  <p style="font-size: 12px; color: #999;">CTO &bull; EOR (UK) &bull; Deel UK Ltd</p>
+                </div>
+                <button style="padding: 5px 12px; border: 1px solid #e8ebf2; border-radius: 8px; background: #fff; font-size: 12px; font-weight: 500; color: #666; cursor: pointer; font-family: inherit;">Change &#9662;</button>
+              </div>
+            </div>
+
+            <!-- Manager override banner -->
+            <div style="background: #f0ecfa; border-radius: 10px; padding: 12px 16px; margin-top: 12px; display: flex; align-items: center; gap: 10px;">
+              <span style="font-size: 16px;">&#128275;</span>
+              <p style="font-size: 12px; color: #5b21b6;"><strong>Manager override:</strong> You're Teena's direct manager. This booking won't require separate approval.</p>
+            </div>
+
+            <!-- Field 1: Destination -->
+            <div class="deel-card" style="cursor: text; margin-top: 12px;" onclick="fillManagerSearch()">
+              <label style="font-size: 10px; text-transform: uppercase; letter-spacing: 0.06em; color: var(--text-disabled);">Where are they going?</label>
+              <p style="font-size: 18px; margin-top: 6px;" id="mgr-field-to"><span style="color: var(--neutral-main);">Search country or city...</span></p>
+            </div>
+
+            <!-- Field 2: Dates -->
+            <div style="display: flex; gap: 12px; margin-top: 12px;">
+              <div class="deel-card" style="flex: 1; cursor: pointer;" onclick="fillManagerSearch()">
+                <label style="font-size: 10px; text-transform: uppercase; letter-spacing: 0.06em; color: var(--text-disabled);">Depart</label>
+                <p style="font-size: 15px; margin-top: 6px;" id="mgr-field-depart"><span style="color: var(--neutral-main);">Select date</span></p>
+              </div>
+              <div class="deel-card" style="flex: 1; cursor: pointer;" onclick="fillManagerSearch()">
+                <label style="font-size: 10px; text-transform: uppercase; letter-spacing: 0.06em; color: var(--text-disabled);">Return</label>
+                <p style="font-size: 15px; margin-top: 6px;" id="mgr-field-return"><span style="color: var(--neutral-main);">Select date</span></p>
+              </div>
+            </div>
+
+            <!-- Field 3: Purpose -->
+            <div class="deel-card" style="margin-top: 12px;">
+              <label style="font-size: 10px; text-transform: uppercase; letter-spacing: 0.06em; color: var(--text-disabled);">Purpose of trip</label>
+              <p style="font-size: 15px; margin-top: 6px;" id="mgr-field-purpose"><span style="color: var(--neutral-main);">Select purpose...</span></p>
+            </div>
+
+            <div class="mt-24">
+              <button class="btn btn-dark btn-lg btn-full demo-hotspot" onclick="if(!mgrSearchFilled){fillManagerSearch();setTimeout(()=>goTo(2),1600)}else{goTo(2)}">Search Flights for Teena</button>
+            </div>
+          </div>
+
+          <div>
+            <!-- Auto-detected from Teena's profile -->
+            <div class="deel-card" style="border-left: 4px solid var(--blue-link); background: var(--secondary-lighter);">
+              <p style="font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; color: var(--blue-link); margin-bottom: 8px;">Auto-detected from Teena's Deel profile</p>
+              <p class="small muted mb-12">Pulled from Teena's contract, passport, and policy settings.</p>
+              <div class="divider"></div>
+              <div class="profile-grid mt-12">
+                <div class="profile-item"><label>Traveller</label><p>Teena Bramley</p></div>
+                <div class="profile-item"><label>Passport</label><p>British (GB)</p></div>
+                <div class="profile-item"><label>Contract Type</label><p>EOR (UK)</p></div>
+                <div class="profile-item"><label>Policy Tier</label><p>Executive (Eco+)</p></div>
+                <div class="profile-item"><label>Cost Center</label><p>Logistics</p></div>
+                <div class="profile-item"><label>Legal Entity</label><p>Deel UK Ltd</p></div>
+                <div class="profile-item"><label>Payment</label><p>Deel Card *4821</p></div>
+                <div class="profile-item"><label>Pay Currency</label><p>GBP</p></div>
+              </div>
+            </div>
+
+            <!-- PE Warning -->
+            <div class="deel-card mt-16" style="border-left: 4px solid #d97706; background: #fffbeb;">
+              <p style="font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; color: #d97706; margin-bottom: 8px;">&#9888; PE Exposure Alert</p>
+              <p class="small mb-8">Teena has <strong>147 days</strong> in Japan this tax year.</p>
+              <div class="pe-track" style="margin-bottom: 6px;">
+                <div class="pe-fill" style="width: 80.3%; background: linear-gradient(90deg, #fbbf24, #d97706);"></div>
+              </div>
+              <p style="font-size: 11px; color: #92400e;">Additional trips to Japan may trigger PE obligations.</p>
+              <div class="divider"></div>
+              <p style="font-size: 12px; color: #92400e; margin-top: 8px;">As manager, you can override this warning. The override will be logged in the audit trail.</p>
+            </div>
+
+            <!-- Audit trail -->
+            <div class="deel-card mt-16" style="background: var(--primary-main); color: #fff; border: none;">
+              <p style="font-size: 11px; font-weight: 600; color: #a78bfa; text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 10px;">Manager booking audit trail</p>
+              <p class="small" style="color: rgba(255,255,255,0.6); margin-bottom: 6px;">&#10148; Booked by: Mattie King (Manager)</p>
+              <p class="small" style="color: rgba(255,255,255,0.6); margin-bottom: 6px;">&#10148; Auto-approved: Yes (manager = approver)</p>
+              <p class="small" style="color: rgba(255,255,255,0.6); margin-bottom: 6px;">&#10148; PE override: Logged if applicable</p>
+              <p class="small" style="color: rgba(255,255,255,0.6);">&#10148; Expense: Auto-created under Teena's payroll</p>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -2034,14 +2773,14 @@ a:hover { text-decoration: underline; }
 
 <script>
 const screens = document.querySelectorAll('.screen');
-const navMap = {0:'nav-home', 1:'nav-travel', 2:'nav-travel', 3:'nav-travel', 4:'nav-travel', 5:'nav-travel', 6:'nav-home', 7:'nav-travel', 8:'nav-home', 9:'nav-travel', 10:'nav-travel', 11:'nav-home'};
+const navMap = {0:'nav-home', 1:'nav-travel', 2:'nav-travel', 3:'nav-travel', 4:'nav-travel', 5:'nav-travel', 6:'nav-home', 7:'nav-travel', 8:'nav-home', 9:'nav-travel', 10:'nav-travel', 11:'nav-home', 12:'nav-home', 13:'nav-travel'};
 const history = [0];
 let current = 0;
 let tripBooked = false;
 
 function goTo(i) {
   // View guard — prevent cross-view screen access (runs first!)
-  const mgrOnly = [0, 6, 7];
+  const mgrOnly = [0, 6, 7, 12, 13];
   const empOnly = [8, 11];
   if (currentView === 'employee' && mgrOnly.includes(i)) { i = 8; }
   if (currentView === 'manager' && empOnly.includes(i)) { i = 0; }
@@ -2058,6 +2797,19 @@ function goTo(i) {
   document.querySelectorAll('.deel-nav-item').forEach(n => n.classList.remove('active'));
   const navId = navMap[i];
   if (navId) document.getElementById(navId)?.classList.add('active');
+
+  // Reset manager search form when navigating to team travel
+  if (i === 13 && typeof mgrSearchFilled !== 'undefined') {
+    mgrSearchFilled = false;
+    const mt = document.getElementById('mgr-field-to');
+    const md = document.getElementById('mgr-field-depart');
+    const mr = document.getElementById('mgr-field-return');
+    const mp = document.getElementById('mgr-field-purpose');
+    if (mt) mt.innerHTML = '<span style="color: #d1d3d5;">Search country or city...</span>';
+    if (md) md.innerHTML = '<span style="color: #d1d3d5;">Select date</span>';
+    if (mr) mr.innerHTML = '<span style="color: #d1d3d5;">Select date</span>';
+    if (mp) mp.innerHTML = '<span style="color: #d1d3d5;">Select purpose...</span>';
+  }
 
   // Reset search form when navigating to search screen
   if (i === 1 && typeof searchFilled !== 'undefined') {
@@ -2197,13 +2949,92 @@ function fillSearch() {
 }
 
 
+// Smart filter toggle — scan line animation then navigate to screen 12
+function activateSmartFilter() {
+  // Create scan overlay
+  const overlay = document.createElement('div');
+  overlay.className = 'scan-overlay';
+  const line = document.createElement('div');
+  line.className = 'scan-line';
+  const trail = document.createElement('div');
+  trail.className = 'scan-line-trail';
+  overlay.appendChild(trail);
+  overlay.appendChild(line);
+  document.body.appendChild(overlay);
+
+  // Animate scan line down
+  let start = null;
+  const duration = 800;
+  const startY = 100;
+  const endY = window.innerHeight;
+  function animate(ts) {
+    if (!start) start = ts;
+    const progress = Math.min((ts - start) / duration, 1);
+    const eased = 1 - Math.pow(1 - progress, 3); // ease-out cubic
+    const y = startY + (endY - startY) * eased;
+    line.style.top = y + 'px';
+    trail.style.top = (y - 80) + 'px';
+    trail.style.height = '80px';
+    if (progress < 1) {
+      requestAnimationFrame(animate);
+    } else {
+      // Navigate after animation
+      setTimeout(() => {
+        overlay.remove();
+        goTo(12);
+      }, 150);
+    }
+  }
+  requestAnimationFrame(animate);
+}
+
+// Manager search form fill simulation
+let mgrSearchFilled = false;
+function fillManagerSearch() {
+  if (mgrSearchFilled) return;
+  mgrSearchFilled = true;
+  const to = document.getElementById('mgr-field-to');
+  const depart = document.getElementById('mgr-field-depart');
+  const ret = document.getElementById('mgr-field-return');
+  const purpose = document.getElementById('mgr-field-purpose');
+  to.innerHTML = '<span style="color: #1f74b3;">|</span>';
+  setTimeout(() => { to.innerHTML = '<span style="font-weight: 600; font-size: 18px;">Tokyo, Japan <span style="font-weight: 400; color: #7c8286;">&#127471;&#127477;</span></span>'; }, 350);
+  setTimeout(() => {
+    depart.innerHTML = '<span style="font-weight: 600;">Mar 30, 2026</span><p style="font-size: 11px; color: #7c8286;">Monday</p>';
+    ret.innerHTML = '<span style="font-weight: 600;">Apr 5, 2026</span><p style="font-size: 11px; color: #7c8286;">Saturday</p>';
+  }, 700);
+  setTimeout(() => { purpose.innerHTML = '<span style="font-weight: 600;">Client visit</span>'; }, 1000);
+}
+
+// Approve trip flow
+let tripApproved = false;
+function approveTrip() {
+  tripApproved = true;
+  // Update travel request badge on manager home
+  const travelTodo = document.getElementById('travel-todo-badge');
+  if (travelTodo) { travelTodo.textContent = '0'; travelTodo.style.background = '#16a34a'; }
+  const travelLabel = document.getElementById('travel-todo-label');
+  if (travelLabel) { travelLabel.innerHTML = 'Travel requests <span class="badge badge-green" style="margin-left: 6px; font-size: 9px;">Approved</span>'; }
+  // Show toast
+  const toast = document.getElementById('toast');
+  toast.innerHTML = '&#10003;&nbsp; Trip approved &mdash; Teena has been notified';
+  toast.classList.add('show');
+  setTimeout(() => toast.classList.remove('show'), 4000);
+  goTo(0);
+}
+
 // View switcher
 let currentView = 'manager';
 function switchView(view) {
   currentView = view;
   document.getElementById('sw-manager').classList.toggle('active', view === 'manager');
   document.getElementById('sw-employee').classList.toggle('active', view === 'employee');
-  tripBooked = false; // Reset demo state on view switch
+  tripBooked = false; tripApproved = false; mgrSearchFilled = false; // Reset demo state on view switch
+  // Reset travel todo badge
+  const travelBadge = document.getElementById('travel-todo-badge');
+  if (travelBadge) { travelBadge.textContent = '1'; travelBadge.style.background = '#d97706'; }
+  const travelLabel = document.getElementById('travel-todo-label');
+  if (travelLabel) { travelLabel.innerHTML = 'Travel requests <span class="badge badge-amber" style="margin-left: 6px; font-size: 9px;">PE alert</span>'; }
 
   const orgName = document.querySelector('.deel-org-name');
   const orgSub = document.querySelector('.deel-org-sub');
