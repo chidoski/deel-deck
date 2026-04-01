@@ -710,6 +710,44 @@ a:hover { text-decoration: underline; }
 }
 .grouped-add-dest:hover { background: #F9FAFB; border-color: #9CA3AF; }
 
+/* ===== AUTO-CREATED EXPENSE ROWS ===== */
+.auto-expense-row td { border-left: 3px solid #7C3AED; }
+.auto-expense-row td:first-child { padding-left: 11px; }
+.auto-expense-banner {
+  display: flex; align-items: center; gap: 10px; padding: 12px 16px;
+  background: #F5F3FF; border-left: 4px solid #7C3AED; border-radius: 8px;
+  margin-bottom: 16px;
+}
+.auto-expense-banner svg { flex-shrink: 0; }
+.auto-expense-banner p { margin: 0; font-size: 13px; color: #374151; }
+.auto-expense-banner .mono { font-size: 11px; color: #7C3AED; font-family: var(--font-mono); font-weight: 600; }
+
+/* ===== PE DASHBOARD ===== */
+.pe-stats-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-bottom: 20px; }
+.pe-stat-card {
+  background: #fff; border: 1px solid #E5E7EB; border-radius: 10px; padding: 20px;
+  text-align: center;
+}
+.pe-stat-card .pe-stat-value { font-size: 32px; font-weight: 800; font-family: var(--font-mono); letter-spacing: -0.02em; }
+.pe-stat-card .pe-stat-label { font-size: 11px; color: #6B7280; font-weight: 600; text-transform: uppercase; letter-spacing: 0.04em; margin-top: 4px; }
+.pe-employee-row {
+  display: flex; align-items: flex-start; gap: 14px; padding: 16px 0;
+  border-bottom: 1px solid #F3F4F6;
+}
+.pe-employee-row:last-child { border-bottom: none; }
+.pe-employee-avatar {
+  width: 36px; height: 36px; border-radius: 8px; display: flex;
+  align-items: center; justify-content: center; font-size: 12px; font-weight: 700; color: #fff; flex-shrink: 0;
+}
+.pe-employee-info { flex: 1; }
+.pe-employee-name { font-size: 14px; font-weight: 600; color: #111827; }
+.pe-employee-role { font-size: 11px; color: #9CA3AF; font-family: var(--font-mono); }
+.pe-employee-meta { display: flex; align-items: center; gap: 16px; margin-top: 8px; }
+.pe-employee-country { font-size: 13px; font-weight: 600; color: #374151; }
+.pe-employee-days { font-size: 12px; color: #6B7280; font-family: var(--font-mono); }
+.pe-bar-container { width: 200px; flex-shrink: 0; display: flex; flex-direction: column; align-items: flex-end; gap: 4px; padding-top: 4px; }
+.pe-bar-label { font-size: 11px; font-weight: 700; font-family: var(--font-mono); }
+
 /* ===== RESPONSIVE ===== */
 @media (max-width: 768px) {
   .deel-topnav { padding: 0 12px; gap: 0; }
@@ -1193,6 +1231,9 @@ a:hover { text-decoration: underline; }
                   <span style="color: #D92D20;">Remaining: <strong>30d</strong></span>
                 </div>
               </div>
+              <div style="margin-top: 12px; padding-top: 12px; border-top: 1px solid #F3F4F6; text-align: center;">
+                <button style="font-size: 12px; color: #7C3AED; background: none; border: none; cursor: pointer; font-weight: 600; font-family: inherit;" onclick="event.stopPropagation(); goTo(15)">View PE Dashboard &mdash; all 5 employees &rarr;</button>
+              </div>
             </div>
 
             <!-- Contractors — standard priority -->
@@ -1391,62 +1432,113 @@ a:hover { text-decoration: underline; }
         <div id="shimmer-4" class="scan-placeholder"></div>
 
         <!-- Check 1: Visa -->
-        <div class="deel-card" id="check-1" style="border-left: 3px solid var(--success-main); opacity: 0; transform: translateY(8px); transition: all 0.4s ease;">
-          <div style="display: flex; gap: 14px; align-items: flex-start;">
-            <div class="check-icon check-green" style="margin-top: 1px;">&#10003;</div>
-            <div>
-              <p class="small bold" style="margin-bottom: 2px;">Visa: GB passport &rarr; Japan visa-exempt for 90 days</p>
-              <p style="font-size: 12px; color: var(--text-disabled);">Trip duration: 6 days &mdash; well within limit</p>
+        <div class="deel-card" id="check-1" style="border: 1px solid #E5E7EB; opacity: 0; transform: translateY(8px); transition: all 0.4s ease; padding: 20px 24px;">
+          <div style="display: flex; gap: 16px; align-items: flex-start;">
+            <div style="width: 40px; height: 40px; border-radius: 12px; background: #ECFDF5; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+              <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M10 1l7 4v3c0 4.5-3 7.5-7 9-4-1.5-7-4.5-7-9V5z" stroke="#059669" stroke-width="1.5"/><path d="M7 10l2 2 4-4" stroke="#059669" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </div>
+            <div style="flex: 1;">
+              <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 6px;">
+                <span style="font-size: 9px; font-weight: 800; color: #059669; background: #ECFDF5; padding: 2px 8px; border-radius: 3px; text-transform: uppercase; letter-spacing: 0.06em; font-family: var(--font-mono);">Visa</span>
+                <span style="font-size: 9px; color: #9CA3AF; font-family: var(--font-mono);">via Deel Mobility</span>
+              </div>
+              <p style="font-size: 15px; font-weight: 600; color: #111827; margin-bottom: 4px;">GB passport &rarr; Japan visa-exempt for 90 days</p>
+              <p style="font-size: 12px; color: #6B7280; line-height: 1.5;">Trip duration: 6 days &mdash; well within limit. No visa application required.</p>
+            </div>
+            <div style="width: 32px; height: 32px; border-radius: 50%; background: #ECFDF5; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M4.5 8.5l2.5 2.5 5-5" stroke="#059669" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
             </div>
           </div>
         </div>
 
         <!-- Check 2: PE Warning -->
-        <div class="deel-card" id="check-2" style="border-left: 3px solid var(--warning-main); opacity: 0; transform: translateY(8px); transition: all 0.4s ease;">
-          <div style="display: flex; gap: 14px; align-items: flex-start;">
-            <div class="check-icon check-amber" style="margin-top: 1px; font-size: 14px;">!</div>
-            <div style="flex: 1;">
-              <p class="small bold amber" style="margin-bottom: 2px;">PE Risk: 147 of 183 days in Japan this year</p>
-              <p style="font-size: 12px; color: var(--text-disabled);">This trip adds 6 days &rarr; <strong class="amber">153 / 183 day threshold</strong></p>
-              <div style="margin-top: 12px;">
-                <div class="pe-track">
-                  <div class="pe-fill" style="width: 83.6%; background: linear-gradient(90deg, var(--success-main) 0%, var(--success-main) 50%, #fbbf24 75%, var(--warning-main) 100%);"></div>
+        <div class="deel-card" id="check-2" style="border: 1px solid #E5E7EB; background: #fff; opacity: 0; transform: translateY(8px); transition: all 0.4s ease; padding: 0; overflow: hidden;">
+          <!-- Thin top accent stripe -->
+          <div style="height: 3px; background: linear-gradient(90deg, #f59e0b, #ef4444);"></div>
+          <div style="padding: 20px 24px;">
+            <div style="display: flex; gap: 16px; align-items: flex-start;">
+              <div style="width: 40px; height: 40px; border-radius: 12px; background: #FEF2F2; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+                <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M10 2L18 17H2L10 2z" stroke="#DC2626" stroke-width="1.5" stroke-linejoin="round" fill="none"/><path d="M10 8v4M10 14v.5" stroke="#DC2626" stroke-width="1.5" stroke-linecap="round"/></svg>
+              </div>
+              <div style="flex: 1;">
+                <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 6px;">
+                  <span style="font-size: 9px; font-weight: 800; color: #DC2626; background: #FEF2F2; padding: 2px 8px; border-radius: 3px; text-transform: uppercase; letter-spacing: 0.06em; font-family: var(--font-mono);">PE Risk</span>
+                  <span style="font-size: 9px; color: #9CA3AF; font-family: var(--font-mono);">OECD Art.5 &sect;3</span>
                 </div>
-                <div style="display: flex; justify-content: space-between; font-size: 11px; margin-top: 4px;">
-                  <span class="bold amber">153 days after trip</span>
-                  <span style="color: var(--text-disabled);">30 days remaining</span>
+                <p style="font-size: 15px; font-weight: 600; color: #111827; margin-bottom: 4px;">147 of 183 days in Japan this year</p>
+                <p style="font-size: 12px; color: #6B7280;">This trip adds 6 days &rarr; <strong style="color: #111827;">153 / 183 day threshold</strong></p>
+                <div style="margin: 14px 0;">
+                  <div style="height: 10px; background: #F3F4F6; border-radius: 5px; overflow: hidden; position: relative;">
+                    <div style="width: 83.6%; height: 100%; border-radius: 5px; background: linear-gradient(90deg, #34d399 0%, #34d399 35%, #fbbf24 60%, #f59e0b 80%, #ef4444 100%); transition: width 1s ease;"></div>
+                  </div>
+                  <div style="display: flex; justify-content: space-between; font-size: 11px; margin-top: 6px; font-family: var(--font-mono);">
+                    <span style="font-weight: 700; color: #DC2626;">153 days after trip</span>
+                    <span style="color: #9CA3AF;">30 days remaining</span>
+                  </div>
+                </div>
+                <div style="background: #F9FAFB; border: 1px solid #E5E7EB; border-radius: 8px; padding: 10px 14px; display: flex; align-items: center; gap: 10px;">
+                  <div style="width: 6px; height: 6px; border-radius: 50%; background: #DC2626; flex-shrink: 0; animation: livePulse 2s ease infinite;"></div>
+                  <p style="font-size: 12px; color: #374151; margin: 0; line-height: 1.4;">Approaching PE threshold for Japan. <strong style="color: #111827;">Your manager has been notified.</strong></p>
                 </div>
               </div>
-              <p style="font-size: 12px; color: var(--text-disabled); margin-top: 12px; line-height: 1.5;">You're approaching the PE threshold for Japan. <strong style="color: var(--text-primary);">Your manager has been notified.</strong></p>
+              <div style="width: 32px; height: 32px; border-radius: 50%; background: #FEF2F2; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+                <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M8 4v5M8 11v.5" stroke="#DC2626" stroke-width="2" stroke-linecap="round"/></svg>
+              </div>
             </div>
           </div>
         </div>
 
         <!-- Check 3: Policy -->
-        <div class="deel-card" id="check-3" style="border-left: 3px solid var(--success-main); opacity: 0; transform: translateY(8px); transition: all 0.4s ease;">
-          <div style="display: flex; gap: 14px; align-items: flex-start;">
-            <div class="check-icon check-green" style="margin-top: 1px;">&#10003;</div>
-            <div>
-              <p class="small bold" style="margin-bottom: 2px;">Policy: CTO &mdash; Economy+ for flights &gt;6hrs, up to &pound;800</p>
-              <p style="font-size: 12px; color: var(--text-disabled);">Auto-approved within policy limits</p>
+        <div class="deel-card" id="check-3" style="border: 1px solid #E5E7EB; opacity: 0; transform: translateY(8px); transition: all 0.4s ease; padding: 20px 24px;">
+          <div style="display: flex; gap: 16px; align-items: flex-start;">
+            <div style="width: 40px; height: 40px; border-radius: 12px; background: #EEF2FF; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+              <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><rect x="3" y="2" width="14" height="16" rx="2" stroke="#4F46E5" stroke-width="1.5"/><path d="M7 6h6M7 9.5h6M7 13h3" stroke="#4F46E5" stroke-width="1.5" stroke-linecap="round"/></svg>
+            </div>
+            <div style="flex: 1;">
+              <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 6px;">
+                <span style="font-size: 9px; font-weight: 800; color: #4F46E5; background: #EEF2FF; padding: 2px 8px; border-radius: 3px; text-transform: uppercase; letter-spacing: 0.06em; font-family: var(--font-mono);">Policy</span>
+                <span style="font-size: 9px; color: #9CA3AF; font-family: var(--font-mono);">via HRIS &middot; CTO tier</span>
+              </div>
+              <p style="font-size: 15px; font-weight: 600; color: #111827; margin-bottom: 4px;">Economy+ for flights &gt;6hrs, up to &pound;800</p>
+              <p style="font-size: 12px; color: #6B7280; line-height: 1.5;">Auto-approved within policy limits. No manager override needed.</p>
+            </div>
+            <div style="width: 32px; height: 32px; border-radius: 50%; background: #ECFDF5; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M4.5 8.5l2.5 2.5 5-5" stroke="#059669" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
             </div>
           </div>
         </div>
 
         <!-- Check 4: Budget -->
-        <div class="deel-card" id="check-4" style="border-left: 3px solid var(--success-main); opacity: 0; transform: translateY(8px); transition: all 0.4s ease;">
-          <div style="display: flex; gap: 14px; align-items: flex-start;">
-            <div class="check-icon check-green" style="margin-top: 1px;">&#10003;</div>
-            <div>
-              <p class="small bold" style="margin-bottom: 2px;">Budget: Cost center Logistics has &pound;12,400 remaining</p>
-              <p style="font-size: 12px; color: var(--text-disabled);">Sufficient budget for this trip</p>
+        <div class="deel-card" id="check-4" style="border: 1px solid #E5E7EB; opacity: 0; transform: translateY(8px); transition: all 0.4s ease; padding: 20px 24px;">
+          <div style="display: flex; gap: 16px; align-items: flex-start;">
+            <div style="width: 40px; height: 40px; border-radius: 12px; background: #F0FDF4; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+              <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><circle cx="10" cy="10" r="7.5" stroke="#059669" stroke-width="1.5"/><path d="M10 6v8M7.5 8.5c0-1.1 1.1-2 2.5-2s2.5.9 2.5 2-1.1 2-2.5 2-2.5.9-2.5 2 1.1 2 2.5 2 2.5-.9 2.5-2" stroke="#059669" stroke-width="1.5" stroke-linecap="round"/></svg>
+            </div>
+            <div style="flex: 1;">
+              <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 6px;">
+                <span style="font-size: 9px; font-weight: 800; color: #059669; background: #ECFDF5; padding: 2px 8px; border-radius: 3px; text-transform: uppercase; letter-spacing: 0.06em; font-family: var(--font-mono);">Budget</span>
+                <span style="font-size: 9px; color: #9CA3AF; font-family: var(--font-mono);">Cost Center: Logistics (GL 6200)</span>
+              </div>
+              <p style="font-size: 15px; font-weight: 600; color: #111827; margin-bottom: 4px;">&pound;12,400 remaining of &pound;15,000 quarterly budget</p>
+              <div style="margin-top: 8px;">
+                <div style="height: 6px; background: #E5E7EB; border-radius: 3px; overflow: hidden;">
+                  <div style="width: 82.7%; height: 100%; background: #059669; border-radius: 3px;"></div>
+                </div>
+                <div style="display: flex; justify-content: space-between; margin-top: 4px;">
+                  <span style="font-size: 10px; color: #059669; font-family: var(--font-mono); font-weight: 600;">82.7% remaining</span>
+                  <span style="font-size: 10px; color: #9CA3AF; font-family: var(--font-mono);">This trip: &pound;3,314</span>
+                </div>
+              </div>
+            </div>
+            <div style="width: 32px; height: 32px; border-radius: 50%; background: #ECFDF5; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M4.5 8.5l2.5 2.5 5-5" stroke="#059669" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
             </div>
           </div>
         </div>
 
         <!-- Action button (appears after all checks) -->
         <div id="compliance-action" style="margin-top: 24px; opacity: 0; transition: opacity 0.4s ease;">
-          <button class="btn btn-amber btn-lg btn-full demo-hotspot" onclick="goTo(3)">Acknowledge PE Risk &amp; View Flights</button>
+          <button class="btn btn-dark btn-lg btn-full demo-hotspot" style="background: #111827;" onclick="goTo(3)">Proceed &mdash; Tax Team Notified &amp; View Flights</button>
         </div>
       </div>
     </div>
@@ -1484,7 +1576,7 @@ a:hover { text-decoration: underline; }
 
         <div class="deel-card" style="padding: 0; overflow: hidden;">
           <div class="flight-option" onclick="goTo(9)">
-            <img src="https://airhex.com/images/airline-logos/square/british-airways.png" alt="British Airways" style="width: 40px; height: 40px; border-radius: 10px; object-fit: contain; background: #fff; border: 1px solid #E5E7EB; flex-shrink: 0;">
+            <div style="width: 40px; height: 40px; border-radius: 10px; background: #1B3A6B; display: flex; align-items: center; justify-content: center; flex-shrink: 0; border: 1px solid #E5E7EB;"><span style="color: #fff; font-size: 13px; font-weight: 800; font-family: var(--font-mono); letter-spacing: -0.5px;">BA</span></div>
             <div class="flight-details">
               <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 4px;">
                 <p class="small bold">British Airways &bull; BA5</p>
@@ -1507,7 +1599,7 @@ a:hover { text-decoration: underline; }
           </div>
 
           <div class="flight-option" onclick="goTo(9)">
-            <img src="https://airhex.com/images/airline-logos/square/japan-airlines.png" alt="Japan Airlines" style="width: 40px; height: 40px; border-radius: 10px; object-fit: contain; background: #fff; border: 1px solid #E5E7EB; flex-shrink: 0;">
+            <div style="width: 40px; height: 40px; border-radius: 10px; background: #C8102E; display: flex; align-items: center; justify-content: center; flex-shrink: 0; border: 1px solid #E5E7EB;"><span style="color: #fff; font-size: 13px; font-weight: 800; font-family: var(--font-mono); letter-spacing: -0.5px;">JL</span></div>
             <div class="flight-details">
               <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 4px;">
                 <p class="small bold">Japan Airlines &bull; JL401</p>
@@ -1530,7 +1622,7 @@ a:hover { text-decoration: underline; }
           </div>
 
           <div class="flight-option" style="opacity: 0.55;" onclick="goTo(9)">
-            <img src="https://airhex.com/images/airline-logos/square/all-nippon-airways.png" alt="ANA" style="width: 40px; height: 40px; border-radius: 10px; object-fit: contain; background: #fff; border: 1px solid #E5E7EB; flex-shrink: 0;">
+            <div style="width: 40px; height: 40px; border-radius: 10px; background: #00338D; display: flex; align-items: center; justify-content: center; flex-shrink: 0; border: 1px solid #E5E7EB;"><span style="color: #fff; font-size: 11px; font-weight: 800; font-family: var(--font-mono);">ANA</span></div>
             <div class="flight-details">
               <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 4px;">
                 <p class="small bold">ANA &bull; NH211</p>
@@ -1569,7 +1661,7 @@ a:hover { text-decoration: underline; }
     <div class="page">
       <div style="max-width: 960px; margin: 0 auto;">
         <h1 style="font-size: 26px; font-weight: 700; margin-bottom: 4px;">Review Your Trip Bundle</h1>
-        <p class="small muted mb-24">One confirmation. Three expense records auto-created.</p>
+        <p class="small muted mb-24">One confirmation. Four expense records auto-created.</p>
 
         <div class="steps">
           <div class="step done"><div class="step-dot">&#10003;</div> <span>Search</span></div>
@@ -1599,7 +1691,7 @@ a:hover { text-decoration: underline; }
 
               <!-- Flight -->
               <div style="display: flex; gap: 16px; margin-bottom: 24px; position: relative; z-index: 2;">
-                <img src="https://airhex.com/images/airline-logos/square/british-airways.png" alt="BA" style="width: 24px; height: 24px; border-radius: 50%; object-fit: contain; flex-shrink: 0; border: 2px solid var(--divider); background: #fff;">
+                <div style="width: 24px; height: 24px; border-radius: 50%; background: #1B3A6B; display: flex; align-items: center; justify-content: center; flex-shrink: 0; border: 2px solid var(--divider);"><span style="color: #fff; font-size: 8px; font-weight: 800; font-family: var(--font-mono);">BA</span></div>
                 <div style="flex: 1;">
                   <div style="display: flex; justify-content: space-between;">
                     <p class="small bold">British Airways &bull; BA5</p>
@@ -1611,7 +1703,7 @@ a:hover { text-decoration: underline; }
 
               <!-- Hotel -->
               <div style="display: flex; gap: 16px; margin-bottom: 24px; position: relative; z-index: 2;">
-                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a9/Shinjuku_Park_Tower_2018_from_MetGovBld.jpg/250px-Shinjuku_Park_Tower_2018_from_MetGovBld.jpg" alt="Park Hyatt Tokyo" style="width: 24px; height: 24px; border-radius: 50%; object-fit: cover; flex-shrink: 0; border: 2px solid var(--divider);">
+                <div style="width: 24px; height: 24px; border-radius: 50%; background: #8B6914; display: flex; align-items: center; justify-content: center; flex-shrink: 0; border: 2px solid var(--divider);"><span style="color: #fff; font-size: 8px; font-weight: 800; font-family: var(--font-mono);">PH</span></div>
                 <div style="flex: 1;">
                   <div style="display: flex; justify-content: space-between;">
                     <p class="small bold">Park Hyatt Tokyo</p>
@@ -1622,8 +1714,8 @@ a:hover { text-decoration: underline; }
               </div>
 
               <!-- Car -->
-              <div style="display: flex; gap: 16px; position: relative; z-index: 2;">
-                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/91/2019_Tesla_Model_3_Performance_AWD_Front.jpg/330px-2019_Tesla_Model_3_Performance_AWD_Front.jpg" alt="Tesla Model 3" style="width: 24px; height: 24px; border-radius: 50%; object-fit: cover; flex-shrink: 0; border: 2px solid var(--divider);">
+              <div style="display: flex; gap: 16px; margin-bottom: 24px; position: relative; z-index: 2;">
+                <div style="width: 24px; height: 24px; border-radius: 50%; background: #CC0000; display: flex; align-items: center; justify-content: center; flex-shrink: 0; border: 2px solid var(--divider);"><span style="color: #fff; font-size: 9px; font-weight: 800; font-family: var(--font-mono);">T</span></div>
                 <div style="flex: 1;">
                   <div style="display: flex; justify-content: space-between;">
                     <p class="small bold">Tesla Model 3 (Electric)</p>
@@ -1632,18 +1724,30 @@ a:hover { text-decoration: underline; }
                   <p style="font-size: 12px; color: var(--text-disabled);">Hertz &bull; 6 days &bull; Pickup NRT</p>
                 </div>
               </div>
+
+              <!-- Return Flight -->
+              <div style="display: flex; gap: 16px; position: relative; z-index: 2;">
+                <div style="width: 24px; height: 24px; border-radius: 50%; background: #1B3A6B; display: flex; align-items: center; justify-content: center; flex-shrink: 0; border: 2px solid var(--divider);"><span style="color: #fff; font-size: 8px; font-weight: 800; font-family: var(--font-mono);">BA</span></div>
+                <div style="flex: 1;">
+                  <div style="display: flex; justify-content: space-between;">
+                    <p class="small bold">British Airways &bull; BA6 <span style="font-size: 10px; font-weight: 500; color: var(--text-disabled);">(return)</span></p>
+                    <span style="font-weight: 700;">&pound;742</span>
+                  </div>
+                  <p style="font-size: 12px; color: var(--text-disabled);">NRT &rarr; LHR &bull; Economy Plus &bull; Apr 5</p>
+                </div>
+              </div>
             </div>
 
             <!-- Total -->
             <div class="deel-card" style="background: var(--primary-main); color: #fff; border: none; padding: 20px 24px;">
               <div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 12px;">
                 <span style="font-size: 14px; opacity: 0.7;">Total Trip Cost</span>
-                <span style="font-size: 28px; font-weight: 800;">&pound;2,572</span>
+                <span style="font-size: 28px; font-weight: 800;">&pound;3,314</span>
               </div>
               <div style="border-top: 1px solid rgba(255,255,255,0.1); padding-top: 12px; display: flex; align-items: center; gap: 14px;">
                 <div style="width: 40px; height: 28px; border-radius: 4px; background: rgba(255,255,255,0.15); display: flex; align-items: center; justify-content: center;"><span style="font-size: 9px; font-weight: 700;">DEEL</span></div>
                 <div>
-                  <p style="font-size: 12px; opacity: 0.7;">Deel Card **** 4821 &bull; One charge, three receipts auto-generated</p>
+                  <p style="font-size: 12px; opacity: 0.7;">Deel Card **** 4821 &bull; One charge, four receipts auto-generated</p>
                 </div>
               </div>
             </div>
@@ -1668,11 +1772,11 @@ a:hover { text-decoration: underline; }
             <!-- Automation summary -->
             <div class="deel-card mt-16" style="border-left: 4px solid var(--blue-link); background: var(--secondary-lighter);">
               <p style="font-size: 11px; font-weight: 700; color: var(--blue-link); text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 12px;">Automation Summary</p>
-              <p class="small mb-8"><span style="color: var(--blue-link);">&#9889;</span> <strong>3 expenses</strong> auto-created (flight, hotel, car)</p>
-              <p class="small mb-8"><span style="color: var(--blue-link);">&#9889;</span> <strong>3 receipts</strong> auto-generated from booking data</p>
+              <p class="small mb-8"><span style="color: var(--blue-link);">&#9889;</span> <strong>4 expenses</strong> auto-created (outbound, hotel, car, return)</p>
+              <p class="small mb-8"><span style="color: var(--blue-link);">&#9889;</span> <strong>4 receipts</strong> auto-generated from booking data</p>
               <p class="small mb-8"><span style="color: var(--blue-link);">&#9889;</span> GL 6200 updated &mdash; cost center Logistics</p>
               <p class="small mb-8"><span style="color: var(--blue-link);">&#9889;</span> Manager auto-approves (all within policy)</p>
-              <p class="small"><span style="color: var(--blue-link);">&#9889;</span> &pound;2,572 queued for April payroll reimbursement</p>
+              <p class="small"><span style="color: var(--blue-link);">&#9889;</span> &pound;3,314 queued for April payroll reimbursement</p>
             </div>
           </div>
         </div>
@@ -1703,7 +1807,7 @@ a:hover { text-decoration: underline; }
             <div><p style="font-size: 11px; color: #999;">Flight</p><p class="small bold">BA5 &bull; LHR &rarr; NRT</p></div>
             <div><p style="font-size: 11px; color: #999;">Hotel</p><p class="small bold">Park Hyatt Tokyo &bull; 6 nights</p></div>
             <div><p style="font-size: 11px; color: #999;">Car</p><p class="small bold">Tesla Model 3 &bull; 6 days</p></div>
-            <div><p style="font-size: 11px; color: #999;">Total</p><p class="small bold">&pound;2,572 <span style="font-weight: 400; color: #999;">(~$3,264 USD)</span></p></div>
+            <div><p style="font-size: 11px; color: #999;">Total</p><p class="small bold">&pound;3,314 <span style="font-weight: 400; color: #999;">(~$4,206 USD)</span></p></div>
           </div>
           <div class="divider"></div>
           <div style="display: flex; justify-content: space-between; align-items: center; padding-top: 4px;">
@@ -1720,11 +1824,11 @@ a:hover { text-decoration: underline; }
 
         <div class="deel-card" style="text-align: left; border-left: 4px solid #16a34a;">
           <p class="label" style="color: #16a34a; margin-bottom: 10px;">Automated Actions Complete</p>
-          <div class="check-row"><div class="check-icon check-green">&#10003;</div><p class="small"><strong>3 expense records</strong> created (flight, hotel, car)</p></div>
+          <div class="check-row"><div class="check-icon check-green">&#10003;</div><p class="small"><strong>4 expense records</strong> created (outbound, hotel, car, return)</p></div>
           <div class="check-row"><div class="check-icon check-green">&#10003;</div><p class="small"><strong>3 receipts</strong> auto-attached (no PDF uploads)</p></div>
           <div class="check-row"><div class="check-icon check-green">&#10003;</div><p class="small">Cost center: Logistics (GL 6200) &mdash; all items</p></div>
           <div class="check-row"><div class="check-icon check-green">&#10003;</div><p class="small">Manager auto-approved (all within CTO policy)</p></div>
-          <div class="check-row"><div class="check-icon check-green">&#10003;</div><p class="small">&pound;2,572 reimbursement queued (April payroll, GBP)</p></div>
+          <div class="check-row"><div class="check-icon check-green">&#10003;</div><p class="small">&pound;3,314 reimbursement queued (April payroll, GBP)</p></div>
           <div class="check-row"><div class="check-icon check-amber">!</div><p class="small"><span class="amber">PE alert sent to tax team &mdash; 153/183 days in Japan</span></p></div>
         </div>
 
@@ -1735,7 +1839,7 @@ a:hover { text-decoration: underline; }
               <p style="margin-bottom: 6px; text-decoration: line-through;">3 separate websites (airline, hotel, car)</p>
               <p style="margin-bottom: 6px; text-decoration: line-through;">3 credit card transactions</p>
               <p style="margin-bottom: 6px; text-decoration: line-through;">3 PDF receipts to download</p>
-              <p style="margin-bottom: 6px; text-decoration: line-through;">3 expense uploads</p>
+              <p style="margin-bottom: 6px; text-decoration: line-through;">4 expense uploads</p>
               <p style="margin-bottom: 6px; text-decoration: line-through;">Manual visa &amp; PE check</p>
               <p style="margin-bottom: 6px; text-decoration: line-through;">Type category &amp; amount x3</p>
               <p style="text-decoration: line-through;">Wait for manual approval</p>
@@ -1745,7 +1849,7 @@ a:hover { text-decoration: underline; }
               <p style="margin-bottom: 6px;">One booking flow</p>
               <p style="margin-bottom: 6px;">One Deel Card charge</p>
               <p style="margin-bottom: 6px;">3 receipts auto-generated</p>
-              <p style="margin-bottom: 6px;">3 expenses auto-created</p>
+              <p style="margin-bottom: 6px;">4 expenses auto-created</p>
               <p style="margin-bottom: 6px;">Visa + PE auto-checked</p>
               <p style="margin-bottom: 6px;">All fields pre-populated</p>
               <p>Auto-approved instantly</p>
@@ -1755,7 +1859,7 @@ a:hover { text-decoration: underline; }
 
         <div style="display: flex; gap: 12px; margin-top: 24px;">
           <button class="btn btn-dark btn-lg" style="flex: 1;" onclick="goTo(currentView === 'employee' ? 8 : 0)">Back to Home</button>
-          <button class="btn btn-outline btn-lg" style="flex: 1;" onclick="goTo(currentView === 'employee' ? 8 : 0)">View Trip Details</button>
+          <button class="btn btn-outline btn-lg" style="flex: 1;" onclick="goTo(11)">View My Expenses</button>
         </div>
       </div>
     </div>
@@ -1795,7 +1899,7 @@ a:hover { text-decoration: underline; }
         <div class="deel-card" style="padding: 0; overflow: hidden;">
           <!-- Hotel 1 -->
           <div class="flight-option" onclick="goTo(10)">
-            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a9/Shinjuku_Park_Tower_2018_from_MetGovBld.jpg/250px-Shinjuku_Park_Tower_2018_from_MetGovBld.jpg" alt="Park Hyatt Tokyo" style="width: 40px; height: 40px; border-radius: 10px; object-fit: cover; flex-shrink: 0;">
+            <div style="width: 40px; height: 40px; border-radius: 10px; background: #8B6914; display: flex; align-items: center; justify-content: center; flex-shrink: 0;"><span style="color: #fff; font-size: 12px; font-weight: 800; font-family: var(--font-mono);">PH</span></div>
             <div class="flight-details">
               <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 4px;">
                 <p class="small bold">Park Hyatt Tokyo</p>
@@ -1814,7 +1918,7 @@ a:hover { text-decoration: underline; }
 
           <!-- Hotel 2 -->
           <div class="flight-option" onclick="goTo(10)">
-            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/d6/Shinjuku_Toho4.jpg/330px-Shinjuku_Toho4.jpg" alt="Hotel Gracery Shinjuku" style="width: 40px; height: 40px; border-radius: 10px; object-fit: cover; flex-shrink: 0;">
+            <div style="width: 40px; height: 40px; border-radius: 10px; background: #4B5563; display: flex; align-items: center; justify-content: center; flex-shrink: 0;"><span style="color: #fff; font-size: 12px; font-weight: 800; font-family: var(--font-mono);">HG</span></div>
             <div class="flight-details">
               <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 4px;">
                 <p class="small bold">Hotel Gracery Shinjuku</p>
@@ -1832,7 +1936,7 @@ a:hover { text-decoration: underline; }
 
           <!-- Hotel 3 -->
           <div class="flight-option" style="opacity: 0.55;">
-            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/55/Otemachi_1-6.jpg/250px-Otemachi_1-6.jpg" alt="Aman Tokyo" style="width: 40px; height: 40px; border-radius: 10px; object-fit: cover; flex-shrink: 0;">
+            <div style="width: 40px; height: 40px; border-radius: 10px; background: #111827; display: flex; align-items: center; justify-content: center; flex-shrink: 0;"><span style="color: #fff; font-size: 12px; font-weight: 800; font-family: var(--font-mono);">AT</span></div>
             <div class="flight-details">
               <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 4px;">
                 <p class="small bold">Aman Tokyo</p>
@@ -1890,7 +1994,7 @@ a:hover { text-decoration: underline; }
         <div class="deel-card" style="padding: 0; overflow: hidden;">
           <!-- Car 1: EV -->
           <div class="flight-option" onclick="goTo(4)">
-            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/91/2019_Tesla_Model_3_Performance_AWD_Front.jpg/330px-2019_Tesla_Model_3_Performance_AWD_Front.jpg" alt="Tesla Model 3" style="width: 40px; height: 40px; border-radius: 10px; object-fit: cover; flex-shrink: 0;">
+            <div style="width: 40px; height: 40px; border-radius: 10px; background: #CC0000; display: flex; align-items: center; justify-content: center; flex-shrink: 0;"><span style="color: #fff; font-size: 15px; font-weight: 800; font-family: var(--font-mono);">T</span></div>
             <div class="flight-details">
               <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 4px;">
                 <p class="small bold">Tesla Model 3 (Electric)</p>
@@ -1908,7 +2012,7 @@ a:hover { text-decoration: underline; }
 
           <!-- Car 2 -->
           <div class="flight-option" onclick="goTo(4)">
-            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/ac/2018_Toyota_Camry_%28ASV70R%29_Ascent_sedan_%282018-08-27%29_01.jpg/330px-2018_Toyota_Camry_%28ASV70R%29_Ascent_sedan_%282018-08-27%29_01.jpg" alt="Toyota Camry" style="width: 40px; height: 40px; border-radius: 10px; object-fit: cover; flex-shrink: 0;">
+            <div style="width: 40px; height: 40px; border-radius: 10px; background: #374151; display: flex; align-items: center; justify-content: center; flex-shrink: 0;"><span style="color: #fff; font-size: 12px; font-weight: 800; font-family: var(--font-mono);">TC</span></div>
             <div class="flight-details">
               <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 4px;">
                 <p class="small bold">Toyota Camry</p>
@@ -1916,6 +2020,7 @@ a:hover { text-decoration: underline; }
               </div>
               <p style="font-size: 12px; color: var(--text-disabled);">Budget &bull; Pickup: Tokyo Narita (NRT) &bull; Automatic</p>
               <div style="display: flex; align-items: center; justify-content: space-between; margin-top: 10px;">
+                <div></div>
                 <p style="font-size: 20px; font-weight: 800;">&pound;45<span style="font-size: 12px; font-weight: 400; color: var(--text-disabled);">/day</span></p>
               </div>
             </div>
@@ -1923,7 +2028,7 @@ a:hover { text-decoration: underline; }
 
           <!-- Executive Transfer -->
           <div class="flight-option" onclick="goTo(4)">
-            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/86/BMW_G60_520i_1X7A2443.jpg/250px-BMW_G60_520i_1X7A2443.jpg" alt="Executive Airport Transfer" style="width: 40px; height: 40px; border-radius: 10px; object-fit: cover; flex-shrink: 0;">
+            <div style="width: 40px; height: 40px; border-radius: 10px; background: #111827; display: flex; align-items: center; justify-content: center; flex-shrink: 0;"><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M3 13h14M5 13l1-4h8l1 4M6 9l1-3h6l1 3" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><circle cx="6" cy="14" r="1.5" stroke="#fff" stroke-width="1"/><circle cx="14" cy="14" r="1.5" stroke="#fff" stroke-width="1"/></svg></div>
             <div class="flight-details">
               <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 4px;">
                 <p class="small bold">Executive Airport Transfer</p>
@@ -2172,6 +2277,9 @@ a:hover { text-decoration: underline; }
             <span>&#10005;</span> Deny
           </button>
         </div>
+        <div style="text-align: center; margin-top: 16px;">
+          <button style="font-size: 12px; color: #7C3AED; background: none; border: none; cursor: pointer; font-weight: 600; font-family: inherit;" onclick="goTo(15)">View PE Dashboard &mdash; all team members &rarr;</button>
+        </div>
       </div>
     </div>
   </div>
@@ -2198,6 +2306,15 @@ a:hover { text-decoration: underline; }
         </div>
         <p class="small muted mb-24">Your submitted expenses and reimbursements</p>
 
+        <!-- Auto-created expense banner (shown after booking) -->
+        <div class="auto-expense-banner" id="auto-expense-banner" style="display: none;">
+          <svg width="18" height="18" viewBox="0 0 16 16" fill="none" stroke="#7C3AED" stroke-width="1.5"><path d="M4 14V9l4-7 4 7v5"/><path d="M4 9h8"/></svg>
+          <div>
+            <p><strong>4 expenses auto-created</strong> from booking DT-2026-0330-TB</p>
+            <p class="mono">No manual upload needed &bull; Receipts auto-attached &bull; Manager auto-approved</p>
+          </div>
+        </div>
+
         <div class="deel-card" style="padding: 0; overflow-x: auto;">
           <table class="expenses-table">
             <thead>
@@ -2210,13 +2327,36 @@ a:hover { text-decoration: underline; }
               </tr>
             </thead>
             <tbody>
-              <tr style="background: var(--warning-lighter);">
+              <!-- Auto-created rows (hidden until trip is booked) -->
+              <tr class="auto-expense-row" id="auto-exp-1" style="display: none; background: #FAFBFF;">
                 <td class="expense-category"><a>Flight</a><br><span style="font-size: 11px; color: var(--text-disabled);">Travel &amp; Transportation</span></td>
-                <td><strong>$750.00</strong><br><span style="font-size: 11px; color: var(--text-disabled);">Mar 30th 2026</span></td>
-                <td>Air China</td>
-                <td><span class="badge badge-amber">Pending approval</span></td>
-                <td><a style="font-size: 12px;">1 file</a></td>
+                <td><strong>&pound;742.00</strong><br><span style="font-size: 11px; color: var(--text-disabled);">Mar 30th 2026</span></td>
+                <td>British Airways</td>
+                <td><span class="badge" style="background: #F5F3FF; color: #7C3AED;">Auto-approved</span></td>
+                <td><a style="font-size: 12px; color: #7C3AED;">1 file &#9889;</a></td>
               </tr>
+              <tr class="auto-expense-row" id="auto-exp-2" style="display: none; background: #FAFBFF;">
+                <td class="expense-category"><a>Hotel</a><br><span style="font-size: 11px; color: var(--text-disabled);">Accommodation</span></td>
+                <td><strong>&pound;1,440.00</strong><br><span style="font-size: 11px; color: var(--text-disabled);">Mar 30th 2026</span></td>
+                <td>Park Hyatt Tokyo</td>
+                <td><span class="badge" style="background: #F5F3FF; color: #7C3AED;">Auto-approved</span></td>
+                <td><a style="font-size: 12px; color: #7C3AED;">1 file &#9889;</a></td>
+              </tr>
+              <tr class="auto-expense-row" id="auto-exp-3" style="display: none; background: #FAFBFF;">
+                <td class="expense-category"><a>Car Rental</a><br><span style="font-size: 11px; color: var(--text-disabled);">Ground Transport</span></td>
+                <td><strong>&pound;390.00</strong><br><span style="font-size: 11px; color: var(--text-disabled);">Mar 30th 2026</span></td>
+                <td>Hertz</td>
+                <td><span class="badge" style="background: #F5F3FF; color: #7C3AED;">Auto-approved</span></td>
+                <td><a style="font-size: 12px; color: #7C3AED;">1 file &#9889;</a></td>
+              </tr>
+              <tr class="auto-expense-row" id="auto-exp-4" style="display: none; background: #FAFBFF;">
+                <td class="expense-category"><a>Flight</a><br><span style="font-size: 11px; color: var(--text-disabled);">Travel &amp; Transportation</span></td>
+                <td><strong>&pound;742.00</strong><br><span style="font-size: 11px; color: var(--text-disabled);">Apr 5th 2026</span></td>
+                <td>British Airways</td>
+                <td><span class="badge" style="background: #F5F3FF; color: #7C3AED;">Auto-approved</span></td>
+                <td><a style="font-size: 12px; color: #7C3AED;">1 file &#9889;</a></td>
+              </tr>
+              <!-- Existing manual rows -->
               <tr>
                 <td class="expense-category"><a>Meal Allowance</a><br><span style="font-size: 11px; color: var(--text-disabled);">Meal Allowance</span></td>
                 <td><strong>&pound;45.00</strong><br><span style="font-size: 11px; color: var(--text-disabled);">Mar 14th 2026</span></td>
@@ -2256,7 +2396,7 @@ a:hover { text-decoration: underline; }
               <p class="small bold green">Next reimbursement</p>
               <p style="font-size: 12px; color: var(--text-disabled);">April payroll cycle &bull; Estimated Apr 30, 2026</p>
             </div>
-            <p style="font-size: 20px; font-weight: 700;">&pound;750.00</p>
+            <p style="font-size: 20px; font-weight: 700;" id="reimburse-amount">&pound;750.00</p>
           </div>
         </div>
       </div>
@@ -2293,17 +2433,17 @@ a:hover { text-decoration: underline; }
                 Quick actions
               </div>
               <div class="quick-actions">
-                <button class="quick-action-tile" onclick="showExpenseChoice()">
+                <button class="quick-action-tile" onclick="goTo(11)">
                   <div class="quick-action-icon">
                     <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="#666" stroke-width="1.5"><rect x="2" y="3" width="12" height="10" rx="1.5"/><path d="M5 7h6M5 10h3"/></svg>
                   </div>
-                  <span class="quick-action-label">Add expense</span>
+                  <span class="quick-action-label">My expenses</span>
                 </button>
-                <button class="quick-action-tile">
+                <button class="quick-action-tile" onclick="showExpenseChoice()">
                   <div class="quick-action-icon">
-                    <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="#666" stroke-width="1.5"><path d="M4 4h3v3H4zM9 4h3v3H9zM9 9h3v3H9zM4 11l1.5-2L7 11"/></svg>
+                    <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="#666" stroke-width="1.5"><path d="M8 4v8M4 8h8"/></svg>
                   </div>
-                  <span class="quick-action-label">Tax documents</span>
+                  <span class="quick-action-label">Add expense</span>
                 </button>
                 <button class="quick-action-tile">
                   <div class="quick-action-icon">
@@ -2356,21 +2496,21 @@ a:hover { text-decoration: underline; }
               </div>
               <div style="display: flex; gap: 12px; margin-bottom: 20px;">
                 <div class="brand-tile">
-                  <img src="https://airhex.com/images/airline-logos/square/british-airways.png" class="brand-logo" alt="BA">
+                  <div class="brand-logo" style="background: #1B3A6B; display: flex; align-items: center; justify-content: center; border: none;"><span style="color: #fff; font-size: 14px; font-weight: 800; font-family: var(--font-mono);">BA</span></div>
                   <div>
                     <p style="font-size: 13px; font-weight: 700; color: #111827; margin: 0;">Flight BA5</p>
                     <p style="font-size: 11px; color: #6B7280; margin: 2px 0 0; font-family: var(--font-mono);">Mar 30 &bull; 09:15</p>
                   </div>
                 </div>
                 <div class="brand-tile">
-                  <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a9/Shinjuku_Park_Tower_2018_from_MetGovBld.jpg/250px-Shinjuku_Park_Tower_2018_from_MetGovBld.jpg" class="brand-logo" style="object-fit: cover;" alt="Park Hyatt">
+                  <div class="brand-logo" style="background: #8B6914; display: flex; align-items: center; justify-content: center; border: none;"><span style="color: #fff; font-size: 14px; font-weight: 800; font-family: var(--font-mono);">PH</span></div>
                   <div>
                     <p style="font-size: 13px; font-weight: 700; color: #111827; margin: 0;">Park Hyatt Tokyo</p>
                     <p style="font-size: 11px; color: #6B7280; margin: 2px 0 0; font-family: var(--font-mono);">6 Nights &bull; Shinjuku</p>
                   </div>
                 </div>
                 <div class="brand-tile">
-                  <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/91/2019_Tesla_Model_3_Performance_AWD_Front.jpg/330px-2019_Tesla_Model_3_Performance_AWD_Front.jpg" class="brand-logo" style="object-fit: cover;" alt="Tesla">
+                  <div class="brand-logo" style="background: #CC0000; display: flex; align-items: center; justify-content: center; border: none;"><span style="color: #fff; font-size: 16px; font-weight: 800; font-family: var(--font-mono);">T</span></div>
                   <div>
                     <p style="font-size: 13px; font-weight: 700; color: #111827; margin: 0;">Tesla Model 3</p>
                     <p style="font-size: 11px; color: #6B7280; margin: 2px 0 0; font-family: var(--font-mono);">Hertz &bull; NRT Pickup</p>
@@ -2380,7 +2520,7 @@ a:hover { text-decoration: underline; }
               <div style="background: #F0FDF4; border: 1px solid #A7F3D0; border-radius: 8px; padding: 14px 16px; display: flex; align-items: flex-start; gap: 10px; margin-bottom: 18px;">
                 <span style="color: #059669; font-size: 16px; flex-shrink: 0;">&#10003;</span>
                 <div>
-                  <p style="margin: 0; font-size: 13px; font-weight: 700; color: #111827;">&pound;2,572 trip bundle auto-approved</p>
+                  <p style="margin: 0; font-size: 13px; font-weight: 700; color: #111827;">&pound;3,314 trip bundle auto-approved</p>
                   <p style="margin: 3px 0 0; font-size: 12px; color: #065F46;">Mapped to Logistics (GL 6200). <strong>Reimbursement queued for April 30 payroll cycle.</strong></p>
                 </div>
               </div>
@@ -2450,11 +2590,19 @@ a:hover { text-decoration: underline; }
                   <p style="font-size: 11px; color: var(--text-disabled);">Visa-exempt for business stays under 90 days</p>
                 </div>
               </div>
-              <div style="display: flex; align-items: flex-start; gap: 12px; padding: 10px 0;">
+              <div style="display: flex; align-items: flex-start; gap: 12px; padding: 10px 0; border-bottom: 1px solid #e8ebf2;">
                 <div style="width: 28px; height: 28px; border-radius: 50%; background: var(--warning-lighter); display: flex; align-items: center; justify-content: center; flex-shrink: 0; font-size: 14px;">&#9888;&#65039;</div>
                 <div>
                   <p class="small bold amber">PE exposure: 153/183 days after this trip</p>
                   <p style="font-size: 11px; color: var(--text-disabled);">Manager notified. Limit future Japan travel this tax year.</p>
+                </div>
+              </div>
+              <div style="display: flex; align-items: flex-start; gap: 12px; padding: 10px 0;">
+                <div style="width: 28px; height: 28px; border-radius: 50%; background: #F5F3FF; display: flex; align-items: center; justify-content: center; flex-shrink: 0; font-size: 14px;">&#9889;</div>
+                <div style="flex: 1;">
+                  <p class="small bold">4 expenses auto-created from your booking</p>
+                  <p style="font-size: 11px; color: var(--text-disabled);">Flight, hotel, car rental, return flight &mdash; all auto-approved</p>
+                  <button style="font-size: 12px; color: #7C3AED; background: none; border: none; cursor: pointer; padding: 4px 0 0; font-weight: 600; font-family: inherit;" onclick="goTo(11)">View My Expenses &rarr;</button>
                 </div>
               </div>
             </div>
@@ -3016,6 +3164,217 @@ a:hover { text-decoration: underline; }
     </div>
   </div>
 
+  <!-- ============================================================ -->
+  <!-- SCREEN 15: PE Compliance Dashboard (Manager) -->
+  <!-- ============================================================ -->
+  <div class="screen" id="screen-15">
+    <div class="deel-subnav">
+      <button class="deel-subnav-item" onclick="goTo(0)">
+        <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M8 2L3 7l5 5"/></svg>
+        Home
+      </button>
+      <button class="deel-subnav-item active">
+        <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M8 1l7 4v3c0 4.5-3 7.5-7 9-4-1.5-7-4.5-7-9V5z"/></svg>
+        PE Compliance
+      </button>
+    </div>
+    <div class="page">
+      <div style="max-width: 900px; margin: 0 auto;">
+        <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 4px;">
+          <div>
+            <h1 style="font-size: 26px; font-weight: 700;">PE Compliance Dashboard</h1>
+            <p class="small muted mb-24">OECD 2025 &bull; Permanent Establishment risk monitoring &bull; Updated in real-time from booking data</p>
+          </div>
+          <span style="font-size: 10px; font-weight: 700; color: #7C3AED; background: #F5F3FF; padding: 4px 10px; border-radius: 4px; font-family: var(--font-mono);">FY2026 &bull; TAX YEAR</span>
+        </div>
+
+        <!-- Stats row -->
+        <div class="pe-stats-row">
+          <div class="pe-stat-card" style="border-top: 3px solid #059669;">
+            <div class="pe-stat-value" style="color: #059669;">5</div>
+            <div class="pe-stat-label">Tracked employees</div>
+          </div>
+          <div class="pe-stat-card" style="border-top: 3px solid #D97706;">
+            <div class="pe-stat-value" style="color: #D97706;">1</div>
+            <div class="pe-stat-label">At risk (&gt;75%)</div>
+          </div>
+          <div class="pe-stat-card" style="border-top: 3px solid #DC2626;">
+            <div class="pe-stat-value" style="color: #DC2626;">0</div>
+            <div class="pe-stat-label">Breached (&gt;183 days)</div>
+          </div>
+        </div>
+
+        <!-- OECD Reference -->
+        <div class="deel-card" style="background: #FFFBEB; border: 1px solid #FDE68A; margin-bottom: 20px;">
+          <div style="display: flex; align-items: flex-start; gap: 10px;">
+            <span style="font-size: 16px; flex-shrink: 0;">&#9878;&#65039;</span>
+            <div>
+              <p style="font-size: 12px; font-weight: 700; color: #92400E; margin-bottom: 4px;">OECD Article 5 &sect;3 &mdash; November 2025 Update</p>
+              <p style="font-size: 12px; color: #78350F; line-height: 1.6; margin: 0;">The 2025 update mandates systematic tracking of cross-border working time. &lt;50% working time abroad = presumed no PE. &gt;183 cumulative days in a jurisdiction triggers permanent establishment obligations. This dashboard tracks all employee travel against these thresholds automatically.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Employee PE Table -->
+        <div class="deel-card" style="padding: 0;">
+          <div style="padding: 16px 20px; border-bottom: 1px solid #E5E7EB; display: flex; justify-content: space-between; align-items: center;">
+            <p style="font-size: 13px; font-weight: 700; color: #111827; margin: 0;">Employee PE Exposure</p>
+            <span style="font-size: 11px; color: #6B7280; font-family: var(--font-mono);">183-day threshold &bull; OECD Art.5 &sect;3</span>
+          </div>
+          <div style="padding: 4px 20px 12px;">
+
+            <!-- Teena — AT RISK -->
+            <div class="pe-employee-row">
+              <div class="pe-employee-avatar" style="background: #e879a8;">TB</div>
+              <div class="pe-employee-info">
+                <div style="display: flex; align-items: center; gap: 8px;">
+                  <span class="pe-employee-name">Teena Bramley</span>
+                  <span style="font-size: 10px; font-weight: 700; color: #D97706; background: #FEF3C7; padding: 2px 8px; border-radius: 3px; font-family: var(--font-mono);">AT RISK</span>
+                </div>
+                <p class="pe-employee-role">CTO &bull; EOR (UK) &bull; Deel UK Ltd</p>
+                <div class="pe-employee-meta">
+                  <span class="pe-employee-country">&#127471;&#127477; Japan</span>
+                  <span class="pe-employee-days">153 / 183 days &bull; 30 remaining</span>
+                </div>
+                <div style="margin-top: 8px;">
+                  <div class="pe-track" style="height: 8px; width: 100%;">
+                    <div class="pe-fill" style="width: 83.6%; background: linear-gradient(90deg, #fbbf24, #d97706);"></div>
+                  </div>
+                </div>
+                <div style="margin-top: 6px;">
+                  <button style="font-size: 11px; color: #1f74b3; background: none; border: none; cursor: pointer; padding: 0; font-family: inherit; font-weight: 600;" onclick="goTo(7)">View travel request &rarr;</button>
+                </div>
+              </div>
+              <div class="pe-bar-container">
+                <span class="pe-bar-label" style="color: #D97706;">83.6%</span>
+              </div>
+            </div>
+
+            <!-- Marcus — MODERATE -->
+            <div class="pe-employee-row">
+              <div class="pe-employee-avatar" style="background: #6366f1;">MK</div>
+              <div class="pe-employee-info">
+                <div style="display: flex; align-items: center; gap: 8px;">
+                  <span class="pe-employee-name">Marcus King</span>
+                  <span style="font-size: 10px; font-weight: 700; color: #D97706; background: #FEF3C7; padding: 2px 8px; border-radius: 3px; font-family: var(--font-mono);">MONITOR</span>
+                </div>
+                <p class="pe-employee-role">VP Sales &bull; Direct Payroll &bull; Wayne Corp US</p>
+                <div class="pe-employee-meta">
+                  <span class="pe-employee-country">&#127480;&#127468; Singapore</span>
+                  <span class="pe-employee-days">91 / 183 days &bull; 92 remaining</span>
+                </div>
+                <div style="margin-top: 8px;">
+                  <div class="pe-track" style="height: 8px; width: 100%;">
+                    <div class="pe-fill" style="width: 49.7%; background: linear-gradient(90deg, #34d399, #fbbf24);"></div>
+                  </div>
+                </div>
+              </div>
+              <div class="pe-bar-container">
+                <span class="pe-bar-label" style="color: #D97706;">49.7%</span>
+              </div>
+            </div>
+
+            <!-- Freddie — LOW -->
+            <div class="pe-employee-row">
+              <div class="pe-employee-avatar" style="background: #7c6bc4;">FA</div>
+              <div class="pe-employee-info">
+                <div style="display: flex; align-items: center; gap: 8px;">
+                  <span class="pe-employee-name">Freddie Adams</span>
+                </div>
+                <p class="pe-employee-role">Engineer &bull; EOR (DE) &bull; Deel Germany GmbH</p>
+                <div class="pe-employee-meta">
+                  <span class="pe-employee-country">&#127465;&#127466; Germany</span>
+                  <span class="pe-employee-days">42 / 183 days &bull; 141 remaining</span>
+                </div>
+                <div style="margin-top: 8px;">
+                  <div class="pe-track" style="height: 8px; width: 100%;">
+                    <div class="pe-fill" style="width: 23%; background: #34d399;"></div>
+                  </div>
+                </div>
+              </div>
+              <div class="pe-bar-container">
+                <span class="pe-bar-label" style="color: #059669;">23%</span>
+              </div>
+            </div>
+
+            <!-- Meaghan — LOW -->
+            <div class="pe-employee-row">
+              <div class="pe-employee-avatar" style="background: #f59e0b;">MW</div>
+              <div class="pe-employee-info">
+                <div style="display: flex; align-items: center; gap: 8px;">
+                  <span class="pe-employee-name">Meaghan Wolf</span>
+                </div>
+                <p class="pe-employee-role">Designer &bull; EOR (FR) &bull; Deel France SAS</p>
+                <div class="pe-employee-meta">
+                  <span class="pe-employee-country">&#127467;&#127479; France</span>
+                  <span class="pe-employee-days">28 / 183 days &bull; 155 remaining</span>
+                </div>
+                <div style="margin-top: 8px;">
+                  <div class="pe-track" style="height: 8px; width: 100%;">
+                    <div class="pe-fill" style="width: 15.3%; background: #34d399;"></div>
+                  </div>
+                </div>
+              </div>
+              <div class="pe-bar-container">
+                <span class="pe-bar-label" style="color: #059669;">15.3%</span>
+              </div>
+            </div>
+
+            <!-- Tillman — MINIMAL -->
+            <div class="pe-employee-row">
+              <div class="pe-employee-avatar" style="background: #6366f1;">TN</div>
+              <div class="pe-employee-info">
+                <div style="display: flex; align-items: center; gap: 8px;">
+                  <span class="pe-employee-name">Tillman Nienow</span>
+                </div>
+                <p class="pe-employee-role">Analyst &bull; EOR (KR) &bull; Deel Korea Ltd</p>
+                <div class="pe-employee-meta">
+                  <span class="pe-employee-country">&#127472;&#127479; South Korea</span>
+                  <span class="pe-employee-days">12 / 183 days &bull; 171 remaining</span>
+                </div>
+                <div style="margin-top: 8px;">
+                  <div class="pe-track" style="height: 8px; width: 100%;">
+                    <div class="pe-fill" style="width: 6.6%; background: #34d399;"></div>
+                  </div>
+                </div>
+              </div>
+              <div class="pe-bar-container">
+                <span class="pe-bar-label" style="color: #059669;">6.6%</span>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- Cost comparison -->
+        <div class="deel-card mt-16" style="background: var(--primary-main); color: #fff; border: none;">
+          <p style="font-size: 11px; font-weight: 700; color: #a78bfa; text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 12px;">What this replaces</p>
+          <div style="display: flex; gap: 24px; margin-bottom: 16px;">
+            <div style="flex: 1;">
+              <p style="font-size: 12px; opacity: 0.5; margin-bottom: 4px; text-decoration: line-through;">Big 4 PE audit</p>
+              <p style="font-size: 18px; font-weight: 700;">$500&ndash;1,000</p>
+              <p style="font-size: 11px; opacity: 0.4;">per employee / year</p>
+            </div>
+            <div style="flex: 1;">
+              <p style="font-size: 12px; opacity: 0.5; margin-bottom: 4px; text-decoration: line-through;">Manual tracking</p>
+              <p style="font-size: 18px; font-weight: 700;">2&ndash;4 hrs</p>
+              <p style="font-size: 11px; opacity: 0.4;">per employee / month</p>
+            </div>
+            <div style="flex: 1;">
+              <p style="font-size: 12px; color: #a78bfa; font-weight: 600; margin-bottom: 4px;">Deel automates it</p>
+              <p style="font-size: 18px; font-weight: 700; color: #a78bfa;">$5&ndash;10</p>
+              <p style="font-size: 11px; opacity: 0.4;">per user / month</p>
+            </div>
+          </div>
+          <div style="border-top: 1px solid rgba(255,255,255,0.1); padding-top: 12px;">
+            <p style="font-size: 12px; opacity: 0.5; margin: 0;">Updated in real-time from Deel Travel booking data. No manual input. No spreadsheets. OECD 2025 compliant.</p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
 </div>
 
 <!-- ===== EXPENSE CHOICE MODAL ===== -->
@@ -3193,14 +3552,14 @@ a:hover { text-decoration: underline; }
 
 <script>
 const screens = document.querySelectorAll('.screen');
-const navMap = {0:'nav-home', 1:'nav-travel', 2:'nav-travel', 3:'nav-travel', 4:'nav-travel', 5:'nav-travel', 6:'nav-home', 7:'nav-travel', 8:'nav-home', 9:'nav-travel', 10:'nav-travel', 11:'nav-home', 12:'nav-home', 13:'nav-travel', 14:'nav-home'};
+const navMap = {0:'nav-home', 1:'nav-travel', 2:'nav-travel', 3:'nav-travel', 4:'nav-travel', 5:'nav-travel', 6:'nav-home', 7:'nav-travel', 8:'nav-home', 9:'nav-travel', 10:'nav-travel', 11:'nav-home', 12:'nav-home', 13:'nav-travel', 14:'nav-home', 15:'nav-home'};
 const history = [0];
 let current = 0;
 let tripBooked = false;
 
 function goTo(i) {
   // View guard — prevent cross-view screen access (runs first!)
-  const mgrOnly = [0, 6, 7, 12, 13];
+  const mgrOnly = [0, 6, 7, 12, 13, 15];
   const empOnly = [8, 11, 14];
   if (currentView === 'employee' && mgrOnly.includes(i)) { i = 8; }
   if (currentView === 'manager' && empOnly.includes(i)) { i = 0; }
@@ -3303,6 +3662,22 @@ function goTo(i) {
       if(hero) hero.style.display = 'none';
       if(foryouEmpty) foryouEmpty.style.display = '';
       if(foryouBooked) foryouBooked.style.display = 'none';
+    }
+  }
+
+  // Auto-expense rows on Screen 11
+  if (i === 11) {
+    const banner = document.getElementById('auto-expense-banner');
+    const rows = ['auto-exp-1','auto-exp-2','auto-exp-3','auto-exp-4'];
+    const reimburse = document.getElementById('reimburse-amount');
+    if (tripBooked) {
+      if (banner) banner.style.display = '';
+      rows.forEach(id => { const r = document.getElementById(id); if(r) r.style.display = ''; });
+      if (reimburse) reimburse.innerHTML = '&pound;4,064.00';
+    } else {
+      if (banner) banner.style.display = 'none';
+      rows.forEach(id => { const r = document.getElementById(id); if(r) r.style.display = 'none'; });
+      if (reimburse) reimburse.innerHTML = '&pound;750.00';
     }
   }
 
