@@ -152,6 +152,11 @@ a:hover { text-decoration: underline; }
 .deel-card {
   background: #fff; border: 1px solid #E8EBEF; border-radius: 12px;
   padding: 20px; margin-bottom: 16px; box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+  transition: border-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
+}
+.deel-card:hover {
+  border-color: #D1D5DB; box-shadow: 0 4px 16px rgba(0,0,0,0.06);
+  transform: translateY(-1px);
 }
 .deel-card-header {
   display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px;
@@ -195,9 +200,11 @@ a:hover { text-decoration: underline; }
 
 /* To-do row (For you today) */
 .todo-row {
-  display: flex; align-items: center; gap: 12px; padding: 12px 0;
-  border-bottom: 1px solid #F3F4F6;
+  display: flex; align-items: center; gap: 12px; padding: 12px 6px;
+  border-bottom: 1px solid #F3F4F6; border-radius: 8px;
+  transition: background 0.15s;
 }
+.todo-row:hover { background: #F9FAFB; }
 .todo-row:last-child { border-bottom: none; }
 .todo-icon {
   width: 36px; height: 36px; border-radius: 8px; background: var(--neutral-light);
@@ -236,14 +243,15 @@ a:hover { text-decoration: underline; }
 }
 .btn:active { transform: scale(0.98); }
 .btn-dark { background: var(--primary-main); color: #fff; }
-.btn-dark:hover { background: #333; }
+.btn-dark:hover { background: #333; box-shadow: 0 4px 14px rgba(0,0,0,0.15); }
 .btn-primary { background: var(--blue-link); color: #fff; }
-.btn-primary:hover { background: #00499d; }
+.btn-primary:hover { background: #00499d; box-shadow: 0 4px 14px rgba(31,116,179,0.25); }
 .btn-amber { background: #ed5e2a; color: #fff; }
-.btn-amber:hover { background: #c84d1f; }
+.btn-amber:hover { background: #c84d1f; box-shadow: 0 4px 14px rgba(237,94,42,0.25); }
 .btn-green { background: var(--success-main); color: #fff; }
+.btn-green:hover { box-shadow: 0 4px 14px rgba(5,150,105,0.25); }
 .btn-outline { background: transparent; border: 1.5px solid #e8e5e1; color: #1a1a1a; }
-.btn-outline:hover { border-color: #ccc; }
+.btn-outline:hover { border-color: #ccc; box-shadow: 0 2px 8px rgba(0,0,0,0.05); }
 .btn-full { width: 100%; justify-content: center; }
 .btn-lg { padding: 13px 24px; font-size: 15px; }
 
@@ -285,9 +293,10 @@ a:hover { text-decoration: underline; }
 /* ===== FLIGHT RESULTS ===== */
 .flight-option {
   display: flex; align-items: center; padding: 18px 20px; border-bottom: 1px solid #f3f2f0;
-  cursor: pointer; transition: background 0.15s; gap: 16px;
+  cursor: pointer; transition: background 0.15s, border-left 0.15s, padding-left 0.15s; gap: 16px;
+  border-left: 3px solid transparent;
 }
-.flight-option:hover { background: #fafaff; }
+.flight-option:hover { background: #fafaff; border-left-color: #7C3AED; }
 .flight-option:last-child { border-bottom: none; }
 .flight-airline {
   width: 40px; height: 40px; border-radius: 10px; display: flex;
@@ -397,10 +406,12 @@ a:hover { text-decoration: underline; }
   display: flex; flex-direction: column; align-items: center; gap: 8px;
   padding: 14px 20px; cursor: pointer;
   background: none; border: none;
-  font-family: inherit; text-align: center; transition: background 0.15s;
-  flex: 1;
+  font-family: inherit; text-align: center;
+  transition: background 0.15s, transform 0.15s;
+  flex: 1; border-radius: 8px;
 }
-.quick-action-tile:hover { background: var(--neutral-light); border-radius: 8px; }
+.quick-action-tile:hover { background: var(--neutral-light); transform: scale(1.04); }
+.quick-action-tile:active { transform: scale(0.97); }
 .quick-action-icon {
   width: 36px; height: 36px; border-radius: 10px; display: flex;
   align-items: center; justify-content: center; font-size: 16px;
@@ -783,9 +794,9 @@ a:hover { text-decoration: underline; }
 /* Risk cards */
 .risk-card {
   background: #fff; border: 1px solid var(--divider); border-radius: 12px;
-  padding: 20px; margin-bottom: 12px; transition: all 0.15s; position: relative;
+  padding: 20px; margin-bottom: 12px; transition: all 0.2s ease; position: relative;
 }
-.risk-card:hover { border-color: #ccc; box-shadow: 0 2px 8px rgba(0,0,0,0.06); }
+.risk-card:hover { border-color: #c4b5fd; box-shadow: 0 6px 20px rgba(124,59,237,0.08); transform: translateY(-1px); }
 .risk-severity {
   padding: 3px 10px; border-radius: 3px; font-size: 10px;
   font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em;
@@ -903,9 +914,9 @@ a:hover { text-decoration: underline; }
 .brand-tile {
   flex: 1; border: 1px solid #E5E7EB; border-radius: 8px; padding: 12px;
   display: flex; align-items: center; gap: 12px; cursor: pointer;
-  transition: border-color 0.15s;
+  transition: border-color 0.15s, box-shadow 0.2s, transform 0.2s;
 }
-.brand-tile:hover { border-color: #9CA3AF; }
+.brand-tile:hover { border-color: #9CA3AF; box-shadow: 0 4px 12px rgba(0,0,0,0.06); transform: translateY(-1px); }
 </style>
 </head>
 <body>
