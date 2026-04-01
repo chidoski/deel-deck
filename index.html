@@ -2830,7 +2830,7 @@ a:hover { text-decoration: underline; }
           </div>
 
           <!-- Risk Card 1: PE Warning -->
-          <div class="risk-card" onclick="goTo(7)">
+          <div class="risk-card" id="risk-card-1" onclick="goTo(7)">
             <div style="display: flex; align-items: flex-start; gap: 14px;">
               <div style="width: 40px; height: 40px; border-radius: 50%; background: #e879a8; display: flex; align-items: center; justify-content: center; color: #fff; font-size: 13px; font-weight: 700; flex-shrink: 0;">TB</div>
               <div style="flex: 1;">
@@ -2855,14 +2855,14 @@ a:hover { text-decoration: underline; }
                 </div>
               </div>
               <div style="display: flex; gap: 6px; flex-shrink: 0;">
-                <button class="expense-action-btn expense-approve">Approve</button>
-                <button class="expense-action-btn expense-reject">Decline</button>
+                <button class="expense-action-btn expense-approve" onclick="event.stopPropagation(); approveExpense('risk-card-1', 'Teena Bramley — PE risk approved')">Approve</button>
+                <button class="expense-action-btn expense-reject" onclick="event.stopPropagation(); declineExpense('risk-card-1', 'Teena Bramley — expense declined')">Decline</button>
               </div>
             </div>
           </div>
 
           <!-- Risk Card 2: Policy Violation -->
-          <div class="risk-card">
+          <div class="risk-card" id="risk-card-2">
             <div style="display: flex; align-items: flex-start; gap: 14px;">
               <div style="width: 40px; height: 40px; border-radius: 50%; background: #7c6bc4; display: flex; align-items: center; justify-content: center; color: #fff; font-size: 13px; font-weight: 700; flex-shrink: 0;">FA</div>
               <div style="flex: 1;">
@@ -2880,14 +2880,14 @@ a:hover { text-decoration: underline; }
                 </div>
               </div>
               <div style="display: flex; gap: 6px; flex-shrink: 0;">
-                <button class="expense-action-btn expense-approve">Approve</button>
-                <button class="expense-action-btn expense-reject">Decline</button>
+                <button class="expense-action-btn expense-approve" onclick="approveExpense('risk-card-2', 'Freddie Adams — policy override approved')">Approve</button>
+                <button class="expense-action-btn expense-reject" onclick="declineExpense('risk-card-2', 'Freddie Adams — expense declined')">Decline</button>
               </div>
             </div>
           </div>
 
           <!-- Risk Card 3: Personal Card -->
-          <div class="risk-card">
+          <div class="risk-card" id="risk-card-3">
             <div style="display: flex; align-items: flex-start; gap: 14px;">
               <div style="width: 40px; height: 40px; border-radius: 50%; background: #f59e0b; display: flex; align-items: center; justify-content: center; color: #fff; font-size: 13px; font-weight: 700; flex-shrink: 0;">MW</div>
               <div style="flex: 1;">
@@ -2904,8 +2904,8 @@ a:hover { text-decoration: underline; }
                 </div>
               </div>
               <div style="display: flex; gap: 6px; flex-shrink: 0;">
-                <button class="expense-action-btn expense-approve">Approve</button>
-                <button class="expense-action-btn expense-reject">Decline</button>
+                <button class="expense-action-btn expense-approve" onclick="approveExpense('risk-card-3', 'Meaghan Wolf — expense approved, pending receipt')">Approve</button>
+                <button class="expense-action-btn expense-reject" onclick="declineExpense('risk-card-3', 'Meaghan Wolf — expense declined')">Decline</button>
               </div>
             </div>
           </div>
@@ -3881,6 +3881,42 @@ function switchView(view) {
     `;
     goTo(8);
   }
+}
+
+// ===== EXPENSE APPROVE / DECLINE (Smart Queue) =====
+function approveExpense(cardId, message) {
+  const card = document.getElementById(cardId);
+  if (!card) return;
+  card.style.transition = 'all 0.35s ease';
+  card.style.opacity = '0';
+  card.style.transform = 'translateX(40px)';
+  card.style.maxHeight = card.offsetHeight + 'px';
+  setTimeout(() => { card.style.maxHeight = '0'; card.style.padding = '0'; card.style.margin = '0'; card.style.border = 'none'; card.style.overflow = 'hidden'; }, 350);
+  const toast = document.getElementById('toast');
+  toast.innerHTML = '&#10003;&nbsp; ' + message;
+  toast.classList.add('show');
+  setTimeout(() => toast.classList.remove('show'), 4000);
+  // Update exception count
+  const countEl = document.querySelector('.expenses-main p[style*="font-size: 14px"]');
+  if (countEl) {
+    const current = parseInt(countEl.textContent) || 3;
+    const next = Math.max(0, current - 1);
+    countEl.innerHTML = '<strong>' + next + ' exception' + (next !== 1 ? 's' : '') + '</strong> require your decision';
+  }
+}
+function declineExpense(cardId, message) {
+  const card = document.getElementById(cardId);
+  if (!card) return;
+  card.style.transition = 'all 0.35s ease';
+  card.style.opacity = '0';
+  card.style.transform = 'translateX(-40px)';
+  card.style.maxHeight = card.offsetHeight + 'px';
+  setTimeout(() => { card.style.maxHeight = '0'; card.style.padding = '0'; card.style.margin = '0'; card.style.border = 'none'; card.style.overflow = 'hidden'; }, 350);
+  const toast = document.getElementById('toast');
+  toast.innerHTML = '&#10005;&nbsp; ' + message;
+  toast.style.background = '#991B1B';
+  toast.classList.add('show');
+  setTimeout(() => { toast.classList.remove('show'); toast.style.background = ''; }, 4000);
 }
 
 // ===== EXPENSE CHOICE MODAL =====
