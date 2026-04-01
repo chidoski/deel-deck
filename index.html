@@ -1832,34 +1832,44 @@ a:hover { text-decoration: underline; }
           <div class="check-row"><div class="check-icon check-amber">!</div><p class="small"><span class="amber">PE alert sent to tax team &mdash; 153/183 days in Japan</span></p></div>
         </div>
 
-        <div class="deel-card" style="text-align: left; background: #0f0f1a; color: #fff; border: none;">
-          <p style="font-size: 11px; font-weight: 600; color: #a78bfa; text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 12px;">What Deel Travel eliminated</p>
-          <div style="display: grid; grid-template-columns: 1fr auto 1fr; gap: 12px; font-size: 12px;">
-            <div style="color: rgba(255,255,255,0.35);">
-              <p style="margin-bottom: 6px; text-decoration: line-through;">3 separate websites (airline, hotel, car)</p>
-              <p style="margin-bottom: 6px; text-decoration: line-through;">3 credit card transactions</p>
-              <p style="margin-bottom: 6px; text-decoration: line-through;">3 PDF receipts to download</p>
-              <p style="margin-bottom: 6px; text-decoration: line-through;">4 expense uploads</p>
-              <p style="margin-bottom: 6px; text-decoration: line-through;">Manual visa &amp; PE check</p>
-              <p style="margin-bottom: 6px; text-decoration: line-through;">Type category &amp; amount x3</p>
-              <p style="text-decoration: line-through;">Wait for manual approval</p>
+        <!-- Collapsible "What Deel Travel eliminated" banner -->
+        <div style="border: 1px solid #E5E7EB; border-radius: 10px; overflow: hidden; margin-bottom: 0;">
+          <button onclick="var b=document.getElementById('eliminated-body');var a=document.getElementById('eliminated-arrow');if(b.style.display==='none'){b.style.display='';a.style.transform='rotate(180deg)';}else{b.style.display='none';a.style.transform='';}" style="width: 100%; display: flex; align-items: center; justify-content: space-between; padding: 14px 20px; background: #F9FAFB; border: none; cursor: pointer; font-family: inherit;">
+            <div style="display: flex; align-items: center; gap: 10px;">
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="#7C3AED" stroke-width="1.5"><path d="M4 14V9l4-7 4 7v5"/><path d="M4 9h8"/></svg>
+              <span style="font-size: 12px; font-weight: 700; color: #7C3AED; text-transform: uppercase; letter-spacing: 0.06em;">What Deel Travel eliminated</span>
+              <span style="font-size: 11px; color: #9CA3AF;">7 manual steps &rarr; 0</span>
             </div>
-            <div style="display: flex; align-items: center; color: rgba(255,255,255,0.2); font-size: 20px;">&rarr;</div>
-            <div style="color: #a78bfa;">
-              <p style="margin-bottom: 6px;">One booking flow</p>
-              <p style="margin-bottom: 6px;">One Deel Card charge</p>
-              <p style="margin-bottom: 6px;">3 receipts auto-generated</p>
-              <p style="margin-bottom: 6px;">4 expenses auto-created</p>
-              <p style="margin-bottom: 6px;">Visa + PE auto-checked</p>
-              <p style="margin-bottom: 6px;">All fields pre-populated</p>
-              <p>Auto-approved instantly</p>
+            <svg id="eliminated-arrow" width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="#9CA3AF" stroke-width="1.5" style="transition: transform 0.2s;"><path d="M4 6l4 4 4-4"/></svg>
+          </button>
+          <div id="eliminated-body" style="display: none; padding: 16px 20px; background: #fff; border-top: 1px solid #E5E7EB;">
+            <div style="display: grid; grid-template-columns: 1fr auto 1fr; gap: 12px; font-size: 12px;">
+              <div style="color: #9CA3AF;">
+                <p style="margin-bottom: 6px; text-decoration: line-through;">3 separate websites (airline, hotel, car)</p>
+                <p style="margin-bottom: 6px; text-decoration: line-through;">3 credit card transactions</p>
+                <p style="margin-bottom: 6px; text-decoration: line-through;">3 PDF receipts to download</p>
+                <p style="margin-bottom: 6px; text-decoration: line-through;">4 expense uploads</p>
+                <p style="margin-bottom: 6px; text-decoration: line-through;">Manual visa &amp; PE check</p>
+                <p style="margin-bottom: 6px; text-decoration: line-through;">Type category &amp; amount x3</p>
+                <p style="text-decoration: line-through;">Wait for manual approval</p>
+              </div>
+              <div style="display: flex; align-items: center; color: #D1D5DB; font-size: 20px;">&rarr;</div>
+              <div style="color: #059669; font-weight: 500;">
+                <p style="margin-bottom: 6px;">One booking flow</p>
+                <p style="margin-bottom: 6px;">One Deel Card charge</p>
+                <p style="margin-bottom: 6px;">3 receipts auto-generated</p>
+                <p style="margin-bottom: 6px;">4 expenses auto-created</p>
+                <p style="margin-bottom: 6px;">Visa + PE auto-checked</p>
+                <p style="margin-bottom: 6px;">All fields pre-populated</p>
+                <p>Auto-approved instantly</p>
+              </div>
             </div>
           </div>
         </div>
 
         <div style="display: flex; gap: 12px; margin-top: 24px;">
-          <button class="btn btn-dark btn-lg" style="flex: 1;" onclick="goTo(currentView === 'employee' ? 8 : 0)">Back to Home</button>
-          <button class="btn btn-outline btn-lg" style="flex: 1;" onclick="goTo(11)">View My Expenses</button>
+          <button class="btn btn-dark btn-lg" style="flex: 1; text-align: center; justify-content: center;" onclick="goTo(currentView === 'employee' ? 8 : 0)">Back to Home</button>
+          <button class="btn btn-outline btn-lg" style="flex: 1; text-align: center; justify-content: center;" onclick="goTo(11)">View My Expenses</button>
         </div>
       </div>
     </div>
