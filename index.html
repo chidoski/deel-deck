@@ -2465,9 +2465,9 @@ a:hover { text-decoration: underline; }
               <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 20px;">
                 <div>
                   <p style="margin: 0; font-size: 11px; font-weight: 700; color: #6B7280; text-transform: uppercase; letter-spacing: 0.06em;">Your Travel</p>
-                  <p style="margin: 4px 0 0; font-size: 24px; font-weight: 700; color: #111827;">&pound;1,640 <span style="font-size: 14px; font-weight: 500; color: #6B7280;">YTD spend</span></p>
+                  <p style="margin: 4px 0 0; font-size: 24px; font-weight: 700; color: #111827;" id="ytd-spend">&pound;1,640 <span style="font-size: 14px; font-weight: 500; color: #6B7280;">YTD spend</span></p>
                 </div>
-                <span style="background: #ECFDF5; color: #059669; padding: 4px 12px; border-radius: 4px; font-size: 12px; font-weight: 600;">3 trips this quarter</span>
+                <span style="background: #ECFDF5; color: #059669; padding: 4px 12px; border-radius: 4px; font-size: 12px; font-weight: 600;" id="trip-count">3 trips this quarter</span>
               </div>
               <div style="display: flex; gap: 3px; height: 32px; align-items: flex-end; margin-bottom: 16px;">
                 <div style="flex: 1; background: #1f74b3; height: 35%; border-radius: 2px;" title="Jan: &pound;520"></div>
@@ -2541,14 +2541,13 @@ a:hover { text-decoration: underline; }
               </div>
               <p class="small muted mb-12">To-dos that need your attention</p>
 
-              <div class="todo-row todo-row-warning" style="cursor: pointer;" onclick="goTo(11)">
-                <div class="todo-icon" style="background: #FEF3C7; border-radius: 8px;">
-                  <svg viewBox="0 0 16 16" fill="none" stroke="#92400e" stroke-width="1.5"><rect x="2" y="3" width="12" height="10" rx="1.5"/><path d="M5 7h6m-6 3h3"/></svg>
-                  <span class="todo-badge" style="background: #D97706; border-radius: 4px;">1</span>
+              <div class="todo-row" style="cursor: pointer;" onclick="goTo(11)">
+                <div class="todo-icon" style="background: #ECFDF5; border-radius: 8px;">
+                  <svg viewBox="0 0 16 16" fill="none" stroke="#059669" stroke-width="1.5"><rect x="2" y="3" width="12" height="10" rx="1.5"/><path d="M5 7h6m-6 3h3"/></svg>
                 </div>
                 <div style="flex: 1;">
-                  <span class="todo-text" style="display: block;">Pending expense</span>
-                  <span class="todo-subtext">$750.00 &bull; Air China &bull; awaiting manager approval</span>
+                  <span class="todo-text" style="display: block;">My expenses</span>
+                  <span class="todo-subtext">4 approved &bull; &pound;1,285 reimbursed this quarter</span>
                 </div>
                 <button class="todo-review-btn" onclick="event.stopPropagation(); goTo(11)">View</button>
               </div>
@@ -3652,16 +3651,22 @@ function goTo(i) {
     const hero = document.getElementById('traveler-hero');
     const foryouEmpty = document.getElementById('foryou-empty');
     const foryouBooked = document.getElementById('foryou-booked');
+    const ytd = document.getElementById('ytd-spend');
+    const tripCount = document.getElementById('trip-count');
     if (tripBooked) {
       if(promo) promo.style.display = 'none';
       if(hero) hero.style.display = 'block';
       if(foryouEmpty) foryouEmpty.style.display = 'none';
       if(foryouBooked) foryouBooked.style.display = 'block';
+      if(ytd) ytd.innerHTML = '&pound;4,954 <span style="font-size: 14px; font-weight: 500; color: #6B7280;">YTD spend</span>';
+      if(tripCount) tripCount.textContent = '4 trips this quarter';
     } else {
       if(promo) promo.style.display = '';
       if(hero) hero.style.display = 'none';
       if(foryouEmpty) foryouEmpty.style.display = '';
       if(foryouBooked) foryouBooked.style.display = 'none';
+      if(ytd) ytd.innerHTML = '&pound;1,640 <span style="font-size: 14px; font-weight: 500; color: #6B7280;">YTD spend</span>';
+      if(tripCount) tripCount.textContent = '3 trips this quarter';
     }
   }
 
