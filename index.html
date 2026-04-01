@@ -2704,25 +2704,56 @@ a:hover { text-decoration: underline; }
             </div>
 
             <!-- Compliance Status -->
-            <div class="deel-card mt-16" style="border: 1px solid #E5E7EB;">
-              <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px;">
-                <p style="font-size: 13px; font-weight: 700; color: #111827; display: flex; align-items: center; gap: 8px;">
-                  <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="#6B7280" stroke-width="1.5"><path d="M8 1l7 4v3c0 4.5-3 7.5-7 9-4-1.5-7-4.5-7-9V5z"/></svg>
-                  Compliance Status
-                </p>
+            <div class="mt-16" style="border: 1px solid #E5E7EB; border-radius: 12px; overflow: hidden;">
+              <div style="padding: 14px 18px; background: #F9FAFB; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid #E5E7EB;">
+                <div style="display: flex; align-items: center; gap: 8px;">
+                  <div style="width: 24px; height: 24px; border-radius: 6px; background: #EEF2FF; display: flex; align-items: center; justify-content: center;">
+                    <svg width="13" height="13" viewBox="0 0 16 16" fill="none" stroke="#4F46E5" stroke-width="1.5"><path d="M8 1l7 4v3c0 4.5-3 7.5-7 9-4-1.5-7-4.5-7-9V5z"/></svg>
+                  </div>
+                  <span style="font-size: 13px; font-weight: 700; color: #111827;">Compliance Status</span>
+                </div>
+                <span style="font-size: 10px; font-weight: 700; color: #059669; background: #ECFDF5; padding: 3px 8px; border-radius: 20px; font-family: var(--font-mono);">3 of 4 clear</span>
               </div>
-              <div class="check-row"><div class="check-icon check-green">&#10003;</div><p class="small">Passport: GB &mdash; valid until 2029</p></div>
-              <div class="check-row"><div class="check-icon check-green">&#10003;</div><p class="small">Policy tier: Executive (Eco+)</p></div>
-              <div class="check-row"><div class="check-icon check-green">&#10003;</div><p class="small">Deel Card: *4821 &mdash; active</p></div>
-              <div class="check-row"><div class="check-icon check-amber">!</div><p class="small"><span class="amber bold">PE Japan: 147/183 days</span></p></div>
-              <div style="margin-top: 8px; margin-left: 32px;">
-                <div style="display: flex; justify-content: space-between; font-size: 10px; color: #999; margin-bottom: 3px; font-family: var(--font-mono);">
-                  <span>0</span><span style="color: #d97706; font-weight: 600;">183 limit</span>
+              <div style="padding: 2px 0;">
+                <div style="display: flex; align-items: center; gap: 12px; padding: 10px 18px; border-bottom: 1px solid #F3F4F6;">
+                  <div style="width: 22px; height: 22px; border-radius: 6px; background: #ECFDF5; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+                    <svg width="11" height="11" viewBox="0 0 16 16" fill="none"><path d="M4.5 8.5l2.5 2.5 5-5" stroke="#059669" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                  </div>
+                  <p style="font-size: 12px; color: #374151; margin: 0; flex: 1;">Passport: <strong>GB</strong> &mdash; valid until 2029</p>
+                  <span style="font-size: 9px; color: #059669; font-family: var(--font-mono); font-weight: 600;">VALID</span>
                 </div>
-                <div class="pe-track" style="height: 6px;">
-                  <div class="pe-fill" style="width: 80%; background: linear-gradient(90deg, #fbbf24, #d97706);"></div>
+                <div style="display: flex; align-items: center; gap: 12px; padding: 10px 18px; border-bottom: 1px solid #F3F4F6;">
+                  <div style="width: 22px; height: 22px; border-radius: 6px; background: #ECFDF5; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+                    <svg width="11" height="11" viewBox="0 0 16 16" fill="none"><path d="M4.5 8.5l2.5 2.5 5-5" stroke="#059669" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                  </div>
+                  <p style="font-size: 12px; color: #374151; margin: 0; flex: 1;">Policy tier: <strong>Executive (Eco+)</strong></p>
+                  <span style="font-size: 9px; color: #059669; font-family: var(--font-mono); font-weight: 600;">ACTIVE</span>
                 </div>
-                <p style="font-size: 10px; color: #9CA3AF; margin-top: 3px; font-family: var(--font-mono);">36 days remaining this tax year</p>
+                <div style="display: flex; align-items: center; gap: 12px; padding: 10px 18px; border-bottom: 1px solid #F3F4F6;">
+                  <div style="width: 22px; height: 22px; border-radius: 6px; background: #ECFDF5; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+                    <svg width="11" height="11" viewBox="0 0 16 16" fill="none"><path d="M4.5 8.5l2.5 2.5 5-5" stroke="#059669" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                  </div>
+                  <p style="font-size: 12px; color: #374151; margin: 0; flex: 1;">Deel Card: <strong>*4821</strong> &mdash; active</p>
+                  <span style="font-size: 9px; color: #059669; font-family: var(--font-mono); font-weight: 600;">ACTIVE</span>
+                </div>
+                <div style="padding: 12px 18px; background: #FEF2F2;">
+                  <div style="display: flex; align-items: center; gap: 12px;">
+                    <div style="width: 22px; height: 22px; border-radius: 6px; background: #FEF2F2; border: 1.5px solid #FECACA; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+                      <div style="width: 6px; height: 6px; border-radius: 50%; background: #DC2626; animation: livePulse 2s ease infinite;"></div>
+                    </div>
+                    <p style="font-size: 12px; color: #991B1B; margin: 0; flex: 1;"><strong>PE Japan:</strong> 147/183 days</p>
+                    <span style="font-size: 9px; color: #DC2626; font-family: var(--font-mono); font-weight: 600;">AT RISK</span>
+                  </div>
+                  <div style="margin: 8px 0 0 34px;">
+                    <div style="height: 6px; background: #F3F4F6; border-radius: 3px; overflow: hidden;">
+                      <div style="width: 80%; height: 100%; border-radius: 3px; background: linear-gradient(90deg, #34d399 0%, #34d399 35%, #fbbf24 60%, #f59e0b 80%, #ef4444 100%);"></div>
+                    </div>
+                    <div style="display: flex; justify-content: space-between; margin-top: 4px;">
+                      <span style="font-size: 9px; color: #DC2626; font-family: var(--font-mono); font-weight: 600;">147 days used</span>
+                      <span style="font-size: 9px; color: #9CA3AF; font-family: var(--font-mono);">36 remaining</span>
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
 
