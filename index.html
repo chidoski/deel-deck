@@ -50,11 +50,11 @@ a:hover { text-decoration: underline; }
   transition: background 0.3s;
 }
 .deel-topnav.nav-gradient {
-  background: #e1d7fb; border-bottom-color: transparent;
+  background: linear-gradient(135deg, #f8f6ff 0%, #f0ecfa 100%); border-bottom-color: rgba(0,0,0,0.04);
 }
 .deel-topnav::before {
-  content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
-  background: linear-gradient(90deg, #c9b8f0 0%, #e0d4f7 30%, #f0ecfa 60%, #e8ddf5 100%);
+  content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px;
+  background: linear-gradient(90deg, #7C3AED 0%, #a78bfa 30%, #c4b5fd 60%, #ddd6fe 100%);
 }
 .deel-logo { font-size: 22px; font-weight: 800; color: #1a1a1a; margin-right: 8px; letter-spacing: -0.04em; }
 .deel-org {
@@ -382,7 +382,7 @@ a:hover { text-decoration: underline; }
 
 /* Employee home — lavender gradient header (flows from nav) */
 .employee-header-bg {
-  background: linear-gradient(180deg, #e1d7fb 0%, #d8cef5 20%, var(--bg-default) 100%);
+  background: linear-gradient(180deg, #f8f6ff 0%, #f3f0fc 30%, var(--bg-default) 100%);
   padding: 32px 40px 0;
 }
 .employee-greeting {
@@ -988,10 +988,10 @@ a:hover { text-decoration: underline; }
   <!-- SCREEN 0: Manager Home (matches Deel's actual layout) -->
   <!-- ============================================================ -->
   <div class="screen active" id="screen-0">
-    <div class="page">
-      <div class="page-header">
-        <p class="page-greeting">Hey, Mattie &#128075;</p>
-      </div>
+    <div style="background: linear-gradient(180deg, #f8f7fa 0%, #f5f4f7 30%, var(--bg-default) 100%); padding: 32px 40px 0;">
+      <p style="font-size: 28px; font-weight: 700; letter-spacing: -0.02em; padding-bottom: 24px; max-width: 1200px; margin: 0 auto;">Hey, Mattie &#128075;</p>
+    </div>
+    <div class="page" style="padding-top: 0;">
 
       <div class="home-search">
         <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="7" cy="7" r="5"/><path d="M11 11l3.5 3.5"/></svg>
