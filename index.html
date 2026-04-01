@@ -3636,6 +3636,562 @@ a:hover { text-decoration: underline; }
   </div>
 </div>
 
+  <!-- ============================================================ -->
+  <!-- SCREEN 16: AI Travel Agent Chat (Show & Tell) -->
+  <!-- ============================================================ -->
+  <style>
+    #screen-16 { background: #0a0a0f; min-height: 100vh; }
+    #screen-16 .agent-page { max-width: 740px; margin: 0 auto; padding: 0 20px 120px; }
+
+    /* Chat header */
+    #screen-16 .agent-header {
+      text-align: center; padding: 40px 0 36px; position: relative;
+    }
+    #screen-16 .agent-header::before {
+      content: ''; position: absolute; top: 0; left: 50%; transform: translateX(-50%);
+      width: 320px; height: 320px; border-radius: 50%;
+      background: radial-gradient(circle, rgba(124,58,237,0.08) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    #screen-16 .agent-avatar {
+      width: 52px; height: 52px; border-radius: 16px; margin: 0 auto 16px;
+      background: linear-gradient(135deg, #7C3AED 0%, #6D28D9 50%, #4C1D95 100%);
+      display: flex; align-items: center; justify-content: center;
+      box-shadow: 0 0 0 1px rgba(124,58,237,0.2), 0 8px 32px rgba(124,58,237,0.2);
+      position: relative;
+    }
+    #screen-16 .agent-avatar::after {
+      content: ''; position: absolute; inset: -2px; border-radius: 18px;
+      background: linear-gradient(135deg, rgba(124,58,237,0.4), transparent, rgba(167,139,250,0.2));
+      z-index: -1;
+    }
+    #screen-16 .agent-header h1 {
+      font-size: 20px; font-weight: 600; color: #f0f0f5; margin: 0 0 6px; letter-spacing: -0.02em;
+    }
+    #screen-16 .agent-header p {
+      font-size: 12px; color: #52525b; margin: 0; font-weight: 400; letter-spacing: 0.01em;
+    }
+    #screen-16 .agent-header .status-dot {
+      display: inline-block; width: 6px; height: 6px; border-radius: 50%; background: #22c55e;
+      margin-right: 5px; vertical-align: middle; box-shadow: 0 0 6px rgba(34,197,94,0.4);
+    }
+
+    /* Thread */
+    #screen-16 .chat-thread { display: flex; flex-direction: column; gap: 24px; }
+
+    /* User bubble */
+    #screen-16 .user-msg {
+      display: flex; justify-content: flex-end; align-items: flex-end; gap: 8px;
+    }
+    #screen-16 .user-msg .bubble {
+      background: linear-gradient(135deg, #18181b 0%, #1e1e24 100%);
+      color: #e4e4e7; padding: 14px 18px; border-radius: 20px 20px 4px 20px;
+      max-width: 440px; font-size: 14px; line-height: 1.55; font-weight: 400;
+      border: 1px solid rgba(255,255,255,0.06);
+      box-shadow: 0 1px 3px rgba(0,0,0,0.3);
+    }
+    #screen-16 .user-msg .user-avatar {
+      width: 28px; height: 28px; border-radius: 50%; flex-shrink: 0;
+      background: linear-gradient(135deg, #e879a8, #c2578a);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 10px; font-weight: 700; color: #fff;
+    }
+
+    /* Agent bubble */
+    #screen-16 .agent-msg { display: flex; gap: 10px; align-items: flex-start; }
+    #screen-16 .agent-msg .avatar {
+      width: 30px; height: 30px; border-radius: 10px; flex-shrink: 0;
+      background: linear-gradient(135deg, #7C3AED, #6D28D9);
+      display: flex; align-items: center; justify-content: center;
+      box-shadow: 0 0 0 1px rgba(124,58,237,0.15);
+    }
+    #screen-16 .agent-msg .bubble {
+      background: rgba(255,255,255,0.03); padding: 18px 20px;
+      border-radius: 4px 20px 20px 20px; max-width: 560px;
+      font-size: 14px; line-height: 1.6; color: #d4d4d8;
+      border: 1px solid rgba(255,255,255,0.06);
+    }
+    #screen-16 .agent-msg .bubble p { margin: 0; }
+
+    /* Compliance check card */
+    #screen-16 .checks-card {
+      background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.06);
+      border-radius: 12px; padding: 16px 18px; margin-top: 14px;
+      display: flex; flex-direction: column; gap: 0;
+    }
+    #screen-16 .check-row {
+      display: flex; align-items: center; gap: 12px; padding: 9px 0;
+      border-bottom: 1px solid rgba(255,255,255,0.04);
+    }
+    #screen-16 .check-row:last-child { border-bottom: none; }
+    #screen-16 .check-icon {
+      width: 22px; height: 22px; border-radius: 6px; flex-shrink: 0;
+      display: flex; align-items: center; justify-content: center;
+    }
+    #screen-16 .check-icon.pass { background: rgba(34,197,94,0.12); }
+    #screen-16 .check-icon.warn { background: rgba(245,158,11,0.15); }
+    #screen-16 .check-text { font-size: 12.5px; color: #a1a1aa; }
+    #screen-16 .check-text strong { color: #e4e4e7; font-weight: 600; }
+    #screen-16 .check-text.warn-text { color: #fbbf24; font-weight: 600; }
+
+    /* PE warning bubble */
+    #screen-16 .pe-bubble {
+      background: rgba(245,158,11,0.06) !important;
+      border-color: rgba(245,158,11,0.15) !important;
+    }
+    #screen-16 .pe-title {
+      font-size: 13px; font-weight: 700; color: #fbbf24; margin: 0 0 10px;
+      display: flex; align-items: center; gap: 8px;
+    }
+    #screen-16 .pe-body { font-size: 13px; color: #d4d4d8; line-height: 1.65; margin: 0 0 14px; }
+    #screen-16 .pe-body strong { color: #fbbf24; }
+    #screen-16 .pe-bar-track {
+      height: 6px; background: rgba(245,158,11,0.12); border-radius: 3px;
+      overflow: hidden; margin-bottom: 12px;
+    }
+    #screen-16 .pe-bar-fill {
+      height: 100%; border-radius: 3px;
+      background: linear-gradient(90deg, #f59e0b, #d97706);
+    }
+    #screen-16 .pe-note { font-size: 12.5px; color: #a1a1aa; margin: 0; line-height: 1.55; }
+    #screen-16 .pe-note strong { color: #e4e4e7; }
+
+    /* Flight recommendation card */
+    #screen-16 .flight-card {
+      background: rgba(255,255,255,0.02); border: 1px solid rgba(124,58,237,0.25);
+      border-radius: 14px; padding: 18px; margin-top: 14px; position: relative;
+      overflow: hidden;
+    }
+    #screen-16 .flight-card::before {
+      content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px;
+      background: linear-gradient(90deg, #7C3AED, #a78bfa, #7C3AED);
+    }
+    #screen-16 .flight-header {
+      display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px;
+    }
+    #screen-16 .airline-info { display: flex; align-items: center; gap: 10px; }
+    #screen-16 .airline-logo {
+      width: 36px; height: 36px; border-radius: 8px; display: flex;
+      align-items: center; justify-content: center;
+      background: linear-gradient(135deg, #1B3A6B, #243f6f);
+      box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+    }
+    #screen-16 .airline-logo span {
+      color: #fff; font-size: 12px; font-weight: 800; font-family: var(--font-mono); letter-spacing: 0.04em;
+    }
+    #screen-16 .airline-name { font-size: 14px; font-weight: 700; color: #f0f0f5; margin: 0; }
+    #screen-16 .airline-route {
+      font-size: 11px; color: #71717a; margin: 2px 0 0; font-family: var(--font-mono);
+      letter-spacing: 0.02em;
+    }
+    #screen-16 .rec-badge {
+      font-size: 9px; font-weight: 700; color: #a78bfa; letter-spacing: 0.08em;
+      text-transform: uppercase; background: rgba(124,58,237,0.12); padding: 4px 10px;
+      border-radius: 6px; font-family: var(--font-mono);
+    }
+    #screen-16 .flight-stats {
+      display: flex; gap: 8px; margin-bottom: 16px;
+    }
+    #screen-16 .flight-stat {
+      flex: 1; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.05);
+      border-radius: 10px; padding: 12px 10px; text-align: center;
+    }
+    #screen-16 .flight-stat-value {
+      font-size: 22px; font-weight: 800; color: #f0f0f5; margin: 0;
+      font-family: var(--font-mono); letter-spacing: -0.02em;
+    }
+    #screen-16 .flight-stat-value.green { color: #22c55e; }
+    #screen-16 .flight-stat-label {
+      font-size: 9px; color: #52525b; margin: 3px 0 0; text-transform: uppercase;
+      letter-spacing: 0.06em; font-weight: 600;
+    }
+    #screen-16 .flight-reasoning {
+      background: rgba(34,197,94,0.06); border: 1px solid rgba(34,197,94,0.1);
+      border-radius: 8px; padding: 11px 14px; font-size: 12px; color: #86efac; line-height: 1.6;
+    }
+    #screen-16 .flight-reasoning strong { color: #4ade80; }
+
+    /* Bundle card */
+    #screen-16 .bundle-card {
+      background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.06);
+      border-radius: 14px; overflow: hidden; margin-top: 14px;
+    }
+    #screen-16 .bundle-row {
+      display: flex; align-items: center; gap: 12px; padding: 13px 18px;
+      border-bottom: 1px solid rgba(255,255,255,0.04);
+    }
+    #screen-16 .bundle-row:last-child { border-bottom: none; }
+    #screen-16 .bundle-logo {
+      width: 30px; height: 30px; border-radius: 8px; flex-shrink: 0;
+      display: flex; align-items: center; justify-content: center;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.25);
+    }
+    #screen-16 .bundle-logo span {
+      color: #fff; font-size: 10px; font-weight: 800; font-family: var(--font-mono); letter-spacing: 0.04em;
+    }
+    #screen-16 .bundle-name { font-size: 13px; font-weight: 600; color: #e4e4e7; margin: 0; }
+    #screen-16 .bundle-detail {
+      font-size: 11px; color: #52525b; margin: 2px 0 0; font-family: var(--font-mono);
+    }
+    #screen-16 .bundle-price {
+      font-size: 13px; font-weight: 700; color: #d4d4d8; font-family: var(--font-mono);
+    }
+    #screen-16 .bundle-total {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 16px 18px; background: rgba(124,58,237,0.05);
+      border-top: 1px solid rgba(124,58,237,0.1);
+    }
+    #screen-16 .bundle-total-label { font-size: 12px; font-weight: 600; color: #a1a1aa; text-transform: uppercase; letter-spacing: 0.06em; }
+    #screen-16 .bundle-total-value {
+      font-size: 20px; font-weight: 800; color: #f0f0f5;
+      font-family: var(--font-mono); letter-spacing: -0.02em;
+    }
+
+    /* Automation success card */
+    #screen-16 .auto-card {
+      background: rgba(34,197,94,0.04); border: 1px solid rgba(34,197,94,0.1);
+      border-radius: 12px; padding: 16px 18px; margin-top: 14px;
+    }
+    #screen-16 .auto-card-title {
+      font-size: 11px; font-weight: 700; color: #4ade80; margin: 0 0 10px;
+      display: flex; align-items: center; gap: 8px;
+      text-transform: uppercase; letter-spacing: 0.06em;
+    }
+    #screen-16 .auto-card-list {
+      font-size: 12.5px; color: #a1a1aa; line-height: 2; margin: 0; padding: 0; list-style: none;
+    }
+    #screen-16 .auto-card-list li { display: flex; align-items: center; gap: 8px; }
+    #screen-16 .auto-card-list li::before {
+      content: ''; width: 4px; height: 4px; border-radius: 50%;
+      background: rgba(34,197,94,0.4); flex-shrink: 0;
+    }
+    #screen-16 .auto-card-list strong { color: #e4e4e7; font-weight: 600; }
+
+    /* Timeline card */
+    #screen-16 .timeline-card {
+      background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.06);
+      border-radius: 12px; padding: 0; margin-top: 14px; overflow: hidden;
+    }
+    #screen-16 .timeline-row {
+      display: flex; align-items: flex-start; gap: 14px; padding: 13px 18px;
+      border-bottom: 1px solid rgba(255,255,255,0.04);
+    }
+    #screen-16 .timeline-row:last-child { border-bottom: none; }
+    #screen-16 .timeline-dot {
+      width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; margin-top: 5px;
+      border: 2px solid rgba(124,58,237,0.4); background: transparent;
+    }
+    #screen-16 .timeline-when {
+      font-size: 11px; color: #52525b; font-family: var(--font-mono); min-width: 90px;
+      font-weight: 600; letter-spacing: 0.02em; flex-shrink: 0;
+    }
+    #screen-16 .timeline-what { font-size: 13px; color: #a1a1aa; line-height: 1.45; }
+
+    /* Input bar */
+    #screen-16 .agent-input-bar {
+      position: fixed; bottom: 56px; left: 50%; transform: translateX(-50%);
+      width: 700px; max-width: calc(100% - 32px); z-index: 50;
+      background: rgba(24,24,27,0.85); backdrop-filter: blur(20px) saturate(1.5);
+      -webkit-backdrop-filter: blur(20px) saturate(1.5);
+      border: 1px solid rgba(255,255,255,0.08); border-radius: 16px;
+      padding: 14px 18px; display: flex; align-items: center; gap: 12px;
+      box-shadow: 0 4px 24px rgba(0,0,0,0.4), 0 0 0 1px rgba(255,255,255,0.03);
+    }
+    #screen-16 .agent-input-bar .input-icon {
+      width: 20px; height: 20px; color: #52525b; flex-shrink: 0;
+    }
+    #screen-16 .agent-input-bar .input-text {
+      flex: 1; font-size: 14px; color: #3f3f46; font-weight: 400;
+    }
+    #screen-16 .agent-input-bar .send-btn {
+      width: 34px; height: 34px; border-radius: 10px; flex-shrink: 0;
+      background: linear-gradient(135deg, #7C3AED, #6D28D9);
+      display: flex; align-items: center; justify-content: center;
+      box-shadow: 0 2px 8px rgba(124,58,237,0.3);
+    }
+
+    /* Subtle separator between messages */
+    #screen-16 .msg-time {
+      text-align: center; font-size: 10px; color: #3f3f46; font-weight: 500;
+      letter-spacing: 0.06em; text-transform: uppercase; padding: 4px 0;
+      font-family: var(--font-mono);
+    }
+  </style>
+
+  <div class="screen" id="screen-16">
+    <!-- Custom dark subnav for agent screen -->
+    <div style="position: sticky; top: 56px; z-index: 90; background: rgba(10,10,15,0.9); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border-bottom: 1px solid rgba(255,255,255,0.06); padding: 0 24px; display: flex; align-items: center; height: 44px; gap: 16px;">
+      <button style="background: none; border: none; color: #52525b; font-size: 12px; font-weight: 500; cursor: pointer; display: flex; align-items: center; gap: 5px; font-family: inherit; padding: 8px 0;" onclick="goTo(8)">
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M8 2L3 7l5 5"/></svg>
+        Home
+      </button>
+      <div style="width: 1px; height: 16px; background: rgba(255,255,255,0.06);"></div>
+      <div style="display: flex; align-items: center; gap: 6px;">
+        <div style="width: 6px; height: 6px; border-radius: 50%; background: #22c55e; box-shadow: 0 0 6px rgba(34,197,94,0.4);"></div>
+        <span style="font-size: 12px; font-weight: 600; color: #a1a1aa; letter-spacing: 0.02em;">Deel Travel Agent</span>
+      </div>
+      <span style="margin-left: auto; font-size: 10px; color: #3f3f46; font-family: var(--font-mono); letter-spacing: 0.04em;">SESSION #4821 &bull; TEENA BRAMLEY</span>
+    </div>
+
+    <div class="agent-page">
+
+      <!-- Chat Header -->
+      <div class="agent-header">
+        <div class="agent-avatar">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
+        </div>
+        <h1>Deel Travel Agent</h1>
+        <p><span class="status-dot"></span>Online &mdash; Knows your contracts, visas, and compliance</p>
+      </div>
+
+      <!-- Chat Thread -->
+      <div class="chat-thread">
+
+        <!-- Timestamp -->
+        <div class="msg-time">Today, 9:12 AM</div>
+
+        <!-- User message 1 -->
+        <div class="user-msg">
+          <div class="bubble">I need to fly to Tokyo next week for the logistics offsite. March 30 to April 5.</div>
+          <div class="user-avatar">TB</div>
+        </div>
+
+        <!-- Agent message 1: Context pull -->
+        <div class="agent-msg">
+          <div class="avatar">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.5"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
+          </div>
+          <div class="bubble">
+            <p>Got it, Teena. Let me pull your profile and run pre-flight checks.</p>
+            <div class="checks-card">
+              <div class="check-row">
+                <div class="check-icon pass">
+                  <svg width="12" height="12" viewBox="0 0 16 16" fill="none"><path d="M4.5 8.5l2.5 2.5 5-5" stroke="#22c55e" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                </div>
+                <span class="check-text">Identity &mdash; <strong>CTO, EOR (UK), Deel UK Ltd</strong></span>
+              </div>
+              <div class="check-row">
+                <div class="check-icon pass">
+                  <svg width="12" height="12" viewBox="0 0 16 16" fill="none"><path d="M4.5 8.5l2.5 2.5 5-5" stroke="#22c55e" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                </div>
+                <span class="check-text">Visa &mdash; <strong>GB &rarr; Japan: exempt</strong> (90-day business)</span>
+              </div>
+              <div class="check-row">
+                <div class="check-icon pass">
+                  <svg width="12" height="12" viewBox="0 0 16 16" fill="none"><path d="M4.5 8.5l2.5 2.5 5-5" stroke="#22c55e" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                </div>
+                <span class="check-text">Policy &mdash; <strong>Executive (Eco+ / Business)</strong></span>
+              </div>
+              <div class="check-row">
+                <div class="check-icon warn">
+                  <svg width="12" height="12" viewBox="0 0 16 16" fill="none" stroke="#f59e0b" stroke-width="2"><path d="M8 2l6 11H2z"/><path d="M8 7v2.5"/><circle cx="8" cy="11.5" r="0.5" fill="#f59e0b" stroke="none"/></svg>
+                </div>
+                <span class="check-text warn-text">PE exposure &mdash; 147/183 days Japan. +6 days &rarr; 153</span>
+              </div>
+              <div class="check-row">
+                <div class="check-icon pass">
+                  <svg width="12" height="12" viewBox="0 0 16 16" fill="none"><path d="M4.5 8.5l2.5 2.5 5-5" stroke="#22c55e" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                </div>
+                <span class="check-text">Deel Card <strong>*4821</strong> &mdash; active, auto-expense on</span>
+              </div>
+              <div class="check-row">
+                <div class="check-icon pass">
+                  <svg width="12" height="12" viewBox="0 0 16 16" fill="none"><path d="M4.5 8.5l2.5 2.5 5-5" stroke="#22c55e" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                </div>
+                <span class="check-text">Cost center &mdash; <strong>Logistics (GL 6200)</strong>, auto-routed</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Agent message 2: PE Warning -->
+        <div class="agent-msg">
+          <div class="avatar">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.5"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
+          </div>
+          <div class="bubble pe-bubble">
+            <p class="pe-title">
+              <svg width="15" height="15" viewBox="0 0 16 16" fill="none" stroke="#f59e0b" stroke-width="1.5"><path d="M8 2l6 11H2z"/><path d="M8 7v2.5"/><circle cx="8" cy="11.5" r="0.5" fill="#f59e0b" stroke="none"/></svg>
+              Heads up &mdash; PE risk for Japan
+            </p>
+            <p class="pe-body">You've spent <strong>147 days</strong> in Japan this tax year. This trip pushes you to <strong>153 / 183</strong> &mdash; only 30 days remaining before triggering a Permanent Establishment obligation under OECD Article 5 &sect;3.</p>
+            <div class="pe-bar-track">
+              <div class="pe-bar-fill" style="width: 83.6%;"></div>
+            </div>
+            <p class="pe-note">I've flagged this to <strong>Mattie Ramos</strong> for approval. I can search flights while we wait &mdash; want me to proceed?</p>
+          </div>
+        </div>
+
+        <!-- User message 2 -->
+        <div class="user-msg">
+          <div class="bubble">Yes, go ahead and find me the best option. Aisle seat if possible.</div>
+          <div class="user-avatar">TB</div>
+        </div>
+
+        <!-- Agent message 3: Flight recommendation -->
+        <div class="agent-msg">
+          <div class="avatar">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.5"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
+          </div>
+          <div class="bubble">
+            <p>Searched 14 flights. Here's my pick based on your policy, seat preference, and budget:</p>
+            <div class="flight-card">
+              <div class="flight-header">
+                <div class="airline-info">
+                  <div class="airline-logo"><span>BA</span></div>
+                  <div>
+                    <p class="airline-name">British Airways BA5</p>
+                    <p class="airline-route">LHR &rarr; NRT &bull; Direct &bull; 11h 50m</p>
+                  </div>
+                </div>
+                <span class="rec-badge">Recommended</span>
+              </div>
+              <div class="flight-stats">
+                <div class="flight-stat">
+                  <p class="flight-stat-value">&pound;742</p>
+                  <p class="flight-stat-label">Premium Economy</p>
+                </div>
+                <div class="flight-stat">
+                  <p class="flight-stat-value green">09:15</p>
+                  <p class="flight-stat-label">Mar 30 &bull; Mon</p>
+                </div>
+                <div class="flight-stat">
+                  <p class="flight-stat-value">32K</p>
+                  <p class="flight-stat-label">Aisle Seat</p>
+                </div>
+              </div>
+              <div class="flight-reasoning">
+                <strong>Why this one:</strong> Direct flight, &pound;112 cheaper than ANA NH201, aisle seat available, morning departure for evening local arrival. Within your Executive Eco+ ceiling.
+              </div>
+            </div>
+            <p style="margin: 14px 0 0; font-size: 13px; color: #71717a;">I also found a hotel and car rental. Want me to bundle the whole trip?</p>
+          </div>
+        </div>
+
+        <!-- User message 3 -->
+        <div class="user-msg">
+          <div class="bubble">Yes, bundle it. Park Hyatt if it's in policy.</div>
+          <div class="user-avatar">TB</div>
+        </div>
+
+        <!-- Agent message 4: Full bundle -->
+        <div class="agent-msg">
+          <div class="avatar">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.5"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
+          </div>
+          <div class="bubble">
+            <p>Done. Here's your complete trip:</p>
+            <div class="bundle-card">
+              <div class="bundle-row">
+                <div class="bundle-logo" style="background: linear-gradient(135deg, #1B3A6B, #243f6f);"><span>BA</span></div>
+                <div style="flex: 1;">
+                  <p class="bundle-name">BA5 &bull; LHR &rarr; NRT</p>
+                  <p class="bundle-detail">Mar 30 09:15 &bull; Direct &bull; Eco+ Aisle 32K</p>
+                </div>
+                <span class="bundle-price">&pound;742</span>
+              </div>
+              <div class="bundle-row">
+                <div class="bundle-logo" style="background: linear-gradient(135deg, #1B3A6B, #243f6f);"><span>BA</span></div>
+                <div style="flex: 1;">
+                  <p class="bundle-name">BA6 &bull; NRT &rarr; LHR</p>
+                  <p class="bundle-detail">Apr 5 18:30 &bull; Direct &bull; Eco+ Aisle 32K</p>
+                </div>
+                <span class="bundle-price">&pound;698</span>
+              </div>
+              <div class="bundle-row">
+                <div class="bundle-logo" style="background: linear-gradient(135deg, #7a5c14, #a07818);"><span>PH</span></div>
+                <div style="flex: 1;">
+                  <p class="bundle-name">Park Hyatt Tokyo</p>
+                  <p class="bundle-detail">6 nights &bull; Shinjuku &bull; King Room</p>
+                </div>
+                <span class="bundle-price">&pound;1,540</span>
+              </div>
+              <div class="bundle-row">
+                <div class="bundle-logo" style="background: linear-gradient(135deg, #991b1b, #b91c1c);"><span>H</span></div>
+                <div style="flex: 1;">
+                  <p class="bundle-name">Hertz &bull; Tesla Model 3</p>
+                  <p class="bundle-detail">NRT pickup &bull; 6 days</p>
+                </div>
+                <span class="bundle-price">&pound;334</span>
+              </div>
+              <div class="bundle-total">
+                <span class="bundle-total-label">Trip Total</span>
+                <span class="bundle-total-value">&pound;3,314</span>
+              </div>
+            </div>
+
+            <div class="auto-card">
+              <p class="auto-card-title">
+                <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M4.5 8.5l2.5 2.5 5-5" stroke="#22c55e" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                Handled automatically
+              </p>
+              <ul class="auto-card-list">
+                <li>Charged to Deel Card *4821</li>
+                <li>4 expense lines auto-created &mdash; no receipt uploads</li>
+                <li>Mapped to <strong>Logistics GL 6200</strong></li>
+                <li>Reimbursement queued for <strong>April 30 payroll</strong></li>
+                <li>PE warning sent to Mattie Ramos</li>
+                <li>Passport confirmed &mdash; GB, expires 2029</li>
+                <li>Japan visa-exempt status verified</li>
+              </ul>
+            </div>
+
+            <p style="margin: 14px 0 0; font-size: 13px; color: #71717a;">Confirmed pending Mattie's PE approval. I'll notify you when she responds.</p>
+          </div>
+        </div>
+
+        <!-- User message 4 -->
+        <div class="user-msg">
+          <div class="bubble">That's it. Thanks.</div>
+          <div class="user-avatar">TB</div>
+        </div>
+
+        <!-- Agent message 5: Ambient follow-up -->
+        <div class="agent-msg">
+          <div class="avatar">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.5"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
+          </div>
+          <div class="bubble">
+            <p>You're all set. Here's what I'll handle next:</p>
+            <div class="timeline-card">
+              <div class="timeline-row">
+                <div class="timeline-dot"></div>
+                <span class="timeline-when">12 days out</span>
+                <span class="timeline-what">Verify passport validity for Japan entry (6-month rule)</span>
+              </div>
+              <div class="timeline-row">
+                <div class="timeline-dot"></div>
+                <span class="timeline-when">3 days out</span>
+                <span class="timeline-what">Send Japan entry requirements &amp; 90-day visa-free rules</span>
+              </div>
+              <div class="timeline-row">
+                <div class="timeline-dot"></div>
+                <span class="timeline-when">1 day out</span>
+                <span class="timeline-what">Deliver boarding pass + Park Hyatt confirmation to your email</span>
+              </div>
+              <div class="timeline-row">
+                <div class="timeline-dot"></div>
+                <span class="timeline-when">On return</span>
+                <span class="timeline-what">Close expenses and confirm reimbursement in April payroll</span>
+              </div>
+            </div>
+            <p style="margin: 14px 0 0; font-size: 13px; color: #52525b;">Have a good flight, Teena.</p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Frosted glass input bar -->
+    <div class="agent-input-bar">
+      <svg class="input-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
+      <span class="input-text">Ask the Deel Travel Agent anything...</span>
+      <div class="send-btn">
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8h10M9 4l4 4-4 4"/></svg>
+      </div>
+    </div>
+  </div>
+
 <!-- View Switcher (floating bottom bar) -->
 <div class="view-switcher">
   <a href="https://pitch.com/v/deeltravel-h54b7v" target="_blank" class="view-switcher-btn" style="text-decoration: none; color: rgba(255,255,255,0.5);">
@@ -3651,6 +4207,11 @@ a:hover { text-decoration: underline; }
     <svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="8" cy="5" r="3"/><path d="M2 14c0-3 2.5-5 6-5s6 2 6 5"/></svg>
     Employee (Teena)
   </button>
+  <span style="border-left: 1px solid rgba(255,255,255,0.1); height: 16px; margin: 0 4px;"></span>
+  <button class="view-switcher-btn" id="sw-agent" onclick="goTo(16)" style="background: linear-gradient(135deg, rgba(124,58,237,0.3), rgba(167,139,250,0.2));">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+    AI Agent
+  </button>
 </div>
 
 <!-- Toast -->
@@ -3658,7 +4219,7 @@ a:hover { text-decoration: underline; }
 
 <script>
 const screens = document.querySelectorAll('.screen');
-const navMap = {0:'nav-home', 1:'nav-travel', 2:'nav-travel', 3:'nav-travel', 4:'nav-travel', 5:'nav-travel', 6:'nav-home', 7:'nav-travel', 8:'nav-home', 9:'nav-travel', 10:'nav-travel', 11:'nav-home', 12:'nav-home', 13:'nav-travel', 14:'nav-home', 15:'nav-home'};
+const navMap = {0:'nav-home', 1:'nav-travel', 2:'nav-travel', 3:'nav-travel', 4:'nav-travel', 5:'nav-travel', 6:'nav-home', 7:'nav-travel', 8:'nav-home', 9:'nav-travel', 10:'nav-travel', 11:'nav-home', 12:'nav-home', 13:'nav-travel', 14:'nav-home', 15:'nav-home', 16:'nav-travel'};
 const history = [0];
 let current = 0;
 let tripBooked = false;
@@ -3666,7 +4227,7 @@ let tripBooked = false;
 function goTo(i) {
   // View guard — prevent cross-view screen access (runs first!)
   const mgrOnly = [0, 6, 7, 12, 13, 15];
-  const empOnly = [8, 11, 14];
+  const empOnly = [8, 11, 14, 16];
   if (currentView === 'employee' && mgrOnly.includes(i)) { i = 8; }
   if (currentView === 'manager' && empOnly.includes(i)) { i = 0; }
 
