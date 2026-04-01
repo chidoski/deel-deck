@@ -3709,11 +3709,11 @@ function goTo(i) {
     if (fp) fp.innerHTML = '<span style="color: #d1d3d5;">Select purpose...</span>';
   }
 
-  // Toggle nav gradient for employee home
+  // Toggle nav gradient for home screens
   const tn = document.querySelector('.deel-topnav');
-  if ((i === 8 || i === 11 || i === 14) && currentView === 'employee') { tn.classList.add('nav-gradient'); }
-  else if (currentView === 'employee') { tn.classList.remove('nav-gradient'); }
-  else if (currentView === 'manager') { tn.classList.remove('nav-gradient'); }
+  const homeScreens = currentView === 'employee' ? [8, 11, 14] : [0, 6, 12, 15];
+  if (homeScreens.includes(i)) { tn.classList.add('nav-gradient'); }
+  else { tn.classList.remove('nav-gradient'); }
 
   // Scroll to top
   window.scrollTo(0, 0);
@@ -3952,7 +3952,7 @@ function switchView(view) {
   const topnav = document.querySelector('.deel-topnav');
 
   if (view === 'manager') {
-    topnav.classList.remove('nav-gradient');
+    topnav.classList.add('nav-gradient');
     orgName.textContent = 'Wayne Enterprise';
     orgSub.textContent = 'All groups';
     avatar.textContent = 'MK';
